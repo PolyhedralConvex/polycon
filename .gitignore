@@ -1,7 +1,15 @@
+.polycon.*
+*.vtk
+.directory
+test.nivc.mk
+.qtc_clangd
+src/cpp/PowerDiagram
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
+
 
 # C extensions
 *.so
