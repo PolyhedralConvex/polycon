@@ -5,6 +5,7 @@
 #include <PowerDiagram/support/operators/abs.h>
 #include <PowerDiagram/support/operators/all.h>
 #include <PowerDiagram/support/operators/sp.h>
+#include <PowerDiagram/CloseVertexMap.h>
 #include "LegendreTransform.h"
 #include <eigen3/Eigen/LU>
 #include "PolyCon.h"
@@ -30,6 +31,14 @@ DTP PolyCon<Scalar,nb_dims> UTP::transform() {
         if ( Opt<std::pair<Point,Point>> p = first_eq_bnd() )
             return transform_without_dir( p->first, p->second, false );
 
+        CloseVertexMap<Point,Vec<SI>> cvm;
+        pc.for_each_cell( [&]( Cell<Scalar,nb_dims> &cell ) {
+            cell.for_each_vertex( [&]( const Vertex<Scalar,nb_dims> &v ) {
+                cvm[ v.pos ] << cell.orig_index;
+            } );
+        } );
+
+        P( cvm.map );
         TODO;
         // // else, get the power diagram vertices (needed for update of used_ms and used_bs)
         // const auto coords_and_cuts = pc.vertex_corr();
