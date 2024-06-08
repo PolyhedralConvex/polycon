@@ -18,6 +18,7 @@ public:
     void        for_each_cell     ( const std::function<void( Cell<Scalar,nb_dims> &cell )> &f );
     void        display_vtk       ( VtkOutput &vo, bool elevation = true );
     static Str  type_name         ();
+    PI          nb_bnds           () const;
 
     Vec<Point>  f_dirs;
     Vec<Scalar> f_offs;

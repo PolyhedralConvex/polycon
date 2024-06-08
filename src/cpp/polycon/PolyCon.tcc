@@ -48,5 +48,9 @@ DTP void UTP::display_vtk( VtkOutput &vo, bool elevation ) {
     } );
 }
 
+DTP PI UTP::nb_bnds() const {
+    return b_dirs.size();
+}
+
 #undef DTP
 #undef UTP
