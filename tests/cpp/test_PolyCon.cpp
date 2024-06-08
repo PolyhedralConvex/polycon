@@ -94,7 +94,7 @@ TEST_CASE( "PolyCon 3D", "" ) {
         { 0., +1., 0. }, { 0., -1., 0. },
         { 0., 0., +1. }, { 0., 0., -1. }
     };
-    Vec<Scalar> bnd_offs{ 3., 3., 3., 3., 3., 3. };
+    Vec<Scalar> bnd_offs{ 5., 5., 5., 5., 7., 7. };
     // Vec<Point> bnd_dirs{};
     // Vec<Scalar> bnd_offs{};
 
@@ -102,13 +102,21 @@ TEST_CASE( "PolyCon 3D", "" ) {
     pa.normalize();
     P( pa );
 
-    VtkOutput vo;
-    pa.display_vtk( vo );
-    vo.save( "pc.vtk" );
+    VtkOutput va;
+    pa.display_vtk( va );
+    va.save( "pa.vtk" );
 
     PolyCon<Scalar,nb_dims> pb = pa.legendre_transform();
     P( pb );
 
+    VtkOutput vb;
+    pb.display_vtk( vb );
+    vb.save( "pb.vtk" );
+
     PolyCon<Scalar,nb_dims> pc = pb.legendre_transform();
     P( pc );
+
+    VtkOutput vc;
+    pc.display_vtk( vc );
+    vc.save( "pc.vtk" );
 }

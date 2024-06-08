@@ -5,6 +5,7 @@
 #include <PowerDiagram/support/operators/abs.h>
 #include <PowerDiagram/support/operators/all.h>
 #include <PowerDiagram/support/operators/sp.h>
+#include <PowerDiagram/support/ASSERT.h>
 #include "LegendreTransform.h"
 #include <eigen3/Eigen/LU>
 #include "PolyCon.h"
@@ -32,6 +33,8 @@ DTP PolyCon<Scalar,nb_dims> UTP::transform() {
 
         //
         const auto add_bnd = [&]( Point dir, const Point &in ) {
+            if ( norm_2( dir ) == 0 )
+                return;
             dir = dir / norm_2( dir );
             auto off = sp( dir, in );
 
@@ -206,6 +209,8 @@ DTP PolyCon<Scalar,nb_dims> UTP::transform() {
 // }
 
 DTP PolyCon<Scalar,nb_dims> UTP::transform_without_dir( Point pos, Point dir, bool add_bnd ) {
+    P( "wod" );
+
     // normalization of dir
     dir = dir / norm_2( dir );
 
