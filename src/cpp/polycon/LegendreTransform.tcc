@@ -48,7 +48,10 @@ DTP PolyCon<Scalar,nb_dims> UTP::transform() {
         };
 
         //
-        const auto add_pnt = [&]( const Point &dir, Scalar off ) {
+        const auto add_pnt = [&]( Point dir, const Point &in ) {
+            dir = dir / norm_2( dir );
+            auto off = sp( dir, in );
+
             for( PI i = 0; i < new_f_dirs.size(); ++i ) {
                 // TODO: a robust criterium
                 if ( norm_2_p2( new_f_dirs[ i ] - dir ) < 1e-16 ) {
@@ -66,7 +69,7 @@ DTP PolyCon<Scalar,nb_dims> UTP::transform() {
             cell.for_each_vertex( [&]( const Vertex<Scalar,nb_dims> &v ) {
                 auto t = cell.vertex_type( v, pc.nb_bnds() );
                 if ( t.all_int )
-                    add_pnt( v.pos, 0 );
+                    add_pnt( v.pos, *cell.orig_point );
             } );
 
             cell.for_each_edge( [&]( Vec<PI,nb_dims-1> num_cuts, const Vertex<Scalar,nb_dims> &v0, const Vertex<Scalar,nb_dims> &v1 ) {
@@ -78,13 +81,13 @@ DTP PolyCon<Scalar,nb_dims> UTP::transform() {
 
                 //
                 if ( t0.any_ext ) {
-                    add_bnd( v0.pos - v1.pos, v1.pos );
+                    add_bnd( v0.pos - v1.pos, *cell.orig_point );
                     return;
                 }
 
                 //
                 if ( t1.any_ext ) {
-                    add_bnd( v1.pos - v0.pos, v0.pos );
+                    add_bnd( v1.pos - v0.pos, *cell.orig_point );
                     return;
                 }
             } );

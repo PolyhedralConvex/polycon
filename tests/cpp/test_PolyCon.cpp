@@ -28,8 +28,8 @@ TEST_CASE( "PolyCon 2D", "" ) {
 
     using Point = Vec<Scalar,nb_dims>;
 
-    Vec<Point> fun_dirs{ { 1., 0. }, { 0., -0.7 }, { 0., +0.7 } };
-    Vec<Scalar> fun_offs{ 0, 0, 0 };
+    Vec<Point> fun_dirs{ { 1., 0.1 }, { 0.1, -0.7 }, { 0., +0.7 } };
+    Vec<Scalar> fun_offs{ 0, 0.1, 0.2 };
 
     Vec<Point> bnd_dirs{};
     Vec<Scalar> bnd_offs{};

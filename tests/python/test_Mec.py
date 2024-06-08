@@ -55,22 +55,6 @@ def poue():
     v = u.star()
     print( v )
 
-def triangle():
-    afds = np.array( [ [ 1, 0 ], [ 0, -0.7 ], [ 0, +0.7 ] ] )
-    afos = np.array( [ 0, 0, 0 ] )
-    bnds = np.array( [  ] )
-    bnos = np.array( [  ] )
-
-    u = Polyhedral( afds, afos, bnds, bnos )
-    # u.plot1d()
-    print( u.__repr__( num_digits = 10 ) )
-
-    v = u.star()
-    print( v.__repr__( num_digits = 10 ) )
-
-    w = v.star()
-    print( w )
-
 def lines():
     afds = np.array( [ [ -0.76 ], [ 0.51 ] ] )
     afos = np.array( [ 0, 0 ] )
@@ -83,6 +67,30 @@ def lines():
 
     v = u.star()
     print( v )
+
+def triangle():
+    afds = np.array( [ [ 1, 0.1 ], [ 0.1, -0.7 ], [ 0, +0.7 ] ] )
+    afos = np.array( [ 0, 0.1, 0.2 ] )
+    bnds = np.array( [  ] )
+    bnos = np.array( [  ] )
+
+    u = Polyhedral( afds, afos, bnds, bnos )
+    # u.plot1d()
+    # print( u.__repr__( num_digits = 10 ) )
+    # print( u.y_t_k, u.v_t )
+
+    v = u.star()
+    # print( v.__repr__( num_digits = 10 ) )
+
+    for dir, off in zip( v.y_t_k, v.v_t ):
+        n = np.linalg.norm( dir )
+        print( "aff", dir / n, off / n )
+    for dir, off in zip( v.ytilde_s_k, v.vtilde_s ):
+        n = np.linalg.norm( dir )
+        print( "bnd", dir / n, off / n )
+
+    # w = v.star()
+    # print( w )
 
 triangle()
 # lines()
