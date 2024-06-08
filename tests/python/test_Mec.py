@@ -108,5 +108,28 @@ def lines():
     w = v.star()
     display( "w", w )
 
-triangle()
+def tetra():
+    afds = np.array( [ [ 1, 0.1, 0.0 ], [ 0.1, -0.7, 0.0 ], [ 0, +0.7, .3 ], [ 0, .0, .8 ] ] )
+    afos = np.array( [ 0, 0.1, 0.2, 0.3 ] )
+    # bnds = np.array( [ [ 1, 2 ] ] )
+    # bnos = np.array( [ 1 ] )
+    bnds = np.array( [ [ +1, 0, 0 ], [ -1, 0, 0 ] ] )
+    bnos = np.array( [ 3, 3 ] )
+
+    u = Polyhedral( afds, afos, bnds, bnos )
+    # u.plot1d()
+    # print( u.__repr__( num_digits = 10 ) )
+    # print( u.y_t_k, u.v_t )
+    display( "u", u )
+
+    v = u.star()
+    # print( v.__repr__( num_digits = 10 ) )
+    display( "v", v )
+
+    w = v.star()
+    display( "w", w )
+
+
+# triangle()
 # lines()
+tetra()

@@ -73,9 +73,9 @@ DTP PolyCon<Scalar,nb_dims> UTP::transform() {
             cell.for_each_edge( [&]( Vec<PI,nb_dims-1> num_cuts, const Vertex<Scalar,nb_dims> &v0, const Vertex<Scalar,nb_dims> &v1 ) {
                 CountOfCutTypes cct0; cell.add_cut_types( cct0, v0, pc.nb_bnds() );
                 CountOfCutTypes cct1; cell.add_cut_types( cct1, v1, pc.nb_bnds() );
-                if ( cct0.nb_infs && cct1.nb_infs == 0 )
+                if ( cct0.nb_infs == 1 && cct1.nb_infs == 0 )
                     add_bnd( v0.pos - v1.pos, *cell.orig_point );
-                if ( cct1.nb_infs && cct0.nb_infs == 0 )
+                if ( cct1.nb_infs == 1 && cct0.nb_infs == 0 )
                     add_bnd( v1.pos - v0.pos, *cell.orig_point );
             } );
         } );
