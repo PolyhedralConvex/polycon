@@ -41,4 +41,5 @@ TEST_CASE( "PolyCon 2D", "" ) {
     vo.save( "pc.vtk" );
 
     PolyCon<Scalar,nb_dims> pl = pc.legendre_transform();
+    P( pl );
 }

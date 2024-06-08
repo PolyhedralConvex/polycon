@@ -16,32 +16,77 @@ DTP UTP::LegendreTransform( PolyCon<Scalar,nb_dims> &pc ) : pc( pc ) {
 }
 
 DTP PolyCon<Scalar,nb_dims> UTP::transform() {
-    Vec<Point>  nf_dirs;
-    Vec<Scalar> nf_offs;
-    Vec<Point>  nb_dirs;
-    Vec<Scalar> nb_offs;
+    Vec<Point>  new_f_dirs;
+    Vec<Scalar> new_f_offs;
+    Vec<Point>  new_b_dirs;
+    Vec<Scalar> new_b_offs;
 
     //
     if constexpr( nb_dims == 0 ) {
-        nf_offs.append( pc.f_offs );
-        return { nf_dirs, nf_offs, nb_dirs, nb_offs };
+        new_f_offs.append( pc.f_offs );
+        return { new_f_dirs, new_f_offs, new_b_dirs, new_b_offs };
     } else {
         // if there's an equality constraint, we're actually working at most on `nb_dims - 1` dimensions
         if ( Opt<std::pair<Point,Point>> p = first_eq_bnd() )
             return transform_without_dir( p->first, p->second, false );
 
         //
-        // CloseVertexMap<Point,Vec<SI>> cvm;
+        const auto add_bnd = [&]( Point dir, const Point &in ) {
+            dir = dir / norm_2( dir );
+            auto off = sp( dir, in );
+
+            for( PI i = 0; i < new_b_dirs.size(); ++i ) {
+                // TODO: a robust criterium
+                if ( norm_2_p2( new_b_dirs[ i ] - dir ) < 1e-16 ) {
+                    new_b_offs[ i ] = std::min( new_b_offs[ i ], off );
+                    return;
+                }
+            }
+
+            new_b_dirs << dir;
+            new_b_offs << sp( dir, in );
+        };
+
+        //
+        const auto add_pnt = [&]( const Point &dir, Scalar off ) {
+            for( PI i = 0; i < new_f_dirs.size(); ++i ) {
+                // TODO: a robust criterium
+                if ( norm_2_p2( new_f_dirs[ i ] - dir ) < 1e-16 ) {
+                    new_f_offs[ i ] = std::min( new_f_offs[ i ], off );
+                    return;
+                }
+            }
+
+            new_f_dirs << dir;
+            new_f_offs << off;
+        };
+
+        //
         pc.for_each_cell( [&]( Cell<Scalar,nb_dims> &cell ) {
             cell.for_each_vertex( [&]( const Vertex<Scalar,nb_dims> &v ) {
-                bool on_bnd = cell.has_cut_checking( v, [&]( SI n_index ) { return n_index >= 0 && n_index < pc.nb_bnds(); } );
-                bool on_inf = cell.has_cut_checking( v, [&]( SI n_index ) { return n_index < 0; } );
-                P( on_bnd, on_inf );
-                // nf_dirs;
-                // nf_offs;
-                // nb_dirs;
-                // nb_offs;
-                // cvm[ v.pos ] << cell.orig_index;
+                auto t = cell.vertex_type( v, pc.nb_bnds() );
+                if ( t.all_int )
+                    add_pnt( v.pos, 0 );
+            } );
+
+            cell.for_each_edge( [&]( Vec<PI,nb_dims-1> num_cuts, const Vertex<Scalar,nb_dims> &v0, const Vertex<Scalar,nb_dims> &v1 ) {
+                // we need at least one interior point
+                auto t0 = cell.vertex_type( v0, pc.nb_bnds() );
+                auto t1 = cell.vertex_type( v1, pc.nb_bnds() );
+                if ( ! ( t0.all_int || t1.all_int ) )
+                    return;
+
+                //
+                if ( t0.any_ext ) {
+                    add_bnd( v0.pos - v1.pos, v1.pos );
+                    return;
+                }
+
+                //
+                if ( t1.any_ext ) {
+                    add_bnd( v1.pos - v0.pos, v0.pos );
+                    return;
+                }
             } );
         } );
 
@@ -63,7 +108,7 @@ DTP PolyCon<Scalar,nb_dims> UTP::transform() {
         // // make the new boundaries
         // make_new_bnds( nb_dirs, nb_offs, vertex_coords, vertex_cuts );
 
-        return { nf_dirs, nf_offs, nb_dirs, nb_offs };
+        return { new_f_dirs, new_f_offs, new_b_dirs, new_b_offs };
     }
 }
 

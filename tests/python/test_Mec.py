@@ -34,6 +34,7 @@ def yo():
     bnos = np.array( [ 1, 1 ] )
 
     u = Polyhedral( afds, afos, bnds, bnos )
+    
     print( u )
 
     v = u.star()
@@ -62,9 +63,26 @@ def triangle():
 
     u = Polyhedral( afds, afos, bnds, bnos )
     # u.plot1d()
+    print( u.__repr__( num_digits = 10 ) )
+
+    v = u.star()
+    print( v.__repr__( num_digits = 10 ) )
+
+    w = v.star()
+    print( w )
+
+def lines():
+    afds = np.array( [ [ -0.76 ], [ 0.51 ] ] )
+    afos = np.array( [ 0, 0 ] )
+    bnds = np.array( [  ] )
+    bnos = np.array( [  ] )
+
+    u = Polyhedral( afds, afos, bnds, bnos )
+    # u.plot1d()
     print( u )
 
     v = u.star()
     print( v )
 
 triangle()
+# lines()
