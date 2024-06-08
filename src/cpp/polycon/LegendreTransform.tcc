@@ -68,28 +68,24 @@ DTP PolyCon<Scalar,nb_dims> UTP::transform() {
         pc.for_each_cell( [&]( Cell<Scalar,nb_dims> &cell ) {
             cell.for_each_vertex( [&]( const Vertex<Scalar,nb_dims> &v ) {
                 auto t = cell.vertex_type( v, pc.nb_bnds() );
-                if ( t.all_int )
-                    add_pnt( v.pos, *cell.orig_point );
+                if ( t.any_ext )
+                    return;
+
+                add_pnt( v.pos, *cell.orig_point );
             } );
 
             cell.for_each_edge( [&]( Vec<PI,nb_dims-1> num_cuts, const Vertex<Scalar,nb_dims> &v0, const Vertex<Scalar,nb_dims> &v1 ) {
                 // we need at least one interior point
                 auto t0 = cell.vertex_type( v0, pc.nb_bnds() );
                 auto t1 = cell.vertex_type( v1, pc.nb_bnds() );
-                if ( ! ( t0.all_int || t1.all_int ) )
+                if ( t0.any_ext && t1.any_ext )
                     return;
 
                 //
-                if ( t0.any_ext ) {
+                if ( t0.any_ext )
                     add_bnd( v0.pos - v1.pos, *cell.orig_point );
-                    return;
-                }
-
-                //
-                if ( t1.any_ext ) {
+                if ( t1.any_ext )
                     add_bnd( v1.pos - v0.pos, *cell.orig_point );
-                    return;
-                }
             } );
         } );
 

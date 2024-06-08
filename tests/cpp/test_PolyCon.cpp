@@ -31,8 +31,8 @@ TEST_CASE( "PolyCon 2D", "" ) {
     Vec<Point> fun_dirs{ { 1., 0.1 }, { 0.1, -0.7 }, { 0., +0.7 } };
     Vec<Scalar> fun_offs{ 0, 0.1, 0.2 };
 
-    Vec<Point> bnd_dirs{};
-    Vec<Scalar> bnd_offs{};
+    Vec<Point> bnd_dirs{ { 1., 2. } };
+    Vec<Scalar> bnd_offs{ 1. };
 
     PolyCon<Scalar,nb_dims> pc( fun_dirs, fun_offs, bnd_dirs, bnd_offs );
 

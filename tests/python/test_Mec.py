@@ -71,8 +71,8 @@ def lines():
 def triangle():
     afds = np.array( [ [ 1, 0.1 ], [ 0.1, -0.7 ], [ 0, +0.7 ] ] )
     afos = np.array( [ 0, 0.1, 0.2 ] )
-    bnds = np.array( [  ] )
-    bnos = np.array( [  ] )
+    bnds = np.array( [ [ 1, 2 ] ] )
+    bnos = np.array( [ 1 ] )
 
     u = Polyhedral( afds, afos, bnds, bnos )
     # u.plot1d()
