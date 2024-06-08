@@ -48,6 +48,14 @@ DTP void UTP::display_vtk( VtkOutput &vo, bool elevation ) {
     } );
 }
 
+DTP void UTP::normalize() {
+    for( PI i = 0; i < b_dirs.size(); ++i ) {
+        Scalar n = norm_2( b_dirs[ i ] );
+        b_dirs[ i ] = b_dirs[ i ] / n;
+        b_offs[ i ] = b_offs[ i ] / n;
+    }
+}
+
 DTP PI UTP::nb_bnds() const {
     return b_dirs.size();
 }

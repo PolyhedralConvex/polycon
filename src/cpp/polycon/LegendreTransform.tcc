@@ -49,7 +49,6 @@ DTP PolyCon<Scalar,nb_dims> UTP::transform() {
 
         //
         const auto add_pnt = [&]( Point dir, const Point &in ) {
-            dir = dir / norm_2( dir );
             auto off = sp( dir, in );
 
             for( PI i = 0; i < new_f_dirs.size(); ++i ) {
@@ -67,24 +66,18 @@ DTP PolyCon<Scalar,nb_dims> UTP::transform() {
         //
         pc.for_each_cell( [&]( Cell<Scalar,nb_dims> &cell ) {
             cell.for_each_vertex( [&]( const Vertex<Scalar,nb_dims> &v ) {
-                auto t = cell.vertex_type( v, pc.nb_bnds() );
-                if ( t.any_ext )
-                    return;
-
-                add_pnt( v.pos, *cell.orig_point );
+                CountOfCutTypes cct;
+                cell.add_cut_types( cct, v, pc.nb_bnds() );
+                if ( cct.nb_infs == 0 )
+                    add_pnt( v.pos, *cell.orig_point );
             } );
 
             cell.for_each_edge( [&]( Vec<PI,nb_dims-1> num_cuts, const Vertex<Scalar,nb_dims> &v0, const Vertex<Scalar,nb_dims> &v1 ) {
-                // we need at least one interior point
-                auto t0 = cell.vertex_type( v0, pc.nb_bnds() );
-                auto t1 = cell.vertex_type( v1, pc.nb_bnds() );
-                if ( t0.any_ext && t1.any_ext )
-                    return;
-
-                //
-                if ( t0.any_ext )
+                CountOfCutTypes cct0; cell.add_cut_types( cct0, v0, pc.nb_bnds() );
+                CountOfCutTypes cct1; cell.add_cut_types( cct1, v1, pc.nb_bnds() );
+                if ( cct0.nb_infs && cct1.nb_infs == 0 )
                     add_bnd( v0.pos - v1.pos, *cell.orig_point );
-                if ( t1.any_ext )
+                if ( cct1.nb_infs && cct0.nb_infs == 0 )
                     add_bnd( v1.pos - v0.pos, *cell.orig_point );
             } );
         } );

@@ -19,7 +19,7 @@
 //     pc.display_vtk( vo );
 //     vo.save( "pc.vtk" );
 
-//     PolyCon<Scalar,nb_dims> pl = pc.legendre_transform();
+//     PolyCon<Scalar,nb_dims> pb = pa.legendre_transform();
 // }
 
 TEST_CASE( "PolyCon 2D", "" ) {
@@ -34,12 +34,17 @@ TEST_CASE( "PolyCon 2D", "" ) {
     Vec<Point> bnd_dirs{ { 1., 2. } };
     Vec<Scalar> bnd_offs{ 1. };
 
-    PolyCon<Scalar,nb_dims> pc( fun_dirs, fun_offs, bnd_dirs, bnd_offs );
+    PolyCon<Scalar,nb_dims> pa( fun_dirs, fun_offs, bnd_dirs, bnd_offs );
+    pa.normalize();
+    P( pa );
 
     VtkOutput vo;
-    pc.display_vtk( vo );
+    pa.display_vtk( vo );
     vo.save( "pc.vtk" );
 
-    PolyCon<Scalar,nb_dims> pl = pc.legendre_transform();
-    P( pl );
+    PolyCon<Scalar,nb_dims> pb = pa.legendre_transform();
+    P( pb );
+
+    PolyCon<Scalar,nb_dims> pc = pb.legendre_transform();
+    P( pc );
 }

@@ -17,6 +17,7 @@ public:
     void        get_power_diagram ( const std::function<void( PowerDiagram<Scalar,nb_dims> &pd )> &f );
     void        for_each_cell     ( const std::function<void( Cell<Scalar,nb_dims> &cell )> &f );
     void        display_vtk       ( VtkOutput &vo, bool elevation = true );
+    void        normalize         ();
     PI          nb_bnds           () const;
 
     Vec<Point>  f_dirs;

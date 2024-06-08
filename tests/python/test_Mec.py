@@ -68,6 +68,14 @@ def lines():
     v = u.star()
     print( v )
 
+def display( name, v ):
+    print( name )
+    for dir, off in zip( v.y_t_k, v.v_t ):
+        print( "aff", dir, off )
+    for dir, off in zip( v.ytilde_s_k, v.vtilde_s ):
+        n = np.linalg.norm( dir )
+        print( "bnd", dir / n, off / n )
+
 def triangle():
     afds = np.array( [ [ 1, 0.1 ], [ 0.1, -0.7 ], [ 0, +0.7 ] ] )
     afos = np.array( [ 0, 0.1, 0.2 ] )
@@ -78,19 +86,14 @@ def triangle():
     # u.plot1d()
     # print( u.__repr__( num_digits = 10 ) )
     # print( u.y_t_k, u.v_t )
+    display( "u", u )
 
     v = u.star()
     # print( v.__repr__( num_digits = 10 ) )
+    display( "v", v )
 
-    for dir, off in zip( v.y_t_k, v.v_t ):
-        n = np.linalg.norm( dir )
-        print( "aff", dir / n, off / n )
-    for dir, off in zip( v.ytilde_s_k, v.vtilde_s ):
-        n = np.linalg.norm( dir )
-        print( "bnd", dir / n, off / n )
-
-    # w = v.star()
-    # print( w )
+    w = v.star()
+    display( "w", w )
 
 triangle()
 # lines()
