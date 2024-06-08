@@ -37,8 +37,8 @@ DTP PolyCon<Scalar,nb_dims> UTP::transform() {
 
             for( PI i = 0; i < new_b_dirs.size(); ++i ) {
                 // TODO: a robust criterium
-                if ( norm_2_p2( new_b_dirs[ i ] - dir ) < 1e-16 ) {
-                    new_b_offs[ i ] = std::min( new_b_offs[ i ], off );
+                if ( norm_2_p2( new_b_dirs[ i ] - dir ) < 1e-15 ) {
+                    new_b_offs[ i ] = std::max( new_b_offs[ i ], off );
                     return;
                 }
             }
@@ -48,12 +48,10 @@ DTP PolyCon<Scalar,nb_dims> UTP::transform() {
         };
 
         //
-        const auto add_pnt = [&]( Point dir, const Point &in ) {
-            auto off = sp( dir, in );
-
+        const auto add_pnt = [&]( Point dir, Scalar off ) {
             for( PI i = 0; i < new_f_dirs.size(); ++i ) {
                 // TODO: a robust criterium
-                if ( norm_2_p2( new_f_dirs[ i ] - dir ) < 1e-16 ) {
+                if ( norm_2_p2( new_f_dirs[ i ] - dir ) < 1e-15 ) {
                     new_f_offs[ i ] = std::min( new_f_offs[ i ], off );
                     return;
                 }
@@ -69,7 +67,7 @@ DTP PolyCon<Scalar,nb_dims> UTP::transform() {
                 CountOfCutTypes cct;
                 cell.add_cut_types( cct, v, pc.nb_bnds() );
                 if ( cct.nb_infs == 0 )
-                    add_pnt( v.pos, *cell.orig_point );
+                    add_pnt( v.pos, sp( v.pos, *cell.orig_point ) - pc.f_offs[ cell.orig_index ] );
             } );
 
             cell.for_each_edge( [&]( Vec<PI,nb_dims-1> num_cuts, const Vertex<Scalar,nb_dims> &v0, const Vertex<Scalar,nb_dims> &v1 ) {

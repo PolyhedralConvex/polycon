@@ -55,19 +55,6 @@ def poue():
     v = u.star()
     print( v )
 
-def lines():
-    afds = np.array( [ [ -0.76 ], [ 0.51 ] ] )
-    afos = np.array( [ 0, 0 ] )
-    bnds = np.array( [  ] )
-    bnos = np.array( [  ] )
-
-    u = Polyhedral( afds, afos, bnds, bnos )
-    # u.plot1d()
-    print( u )
-
-    v = u.star()
-    print( v )
-
 def display( name, v ):
     print( name )
     for dir, off in zip( v.y_t_k, v.v_t ):
@@ -79,8 +66,34 @@ def display( name, v ):
 def triangle():
     afds = np.array( [ [ 1, 0.1 ], [ 0.1, -0.7 ], [ 0, +0.7 ] ] )
     afos = np.array( [ 0, 0.1, 0.2 ] )
-    bnds = np.array( [ [ 1, 2 ] ] )
-    bnos = np.array( [ 1 ] )
+    # bnds = np.array( [ [ 1, 2 ] ] )
+    # bnos = np.array( [ 1 ] )
+    bnds = np.array( [  ] )
+    bnos = np.array( [  ] )
+
+    u = Polyhedral( afds, afos, bnds, bnos )
+    # u.plot1d()
+    # print( u.__repr__( num_digits = 10 ) )
+    # print( u.y_t_k, u.v_t )
+    display( "u", u )
+
+    v = u.star()
+    # print( v.__repr__( num_digits = 10 ) )
+    display( "v", v )
+
+    w = v.star()
+    display( "w", w )
+
+def lines():
+    afds = np.array( [ [ -0.6 ], [ +0.0 ], [ +0.7 ] ] )
+    afos = np.array( [ 0.1, 0.2, 1.0 ] )
+    bnds = np.array( [ [ 1 ] ] )
+    bnos = np.array( [ 3 ] )
+
+    # afds = np.array( [ [ -0.6 ], [ +0.0 ], [ +0.7 ] ] )
+    # afos = np.array( [ 0, 0.1, 0.2 ] )
+    # bnds = np.array( [ [ 1 ] ] )
+    # bnos = np.array( [ 3 ] )
 
     u = Polyhedral( afds, afos, bnds, bnos )
     # u.plot1d()
