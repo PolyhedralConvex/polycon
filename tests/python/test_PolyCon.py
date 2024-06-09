@@ -2,19 +2,25 @@ from matplotlib import pyplot
 from polycon import PolyCon
 
 def test_1D():
-    afds = [ [ -1.0 ], [ +0.1 ], [ +0.7 ] ]
-    afos = [ 0, 0.1, 5.0 ]
-    bnds = []
-    bnos = []
+    afds_0 = [ [ -1.0 ], [ +0.1 ], [ +0.7 ] ]
+    afos_0 = [ 0.1, 0.2, 2.0 ]
+    bnds_0 = []
+    bnos_0 = []
 
-    pc = PolyCon( afds, afos, bnds, bnos )
-    pc.plot( "blue" )
+    pc = PolyCon( afds_0, afos_0, bnds_0, bnos_0 )
 
-    pe = pc + 4
+    afds_1 = [ [ -0.8 ], [ +0.6 ] ]
+    afos_1 = [ 0, 0.0 ]
+    bnds_1 = []
+    bnos_1 = []
+
+    pd = PolyCon( afds_1, afos_1, bnds_1, bnos_1 )
+
+    pe = pc + pd
+
+    pc.plot( "black" )
+    pd.plot( "blue" )
     pe.plot( "red" )
-
-    pf = pc * 2
-    pf.plot( "green" )
 
     # pd = pc.legendre_transform()
     # pd.plot( "blue" )

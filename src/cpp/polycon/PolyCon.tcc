@@ -59,5 +59,23 @@ DTP PI UTP::nb_bnds() const {
     return b_dirs.size();
 }
 
+DTP UTP operator+( const UTP &a, const UTP &b ) {
+    using  Point = UTP::Point;
+
+    Vec<Point>  f_dirs( FromReservationSize(), a.f_dirs.size() * b.f_dirs.size() );
+    Vec<Scalar> f_offs( FromReservationSize(), a.f_offs.size() * b.f_offs.size() );
+    for( PI i = 0; i < a.f_dirs.size(); ++i ) {
+        for( PI j = 0; j < b.f_dirs.size(); ++j ) {
+            f_dirs << a.f_dirs[ i ] + b.f_dirs[ j ];
+            f_offs << a.f_offs[ i ] + b.f_offs[ j ];
+        }
+    }
+
+    Vec<Point>  b_dirs{ FromConcatenation(), a.b_dirs, b.b_dirs };
+    Vec<Scalar> b_offs{ FromConcatenation(), a.b_offs, b.b_offs };
+
+    return { f_dirs, f_offs, b_dirs, b_offs };
+}
+
 #undef DTP
 #undef UTP

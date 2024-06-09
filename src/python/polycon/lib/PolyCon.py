@@ -54,6 +54,7 @@ class PolyCon:
         return PolyCon( self.pc.add_scalar( - that ) )
 
     def __mul__( self, that ):
+        assert( that >= 0 )
         return PolyCon( self.pc.mul_scalar( that ) )
 
     def __rmul__( self, that ):

@@ -121,8 +121,7 @@ struct PolyCon_py {
     }
 
     PolyCon_py add_polycon( const PolyCon_py &that ) {
-        Vec<Scalar> new_f_offs = pc.f_offs;
-        return PolyCon<Scalar,POLYCON_DIM>( pc.f_dirs, new_f_offs, pc.b_dirs, pc.b_offs );
+        return pc + that.pc;
     }
 
     PolyCon_py add_scalar( Scalar that ) {
