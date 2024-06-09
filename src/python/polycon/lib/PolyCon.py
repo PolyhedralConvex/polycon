@@ -14,20 +14,22 @@ class PolyCon:
         # compile time parameters
         dtype = type_promote( a_dirs.dtype, a_offs.dtype, b_dirs.dtype, b_offs.dtype, ensure_scalar = True )
 
-        if a_dirs.ndim <= 1:
-            if b_dirs.ndim <= 1:
-                nbdim = 0
-            else:
-                nbdim = b_dirs.shape[ 1 ]
-        else:
-            assert( a_dirs.shape[ 1 ] == b_dirs.shape[ 1 ] )
+        if a_dirs.ndim > 1:
+            if b_dirs.ndim > 1:
+                assert( a_dirs.shape[ 1 ] == b_dirs.shape[ 1 ] )
             nbdim = a_dirs.shape[ 1 ]
+        else:
+            if b_dirs.ndim > 1:
+                nbdim = b_dirs.shape[ 1 ]
+            else:
+                nbdim = 0
 
         # module import
         sys.path.append( os.path.dirname( os.path.abspath( __file__ ) ) )
         module = __import__( "polycon_bindings_{:02}_{}".format( nbdim, dtype ) )
-        self.pc = module.PolyCon( a_dirs, a_offs, b_dirs, b_offs )
+        classv = getattr( module, "PolyCon_{:02}_{}".format( nbdim, dtype ) )
+        self.pc = classv( a_dirs, a_offs, b_dirs, b_offs )
 
-    def go( self ):
-        return self.pc.go()
+    def write_vtk( self, filename ):
+         self.pc.write_vtk( filename )
     

@@ -21,11 +21,11 @@ class Ctx:
         self.run( f'pip install -e ../../ext/cppimport' )
         self.run( f'pip install poetry' )
     
-    def run( self, cmd ):
+    def run( self, cmd, prep = '' ):
         self.check_env()
 
         print( cmd )
-        subprocess.check_call( f'micromamba run -n { self.env_name() } { cmd }', shell = True )
+        subprocess.check_call( f'{ prep }micromamba run -n { self.env_name() } { cmd }', shell = True )
 
 def clean( pattern ):
     for f in glob.glob( pattern, recursive=True ):
@@ -35,12 +35,13 @@ def clean( pattern ):
 clean( 'dist/*' )
 
 # matrix
-for version in [ '3.8', '3.9', '3.10', '3.11', '3.12' ]:
+for version in [ '3.10', '3.11', '3.12' ]: # '3.8', '3.9', 
     # remove the old object files
     for suffix in [ 'so', 'dll', 'dylib' ]:
         clean( '**/*.' + suffix )
 
     # build
     ctx = Ctx( version )
-    ctx.run( 'python -m cppimport build' )
+    for cpp in glob.glob( 'polycon/lib/polycon_bindings_*.cpp' ):
+        ctx.run( 'python -m cppimport build ' + cpp ) # , 'CPPIMPORT_RELEASE_MODE=1 '
     ctx.run( 'poetry build' )
