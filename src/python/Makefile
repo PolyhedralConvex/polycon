@@ -2,10 +2,12 @@ PYTHON = python
 
 all: link_install
 
-build:
+compile:
+	${PYTHON} -m cppimport build
+
+build: compile
 	# sudo apt install python3-venv
 	# ${PYTHON} -m pip install hatch twine hatch-cython
-	${PYTHON} -m cppimport build
 	hatch build
 
 clean:
@@ -22,5 +24,6 @@ link_install:
 .PHONY: all \
 	build \
 	clean \
+	compile \
 	pip_upload \
 	link_install

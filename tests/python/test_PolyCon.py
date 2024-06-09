@@ -1,3 +1,4 @@
-import polycon
+from polycon import PolyCon
 
-print( polycon.square( 5 ) )
+pc = PolyCon( [], [], [ [ 1, 0 ] ], [ 3 ] )
+print( pc.go() )
