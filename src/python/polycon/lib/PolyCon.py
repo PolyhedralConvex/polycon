@@ -4,8 +4,12 @@ import sys
 import os
 
 class PolyCon:
-    def __init__( self, a_dirs, a_offs, b_dirs, b_offs ):
+    def __init__( self, a_dirs, a_offs = None, b_dirs = None, b_offs = None ):
         """ a => affine functions, b => boundarys """
+
+        if 'polycon_bindings_' in repr( type( a_dirs ) ):
+            self.pc = a_dirs
+            return
 
         # arg types
         a_dirs = numpy.asarray( a_dirs )
@@ -35,6 +39,26 @@ class PolyCon:
     def ndim( self ):
         return self.pc.ndim()
 
+    def legendre_transform( self ):
+        return PolyCon( self.pc.legendre_transform() )
+
+    def __add__( self, that ):
+        if isinstance( that, PolyCon ):
+            return PolyCon( self.pc.add_polycon( that.pc ) )
+        return PolyCon( self.pc.add_scalar( that ) )
+
+    def __radd__( self, that ):
+        return self.__add__( that )
+
+    def __sub__( self, that ):
+        return PolyCon( self.pc.add_scalar( - that ) )
+
+    def __mul__( self, that ):
+        return PolyCon( self.pc.mul_scalar( that ) )
+
+    def __rmul__( self, that ):
+        return self.__mul__( that )
+
     def write_vtk( self, filename ):
         """ write a vtk file """
         self.pc.write_vtk( filename )
@@ -49,7 +73,7 @@ class PolyCon:
         """
         return self.pc.edge_points()
     
-    def plot( self ):
+    def plot( self, color = 'b' ):
         """ use matplotlib """
         from matplotlib import pyplot 
 
@@ -75,7 +99,7 @@ class PolyCon:
         for e in edges:
             app( xs, ys, e, 1 - is_inf( e[ 1 ] ) / 3 )
 
-        pyplot.plot( xs, ys, color = "b" )
+        pyplot.plot( xs, ys, color = color )
 
         # dotted lines
         for e in edges:
@@ -89,5 +113,4 @@ class PolyCon:
                 app( xd, yd, e, 2/3 )
                 app( xd, yd, e, 1.0 )
 
-            pyplot.plot( xd, yd, linestyle = "dotted", color = "b" )
-        pyplot.show()
+            pyplot.plot( xd, yd, linestyle = "dotted", color = color )

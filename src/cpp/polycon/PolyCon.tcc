@@ -2,7 +2,6 @@
 
 #include <PowerDiagram/support/operators/norm_2.h>
 #include <PowerDiagram/support/operators/sp.h>
-#include <PowerDiagram/support/P.h>
 #include "LegendreTransform.h"
 #include "PolyCon.h"
 

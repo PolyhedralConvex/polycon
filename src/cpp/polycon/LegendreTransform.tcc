@@ -209,8 +209,6 @@ DTP PolyCon<Scalar,nb_dims> UTP::transform() {
 // }
 
 DTP PolyCon<Scalar,nb_dims> UTP::transform_without_dir( Point pos, Point dir, bool add_bnd ) {
-    P( "wod" );
-
     // normalization of dir
     dir = dir / norm_2( dir );
 

@@ -1,3 +1,4 @@
+from matplotlib import pyplot
 from polycon import PolyCon
 
 def test_1D():
@@ -7,7 +8,19 @@ def test_1D():
     bnos = []
 
     pc = PolyCon( afds, afos, bnds, bnos )
-    pc.plot()
+    pc.plot( "blue" )
+
+    pe = pc + 4
+    pe.plot( "red" )
+
+    pf = pc * 2
+    pf.plot( "green" )
+
+    # pd = pc.legendre_transform()
+    # pd.plot( "blue" )
+
+    pyplot.show()
+
 
 def test_2D():
     afds = [ [ 1, 0.1 ], [ 0.1, -0.7 ], [ 0, +0.7 ] ]

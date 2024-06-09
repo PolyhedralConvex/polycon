@@ -17,8 +17,9 @@
 #define CC_DT( NAME ) CC_DT_( NAME, POLYCON_DIM, POLYCON_SCALAR )
 
 namespace py = pybind11;
-using Array = py::array_t<POLYCON_SCALAR, py::array::c_style>;
-using Point = PolyCon<POLYCON_SCALAR,POLYCON_DIM>::Point;
+using Scalar = POLYCON_SCALAR;
+using Array = py::array_t<Scalar, py::array::c_style>;
+using Point = PolyCon<Scalar,POLYCON_DIM>::Point;
 
 #define PolyCon_Py CC_DT( PolyCon_py )
 
@@ -28,7 +29,9 @@ struct PolyCon_py {
             { a_off.mutable_data(), PI( a_off.shape( 0 ) ) },
             Span<Point>{ reinterpret_cast<Point *>( b_dir.mutable_data() ), PI( b_dir.shape( 0 ) ) },
             { b_off.mutable_data(), PI( b_off.shape( 0 ) ) }
-    ) {
+    ) { }
+
+    PolyCon_py( PolyCon<Scalar,POLYCON_DIM> &&pc ) : pc( std::move( pc ) ) {
     }
 
     void write_vtk( const Str &filename ) {
@@ -37,18 +40,22 @@ struct PolyCon_py {
         vo.save( filename );
     }
 
+    PolyCon_py legendre_transform() {
+        return pc.legendre_transform();
+    }
+
     struct VertexData {
-        POLYCON_SCALAR height;
+        Scalar height;
         CountOfCutTypes cct;
         Point pos;
     };
 
     auto edge_data( CtInt<1> ) {
         Vec<Vec<VertexData,2>> res;
-        pc.for_each_cell( [&]( Cell<POLYCON_SCALAR,POLYCON_DIM> &cell ) {
-            cell.for_each_edge( [&]( auto num_cuts, const Vertex<POLYCON_SCALAR,POLYCON_DIM> &v0, const Vertex<POLYCON_SCALAR,POLYCON_DIM> &v1 ) {
-                const POLYCON_SCALAR h0 = cell.height( v0.pos );
-                const POLYCON_SCALAR h1 = cell.height( v1.pos );
+        pc.for_each_cell( [&]( Cell<Scalar,POLYCON_DIM> &cell ) {
+            cell.for_each_edge( [&]( auto num_cuts, const Vertex<Scalar,POLYCON_DIM> &v0, const Vertex<Scalar,POLYCON_DIM> &v1 ) {
+                const Scalar h0 = cell.height( v0.pos );
+                const Scalar h1 = cell.height( v1.pos );
 
                 CountOfCutTypes c0, c1;
                 cell.add_cut_types( c0, v0, pc.nb_bnds() );
@@ -66,12 +73,12 @@ struct PolyCon_py {
     auto edge_data( auto ) {
         using NC = Vec<SI,POLYCON_DIM-1>;
         std::map<NC,Vec<VertexData,2>,Less> map;
-        pc.for_each_cell( [&]( Cell<POLYCON_SCALAR,POLYCON_DIM> &cell ) {
-            cell.for_each_edge( [&]( auto num_cuts, const Vertex<POLYCON_SCALAR,POLYCON_DIM> &v0, const Vertex<POLYCON_SCALAR,POLYCON_DIM> &v1 ) {
+        pc.for_each_cell( [&]( Cell<Scalar,POLYCON_DIM> &cell ) {
+            cell.for_each_edge( [&]( auto num_cuts, const Vertex<Scalar,POLYCON_DIM> &v0, const Vertex<Scalar,POLYCON_DIM> &v1 ) {
                 std::sort( num_cuts.begin(), num_cuts.end() );
                 map_item( map, num_cuts, [&]() -> Vec<VertexData,2> {
-                    const POLYCON_SCALAR h0 = cell.height( v0.pos );
-                    const POLYCON_SCALAR h1 = cell.height( v1.pos );
+                    const Scalar h0 = cell.height( v0.pos );
+                    const Scalar h1 = cell.height( v1.pos );
 
                     CountOfCutTypes c0, c1;
                     cell.add_cut_types( c0, v0, pc.nb_bnds() );
@@ -113,14 +120,34 @@ struct PolyCon_py {
         return pc.ndim();
     }
 
+    PolyCon_py add_polycon( const PolyCon_py &that ) {
+        Vec<Scalar> new_f_offs = pc.f_offs;
+        return PolyCon<Scalar,POLYCON_DIM>( pc.f_dirs, new_f_offs, pc.b_dirs, pc.b_offs );
+    }
+
+    PolyCon_py add_scalar( Scalar that ) {
+        Vec<Scalar> new_f_offs = pc.f_offs - that;
+        return PolyCon<Scalar,POLYCON_DIM>( pc.f_dirs, new_f_offs, pc.b_dirs, pc.b_offs );
+    }
+
+    PolyCon_py mul_scalar( Scalar that ) {
+        Vec<Point>  new_f_dirs = that * pc.f_dirs;
+        Vec<Scalar> new_f_offs = that * pc.f_offs;
+        return PolyCon<Scalar,POLYCON_DIM>( new_f_dirs, new_f_offs, pc.b_dirs, pc.b_offs );
+    }
+
     PolyCon<POLYCON_SCALAR,POLYCON_DIM> pc;
 };
 
 void fill_polycon_module( py::module_ &m, Str name ) {
     py::class_<PolyCon_py>( m, name.c_str(), py::module_local() )
         .def( py::init<Array, Array, Array, Array>() )
-        .def( "write_vtk", &PolyCon_py::write_vtk )
+        .def( "legendre_transform", &PolyCon_py::legendre_transform )
         .def( "edge_points", &PolyCon_py::edge_points )
+        .def( "add_polycon", &PolyCon_py::add_polycon )
+        .def( "add_scalar", &PolyCon_py::add_scalar )
+        .def( "mul_scalar", &PolyCon_py::mul_scalar )
+        .def( "write_vtk", &PolyCon_py::write_vtk )
         .def( "ndim", &PolyCon_py::ndim )
         ;
 }
