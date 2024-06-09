@@ -19,6 +19,7 @@ public:
     void        display_vtk       ( VtkOutput &vo, bool elevation = true );
     void        normalize         ();
     PI          nb_bnds           () const;
+    PI          ndim              () const { return nb_dims; }
 
     Vec<Point>  f_dirs;
     Vec<Scalar> f_offs;

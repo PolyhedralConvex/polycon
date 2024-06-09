@@ -5,6 +5,8 @@ import os
 
 class PolyCon:
     def __init__( self, a_dirs, a_offs, b_dirs, b_offs ):
+        """ a => affine functions, b => boundarys """
+
         # arg types
         a_dirs = numpy.asarray( a_dirs )
         a_offs = numpy.asarray( a_offs )
@@ -30,6 +32,62 @@ class PolyCon:
         classv = getattr( module, "PolyCon_{:02}_{}".format( nbdim, dtype ) )
         self.pc = classv( a_dirs, a_offs, b_dirs, b_offs )
 
+    def ndim( self ):
+        return self.pc.ndim()
+
     def write_vtk( self, filename ):
-         self.pc.write_vtk( filename )
+        """ write a vtk file """
+        self.pc.write_vtk( filename )
     
+    def edge_points( self ):
+        """ return an array with the coordinates + type of the vertice
+            array[ num_edge, num_vertex, 0 : ndim ] => vertex coords
+            array[ num_edge, num_vertex, ndim + 0 ] => vertex height
+            array[ num_edge, num_vertex, ndim + 1 ] => nb interior cuts
+            array[ num_edge, num_vertex, ndim + 2 ] => nb boundary cuts
+            array[ num_edge, num_vertex, ndim + 3 ] => nb infinity cuts
+        """
+        return self.pc.edge_points()
+    
+    def plot( self ):
+        """ use matplotlib """
+        from matplotlib import pyplot 
+
+        if self.ndim() != 1:
+            raise NotImplemented
+
+        edges = self.pc.edge_points().tolist()
+        for e in edges:
+            e.sort()
+        edges.sort()
+
+        def app( xs, ys, edge, c ):
+            xs.append( ( 1 - c ) * edge[ 0 ][ 0 ] + c * edge[ 1 ][ 0 ] )
+            ys.append( ( 1 - c ) * edge[ 0 ][ 1 ] + c * edge[ 1 ][ 1 ] )
+
+        def is_inf( vertex ):
+            return vertex[ 4 ] != 0
+        
+        # regular lines
+        xs = []
+        ys = []
+        app( xs, ys, edges[ 0 ], is_inf( edges[ 0 ][ 0 ] ) / 3 )
+        for e in edges:
+            app( xs, ys, e, 1 - is_inf( e[ 1 ] ) / 3 )
+
+        pyplot.plot( xs, ys, color = "b" )
+
+        # dotted lines
+        for e in edges:
+            xd = []
+            yd = []
+            if is_inf( e[ 0 ] ):
+                app( xd, yd, e, 0.0 )
+                app( xd, yd, e, 1/3 )
+
+            if is_inf( e[ 1 ] ):
+                app( xd, yd, e, 2/3 )
+                app( xd, yd, e, 1.0 )
+
+            pyplot.plot( xd, yd, linestyle = "dotted", color = "b" )
+        pyplot.show()
