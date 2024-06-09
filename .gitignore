@@ -1,3 +1,4 @@
+.rendered.*
 .polycon.*
 *.vtk
 .directory

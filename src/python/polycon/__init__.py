@@ -8,6 +8,10 @@
 #
 # add_cpp_flags()
 #
-# # exports
 # from .ConvexFunction import ConvexFunction
 # from PowerDiagram import PowerDiagram
+
+
+# exports
+import cppimport.import_hook
+from .polycon_bindings import square
