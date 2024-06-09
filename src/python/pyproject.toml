@@ -1,27 +1,31 @@
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
-
-[project]
-dependencies = []
+[tool.poetry]
 name = "polycon"
-version = "2024.06.09.0"
+version = "2024.06.09.3"
+description = "..."
+authors = [ 'Hugo LECLERC' ]
+include = ["polycon/lib/*.so","polycon/lib/*.dll","polycon/lib/*.dylib","polycon/lib/.rendered.*.cpp"]
+build = "polycon_build.py"
 
-# [tool.hatch.build.targets.wheel]
-# artifacts = [
-#   "*.so",
-#   "*.dll",
-#   "*.dylib",
-# ]
-[tool.hatch.build.targets.wheel.hooks.cython]
-dependencies = ["hatch-cython"]
 
-[tool.hatch.build.targets.wheel.hooks.cython.options]
-# include .h or .cpp directories
-includes = []
-compile_py = false
-include_numpy = false
-include_pyarrow = false
+[build-system]
+build-backend = "poetry.masonry.api"
+requires = ["poetry", "setuptools-cpp"]
+
+# [project]
+# dependencies = []
+# name = "polycon"
+# version = "2024.06.09.0"
+
+# [tool.hatch.build.targets.wheel.hooks.cython]
+# dependencies = ["hatch-cython"]
+
+# [tool.hatch.build.targets.wheel.hooks.cython.options]
+# # include .h or .cpp directories
+# python_version = "3.10"
+# includes = []
+# compile_py = false
+# include_numpy = false
+# include_pyarrow = false
 
 # include_{custom}
 # include_somelib = {
