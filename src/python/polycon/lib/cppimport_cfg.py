@@ -10,7 +10,8 @@ def cppimport_cfg( cfg ):
     #     glob.glob( pd + '/PowerDiagram/support/string/read_arg_name.cpp' )
     sources = [ pd + '/PowerDiagram/VtkOutput.cpp' ]
               
-    deps = glob.glob( pc + '/PolyCon/*.h' ) + \
+    deps = glob.glob( pc + '/PolyCon/*.tcc' ) + \
+           glob.glob( pc + '/PolyCon/*.h' ) + \
         [ 'polycon_bindings.h' ]
 
     cfg['extra_compile_args'] = ['-std=c++20','-DAVOID_DISPLAY=1']
