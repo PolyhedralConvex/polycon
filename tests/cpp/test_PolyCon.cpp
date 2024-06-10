@@ -134,7 +134,6 @@ TEST_CASE( "PolyCon 1D", "" ) {
     Vec<Scalar> bnd_offs{};
 
     PolyCon<Scalar,nb_dims> pc( fun_dirs, fun_offs, bnd_dirs, bnd_offs );
-
     P( pc );
 
     VtkOutput vo;
