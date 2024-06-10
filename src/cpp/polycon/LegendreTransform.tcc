@@ -27,9 +27,12 @@ DTP PolyCon<Scalar,nb_dims> UTP::transform() {
         new_f_offs.append( pc.f_offs );
         return { new_f_dirs, new_f_offs, new_b_dirs, new_b_offs };
     } else {
-        // if there's an equality constraint, we're actually working at most on `nb_dims - 1` dimensions
+        // equality constraint => actually working at most on `nb_dims - 1` dimensions
         if ( Opt<std::pair<Point,Point>> p = first_eq_bnd() )
             return transform_without_dir( p->first, p->second, false );
+
+        //     used_fs = std::vector<bool>( m_dirs.size(), false );
+        //     used_bs = std::vector<bool>( b_dirs.size(), false );
 
         //
         const auto add_bnd = [&]( Point dir, const Point &in ) {
@@ -40,7 +43,7 @@ DTP PolyCon<Scalar,nb_dims> UTP::transform() {
 
             for( PI i = 0; i < new_b_dirs.size(); ++i ) {
                 // TODO: a robust criterium
-                if ( norm_2_p2( new_b_dirs[ i ] - dir ) < 1e-15 ) {
+                if ( norm_2_p2( new_b_dirs[ i ] - dir ) < 1e-12 ) {
                     new_b_offs[ i ] = std::max( new_b_offs[ i ], off );
                     return;
                 }
@@ -54,7 +57,7 @@ DTP PolyCon<Scalar,nb_dims> UTP::transform() {
         const auto add_pnt = [&]( Point dir, Scalar off ) {
             for( PI i = 0; i < new_f_dirs.size(); ++i ) {
                 // TODO: a robust criterium
-                if ( norm_2_p2( new_f_dirs[ i ] - dir ) < 1e-15 ) {
+                if ( norm_2_p2( new_f_dirs[ i ] - dir ) < 1e-12 ) {
                     new_f_offs[ i ] = std::min( new_f_offs[ i ], off );
                     return;
                 }
@@ -65,12 +68,24 @@ DTP PolyCon<Scalar,nb_dims> UTP::transform() {
         };
 
         //
+        used_fs = { FromSizeAndItemValue(), pc.f_dirs.size(), false };
+        used_bs = { FromSizeAndItemValue(), pc.b_dirs.size(), false };
         pc.for_each_cell( [&]( Cell<Scalar,nb_dims> &cell ) {
             cell.for_each_vertex( [&]( const Vertex<Scalar,nb_dims> &v ) {
+                // add point
                 CountOfCutTypes cct;
                 cell.add_cut_types( cct, v, pc.nb_bnds() );
                 if ( cct.nb_infs == 0 )
                     add_pnt( v.pos, sp( v.pos, *cell.orig_point ) - pc.f_offs[ cell.orig_index ] );
+
+                // update used_fs and used_ms
+                for( PI num_cut : v.num_cuts ) {
+                    SI ind = cell.cuts[ num_cut ].n_index;
+                    if ( ind >= SI( pc.nb_bnds() ) )
+                        used_fs[ ind - pc.nb_bnds() ] = true;
+                    else if ( ind >= 0 )
+                        used_bs[ ind ] = true;
+                }
             } );
 
             cell.for_each_edge( [&]( Vec<PI,nb_dims-1> num_cuts, const Vertex<Scalar,nb_dims> &v0, const Vertex<Scalar,nb_dims> &v1 ) {
@@ -83,130 +98,62 @@ DTP PolyCon<Scalar,nb_dims> UTP::transform() {
             } );
         } );
 
-        // // else, get the power diagram vertices (needed for update of used_ms and used_bs)
-        // const auto coords_and_cuts = pc.vertex_corr();
-        // const auto &vertex_coords = std::get<0>( coords_and_cuts );
-        // const auto &vertex_cuts = std::get<1>( coords_and_cuts );
-
-        // // update of used_ms and used_bs (needed for unused_dirs)
-        // update_used_ms_and_bs( vertex_coords, vertex_cuts );
-
-        // // if already lies in a sub-space...
-        // if ( Opt<std::pair<Point,Point>> p = unused_dir() )
-        //     return transform_without_dir( p->first, p->second, true );
-
-        // // make the new affine functions
-        // make_new_affs( nf_dirs, nf_offs, vertex_coords, vertex_cuts);
-
-        // // make the new boundaries
-        // make_new_bnds( nb_dirs, nb_offs, vertex_coords, vertex_cuts );
+        // if already lies in a sub-space...
+        if ( Opt<std::pair<Point,Point>> p = unused_dir() )
+            return transform_without_dir( p->first, p->second, true );
 
         return { new_f_dirs, new_f_offs, new_b_dirs, new_b_offs };
     }
 }
 
-// /// return ( new_m_dirs, new_m_offs, new_b_dirs, new_b_offs )
-// auto legendre_transform( const auto &m_dirs, const auto &m_offs, const auto &b_dirs, const auto &b_offs, auto ci_nb_dims ) {
-//     // make the legendre transform
-//     auto ct_Scalar = DECAYED_CT_OF( m_dirs[ 0 ][ 0 ] + f_offs[ 0 ] + b_dirs[ 0 ][ 0 ] + b_offs[ 0 ] );
-//     LegendreTransform lt( ci_nb_dims, ct_Scalar, m_dirs, f_offs, b_dirs, b_offs );
-//     auto res = lt.transform();
+DTP Opt<std::pair<typename UTP::Point,typename UTP::Point>> UTP::unused_dir() {
+    //
 
-//     // (temporary) conversion to simple vectors. TODO: use list[list] => tensors
-//     Vec<typename GET_DT_VALUE( ct_Scalar )> rm_dirs;
-//     for( const auto &v : std::get<0>( res ) )
-//         rm_dirs.append( v );
+    // starting point
+    const PI not_used = -1;
+    PI first_used_m = not_used;
+    for( PI n = 0; n < used_fs.size(); ++n ) {
+        if ( used_fs[ n ] ) {
+            first_used_m = n;
+            break;
+        }
+    }
 
-//     Vec<typename GET_DT_VALUE( ct_Scalar )> rb_dirs;
-//     for( const auto &v : std::get<2>( res ) )
-//         rb_dirs.append( v );
+    // covariance matrix
+    Point init_dir( FromItemValue(), 0 );
+    if ( first_used_m != not_used )
+        init_dir = pc.f_dirs[ first_used_m ];
 
-//     return std::tuple( std::move( rm_dirs ), std::move( std::get<1>( res ) ), std::move( rb_dirs ), std::move( std::get<3>( res ) ) );
-// }
+    using CovMat = Eigen::Matrix<Scalar,nb_dims,nb_dims>;
+    CovMat cov_mat;
+    for( PI r = 0; r < nb_dims; ++r )
+        for( PI c = 0; c < nb_dims; ++c )
+            cov_mat.coeffRef( r, c ) = 0;
+    for( PI n = first_used_m + 1; n < used_fs.size(); ++n ) {
+        if ( ! used_fs[ n ] )
+            continue;
+        Point dir = Point( pc.f_dirs[ n ] ) - init_dir;
+        Scalar cdi = norm_2_p2( dir );
+        for( PI r = 0; r < nb_dims; ++r )
+            for( PI c = 0; c < nb_dims; ++c )
+                cov_mat.coeffRef( r, c ) += dir[ r ] * dir[ c ] / cdi;
+    }
+    for( PI n = 0; n < used_bs.size(); ++n ) {
+        if ( ! used_bs[ n ] )
+            continue;
+        Point dir = pc.b_dirs[ n ];
+        Scalar cdi = norm_2_p2( dir );
+        for( PI r = 0; r < nb_dims; ++r )
+            for( PI c = 0; c < nb_dims; ++c )
+                cov_mat.coeffRef( r, c ) += dir[ r ] * dir[ c ] / cdi;
+    }
 
+    Eigen::FullPivLU<CovMat> lu( cov_mat );
+    if ( lu.dimensionOfKernel() )
+        return std::make_pair( init_dir, Point( lu.kernel().col( 0 ) ) );
 
-// DTP auto UTP::vertex_corr() {
-//     using namespace Vfs;
-
-//     // acceleration structure
-//     Vec<Scalar> weights( FromReservationSize(), f_offs.size() );
-//     for( PI i = 0; i < f_offs.size(); ++i )
-//         weights << norm_2_p2( m_dirs[ i ] ) - 2 * f_offs[ i ];
-//     auto wps = make_weighted_point_set_aabb( m_dirs, weights, ci_nb_dims );
-
-//     // correspondance
-//     return cell_points( wps, b_dirs, b_offs );
-// }
-
-// DTP void UTP::update_used_ms_and_bs( const auto &vertex_coords, const auto &vertex_cuts ) {
-//     used_ms = std::vector<bool>( m_dirs.size(), false );
-//     used_bs = std::vector<bool>( b_dirs.size(), false );
-//     for( PI num_vertex = 0, nb_vertices = vertex_coords.size() / nb_dims; num_vertex < nb_vertices; ++num_vertex ) {
-//         const auto *cuts = vertex_cuts.data() + num_vertex * ( nb_dims + 1 );
-//         for( PI r = 0; r <= nb_dims; ++r ) {
-//             PI cut = cuts[ r ];
-//             if ( cut < m_dirs.size() ) {
-//                 used_ms[ cut ] = true;
-//                 continue;
-//             }
-
-//             cut -= m_dirs.size();
-//             if ( cut < b_dirs.size() ) {
-//                 used_bs[ cut ] = true;
-//                 continue;
-//             }
-//         }
-//     }
-// }
-
-// DTP Opt<std::pair<typename UTP::Point,typename UTP::Point>> UTP::unused_dir() {
-//     using namespace Vfs;
-
-//     // starting point
-//     const PI not_used = -1;
-//     PI first_used_m = not_used;
-//     for( PI n = 0; n < used_ms.size(); ++n ) {
-//         if ( used_ms[ n ] ) {
-//             first_used_m = n;
-//             break;
-//         }
-//     }
-
-//     // covariance matrix
-//     Point init_dir( FromItemValue(), 0 );
-//     if ( first_used_m != not_used )
-//         init_dir = m_dirs[ first_used_m ];
-
-//     using CovMat = Eigen::Matrix<Scalar,nb_dims,nb_dims>;
-//     CovMat cov_mat;
-//     for( PI r = 0; r < nb_dims; ++r )
-//         for( PI c = 0; c < nb_dims; ++c )
-//             cov_mat.coeffRef( r, c ) = 0;
-//     for( PI n = first_used_m + 1; n < used_ms.size(); ++n ) {
-//         if ( ! used_ms[ n ] )
-//             continue;
-//         Point dir = Point( m_dirs[ n ] ) - init_dir;
-//         Scalar cdi = norm_2_p2( dir );
-//         for( PI r = 0; r < nb_dims; ++r )
-//             for( PI c = 0; c < nb_dims; ++c )
-//                 cov_mat.coeffRef( r, c ) += dir[ r ] * dir[ c ] / cdi;
-//     }
-//     for( PI n = 0; n < used_bs.size(); ++n ) {
-//         if ( ! used_bs[ n ] )
-//             continue;
-//         Point dir = b_dirs[ n ];
-//         Scalar cdi = norm_2_p2( dir );
-//         for( PI r = 0; r < nb_dims; ++r )
-//             for( PI c = 0; c < nb_dims; ++c )
-//                 cov_mat.coeffRef( r, c ) += dir[ r ] * dir[ c ] / cdi;
-//     }
-
-//     Eigen::FullPivLU<CovMat> lu( cov_mat );
-//     if ( lu.dimensionOfKernel() )
-//         return std::make_pair( init_dir, Point( lu.kernel().col( 0 ) ) );
-
-//     return {};
-// }
+    return {};
+}
 
 DTP PolyCon<Scalar,nb_dims> UTP::transform_without_dir( Point pos, Point dir, bool add_bnd ) {
     // normalization of dir
@@ -477,7 +424,7 @@ DTP Opt<std::pair<typename UTP::Point,typename UTP::Point>> UTP::first_eq_bnd() 
 
 //             // test with other affine functions
 //             for( PI i = 0; i < m_dirs.size(); ++i ) {
-//                 if ( ! used_ms[ i ] )
+//                 if ( ! used_fs[ i ] )
 //                     continue;
 //                 Scalar prop_sp = - X[ nb_dims ];
 //                 Point m_dir = m_dirs[ i ];

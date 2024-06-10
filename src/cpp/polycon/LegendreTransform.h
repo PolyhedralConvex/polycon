@@ -20,17 +20,17 @@ struct LegendreTransform {
     // void                  make_new_bnds        ( Vec<Point> &nb_dirs, Vec<Scalar> &nb_offs, const auto &vertex_coords, const auto &vertex_cuts );
     auto                     first_eq_bnd         () -> Opt<std::pair<Point,Point>>;
     // PI                    nb_inf_cuts          ( const auto *cuts );
-    // auto                  unused_dir           () -> Opt<std::pair<Point,Point>>;
+    auto                     unused_dir           () -> Opt<std::pair<Point,Point>>;
     // Opt<PI>               aff_cut              ( PI cut ) const;
     // Opt<PI>               bnd_cut              ( PI cut ) const;
     // Opt<PI>               inf_cut              ( PI cut ) const;
 
     // Ci_nb_dims            ci_nb_dims;
     // Ct_Scalar             ct_Scalar;
+    Vec<bool>                used_fs;
+    Vec<bool>                used_bs;
     PolyCon<Scalar,nb_dims>& pc;
 
-    // std::vector<bool>     used_ms;
-    // std::vector<bool>     used_bs;
 };
 
 #include "LegendreTransform.tcc"

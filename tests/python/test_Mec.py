@@ -113,6 +113,8 @@ def tetra():
     afos = np.array( [ 0, 0.1, 0.2, 0.3 ] )
     # bnds = np.array( [ [ 1, 2 ] ] )
     # bnos = np.array( [ 1 ] )
+    # bnds = np.array( [ [ +1, 0, 0 ], [ -1, 0, 0 ] ] )
+    # bnos = np.array( [ 3, 3 ] )
     bnds = np.array( [ [ +1, 0, 0 ], [ -1, 0, 0 ] ] )
     bnos = np.array( [ 3, 3 ] )
 
