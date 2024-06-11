@@ -60,7 +60,7 @@ class PolyCon:
     def __rmul__( self, that ):
         return self.__mul__( that )
 
-    def __repr__( self, floatfmt="+.5f" ):
+    def __repr__( self, floatfmt="+.16f" ):
         def as_tab( v ):
             import tabulate
             return "  " + tabulate.tabulate( v, tablefmt= "plain", floatfmt = floatfmt ).replace( '\n', '\n  ' )
