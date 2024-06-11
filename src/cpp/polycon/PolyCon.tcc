@@ -26,6 +26,18 @@ DTP void UTP::get_power_diagram( const std::function<void( PowerDiagram<Scalar,n
     f( pd );
 }
 
+DTP std::tuple<Scalar,typename UTP::Point> UTP::value_and_gradient( Point x ) {
+    Scalar value = NAN;
+    Point grad( FromItemValue(), NAN );
+    for_each_cell( [&]( Cell<Scalar,nb_dims> &cell ) {
+        if ( cell.contains( x ) ) {
+            value = cell.height( x );
+            grad = *cell.orig_point;
+        }
+    } );
+    return { value, grad };
+}
+
 DTP PolyCon<Scalar,nb_dims> UTP::legendre_transform() {
     LegendreTransform lt( *this );
     return lt.transform();

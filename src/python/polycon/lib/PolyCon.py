@@ -45,7 +45,6 @@ class PolyCon:
             v = function( p )
             g = []
             for d in range( p.size ):
-                print( p )
                 o = p.copy()
                 o[ d ] += eps
                 w = function( o )
@@ -59,6 +58,24 @@ class PolyCon:
 
     def ndim( self ):
         return self.pc.ndim()
+
+    def value_and_gradient( self, x_or_xs ):
+        """ return nan if not in a cell """
+        # TODO: optimize
+        p = numpy.asarray( x_or_xs )
+        if p.ndim == 2:
+            values = []
+            grads = []
+            for x in p:
+                r = self.value_and_gradient( x )
+                values.append( r[ 0 ] )
+                grads.append( r[ 1 ] )
+            return values, grads
+        
+        return self.pc.value_and_gradient( p )
+
+    def value( self, x_or_xs ):
+        return self.value_and_gradient( x_or_xs )[ 0 ]
 
     def legendre_transform( self ):
         return PolyCon( self.pc.legendre_transform() )
@@ -81,7 +98,7 @@ class PolyCon:
     def __rmul__( self, that ):
         return self.__mul__( that )
 
-    def __repr__( self, floatfmt="+.16f" ):
+    def __repr__( self, floatfmt="+.5f" ):
         def as_tab( v ):
             import tabulate
             return "  " + tabulate.tabulate( v, tablefmt= "plain", floatfmt = floatfmt ).replace( '\n', '\n  ' )

@@ -16,6 +16,7 @@ public:
     TTi friend PolyCon<T,i> operator+                  ( const PolyCon<T,i> &a, const PolyCon<T,i> &b );
 
     // PolyCon              backward_legendre_transform( Span<Point> der_f_dirs, Span<Scalar> der_f_offs, Span<Point> der_b_dirs, Span<Scalar> der_b_offs );
+    auto                    value_and_gradient         ( Point x ) -> std::tuple<Scalar,Point>;
     PolyCon                 legendre_transform         ();
     void                    get_power_diagram          ( const std::function<void( PowerDiagram<Scalar,nb_dims> &pd )> &f );
     void                    for_each_cell              ( const std::function<void( Cell<Scalar,nb_dims> &cell )> &f );

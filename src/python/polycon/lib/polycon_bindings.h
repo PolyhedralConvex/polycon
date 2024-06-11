@@ -23,11 +23,11 @@ using Point = PolyCon<Scalar,POLYCON_DIM>::Point;
 
 #define PolyCon_Py CC_DT( PolyCon_py )
 
-static Array to_Array( const Vec<Scalar> &v ) {
+Ti static Array to_Array( const Vec<Scalar,i> &v ) {
     Vec<PI,1> shape{ v.size() };
     Array res( shape );
-    for( PI i = 0; i < v.size(); ++i )
-        res.mutable_at( i ) = v[ i ];
+    for( PI n = 0; n < PI( v.size() ); ++n )
+        res.mutable_at( n ) = v[ n ];
     return res;
 }
 
@@ -67,6 +67,15 @@ struct PolyCon_py {
         VtkOutput vo;
         pc.display_vtk( vo );
         vo.save( filename );
+    }
+
+    std::tuple<Scalar,Array> value_and_gradient( Array x ) {
+        Point p( FromItemValue(), 0 );
+        for( PI i = 0; i < std::min( PI( POLYCON_DIM ), PI( x.size() ) ); ++i )
+            p[ i ] = x.at( i );
+        
+        auto vg = pc.value_and_gradient( p );
+        return { std::get<0>( vg ), to_Array( std::get<1>( vg ) ) };
     }
 
     PolyCon_py legendre_transform() {
@@ -184,6 +193,7 @@ struct PolyCon_py {
 void fill_polycon_module( py::module_ &m, Str name ) {
     py::class_<PolyCon_py>( m, name.c_str(), py::module_local() )
         .def( py::init<Array, Array, Array, Array>() )
+        .def( "value_and_gradient", &PolyCon_py::value_and_gradient )
         .def( "legendre_transform", &PolyCon_py::legendre_transform )
         .def( "as_fbdo_arrays", &PolyCon_py::as_fbdo_arrays )
         .def( "as_fb_arrays", &PolyCon_py::as_fb_arrays )

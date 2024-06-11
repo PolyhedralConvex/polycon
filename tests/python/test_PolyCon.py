@@ -63,12 +63,21 @@ def test_3D():
 # test_2D()
 # test_3D()
 
+from matplotlib import pyplot 
 from polycon import PolyCon
-import numpy as np
 
-# a 2D bounded polyhedral convex function
-points = np.random.uniform( -1, 1, ( 500, 2 ) )
-func = lambda x: np.linalg.norm( x )**2
+afds = [ [ 1, 0.1 ], [ 0.1, -0.7 ], [ 0, +0.7 ] ]
+afos = [ 0, 0.1, 0.2 ]
+bnds = [ [ 1, 0 ] ]
+bnos = [ 3 ]
 
-pc = PolyCon.from_function_samples( func, points )
-pc.write_vtk( "pc.vtk" )
+pc = PolyCon( afds, afos, bnds, bnos )
+pd = pc.legendre_transform()
+pe = pd.legendre_transform()
+
+print( "\npc =======================================" )
+print( pc.normalized() )
+print( "\npd =======================================" )
+print( pd.normalized() )
+print( "\npe =======================================" )
+print( pe.normalized() )

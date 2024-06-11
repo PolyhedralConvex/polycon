@@ -110,5 +110,97 @@ pc.write_vtk( "pc.vtk" )
 
 ## Normalization
 
+`PolyCon.normalize`
+* remove the unused affine functions (the ones that do not change the actual polyhedral function values)
+* remove the unused boundaries (the ones that do not change the actual polyhedral function values)
+* normalize the boundary directions
+* sort the function and the boundaries in lexical order.
 
+It helps to reduce the number of function, and permits comparisons between several convex polyhedral functions.
+
+
+## Values
+
+`PolyCon.value` and `PolyCon.value_and_gradient` permits to get respectively the function and a tuple with the value and the gradient for a given point or set of point.
+
+
+## Common mathematical operations
+
+Common operators (`+`, `*`, `/`, ...) are surdefined, as in the following example:
+
+```python
+from matplotlib import pyplot 
+from polycon import PolyCon
+
+pc = PolyCon( [ [ -1.0 ], [ +0.1 ], [ +0.7 ] ], [ 0.1, 0.2, 0.5 ], [ [ -1 ], [ +1 ] ], [ 1, 1 ] )
+pd = PolyCon( [ [ -0.8 ], [ +0.6 ] ], [ 0.3, 0.0 ], [ [ -1 ], [ +1 ] ], [ 1, 1 ] )
+
+pe = pc + pd
+
+pc.plot( "black", show = False )
+pd.plot( "blue", show = False )
+pe.plot( "red", show = False )
+pyplot.show()
+```
+
+![Add example](doc/Ex_add.png)
+
+## Legendre transformations
+
+Example:
+
+```python
+from matplotlib import pyplot 
+from polycon import PolyCon
+
+afds = [ [ 1, 0.1 ], [ 0.1, -0.7 ], [ 0, +0.7 ] ]
+afos = [ 0, 0.1, 0.2 ]
+bnds = [ [ 1, 0 ] ]
+bnos = [ 3 ]
+
+pc = PolyCon( afds, afos, bnds, bnos )
+pd = pc.legendre_transform()
+pe = pd.legendre_transform()
+
+print( "\npc =======================================" )
+print( pc.normalized() )
+print( "\npd =======================================" )
+print( pd.normalized() )
+print( "\npe =======================================" )
+print( pe.normalized() )
+```
+
+Gives:
+
+```
+pc =======================================
+Affine functions:
+  +0.00000  +0.70000  +0.20000
+  +0.10000  -0.70000  +0.10000
+  +1.00000  +0.10000  +0.00000
+Boundaries:
+  +1.00000  +0.00000  +3.00000
+
+pd =======================================
+Affine functions:
+  -0.16418  +0.05970  -0.15821
+  +3.00000  -3.50000  +2.65000
+  +3.00000  +5.33333  +3.53333
+Boundaries:
+  -0.99746  -0.07125  -0.04987
+  +0.00000  -1.00000  +0.70000
+  +0.00000  +1.00000  +0.70000
+
+pe =======================================
+Affine functions:
+  +0.00000  +0.70000  +0.20000
+  +0.10000  -0.70000  +0.10000
+  +1.00000  +0.10000  -0.00000
+Boundaries:
+  +1.00000  +0.00000  +3.00000
+```
+
+## Infimal convolution
+
+...
 

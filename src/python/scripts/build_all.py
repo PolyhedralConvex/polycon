@@ -35,7 +35,7 @@ def clean( pattern ):
 clean( 'dist/*' )
 
 # matrix
-for version in [ '3.10', '3.11', '3.12' ]: # '3.8', '3.9', 
+for version in [ '3.8', '3.9', '3.10', '3.11', '3.12' ]:
     # remove the old object files
     for suffix in [ 'so', 'dll', 'dylib' ]:
         clean( '**/*.' + suffix )
