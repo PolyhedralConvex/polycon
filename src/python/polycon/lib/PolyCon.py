@@ -113,7 +113,7 @@ class PolyCon:
         """
         return self.pc.edge_points()
     
-    def plot( self, color = 'b' ):
+    def plot( self, color = 'b', show = True ):
         """ use matplotlib """
         from matplotlib import pyplot 
 
@@ -154,3 +154,7 @@ class PolyCon:
                 app( xd, yd, e, 1.0 )
 
             pyplot.plot( xd, yd, linestyle = "dotted", color = color )
+
+        if show:
+            pyplot.show()
+            

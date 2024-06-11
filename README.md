@@ -4,6 +4,8 @@ PolyCon is a set of libraries to handle polyhedral convex functions, represented
 
 It supports common expected mathematical operations, like the legendre transformation, infimal convolution, ...
 
+Internally, it is written in C++ and highly optimized (use of SIMD/SIMT instructions, `O(N log N)` algorithms where possible, ...).
+
 Currently, there are bindings C++ and Python, but more languages are in the pipeline (feel free to ask if your favorite language is not represented :) ).
 
 Here are the documentation for

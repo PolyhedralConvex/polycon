@@ -1,3 +1,4 @@
+* valeur en 1 point
 * gestion des bords infinis
   => faire les points "représentatifs" des InfCells (les items genre surface qui ne donne pas forcément de vertex)
 * dérivées de la transformée de Legendre
