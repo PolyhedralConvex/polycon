@@ -203,3 +203,9 @@ Boundaries:
 ## Infimal convolution
 
 ...
+
+## Differentiation (pythorch, ...)
+
+...
+
+
