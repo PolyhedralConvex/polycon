@@ -143,7 +143,7 @@ pe.plot( "red", show = False )
 pyplot.show()
 ```
 
-![Add example](doc/Ex_add.png)
+![Add example](doc/Ex_add_0.png)
 
 ## Legendre transformations
 
@@ -203,4 +203,3 @@ Boundaries:
 ## Infimal convolution
 
 ...
-
