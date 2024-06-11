@@ -41,21 +41,23 @@ def test_2D():
 def test_3D():
     afds = [ [ 1, 0.1, 0 ], [ 0.1, -0.7, 0 ], [ 0, +0.7, 0 ], [ 0, 0, +0.7 ] ]
     afos = [ 0, 0.1, 0.2, 0.3 ]
-    bnds = []
-    bnos = []
+    bnds = [ [ 1, 0, 0 ] ]
+    bnos = [ 5 ]
 
     pc = PolyCon( afds, afos, bnds, bnos )
-    # pc.write_vtk( "p3.vtk" )
+    pc.write_vtk( "p3.vtk" )
+
     print( "\npc =======================================" )
     print( pc.normalized() )
 
-    pe = pc.legendre_transform()
+    pd = pc.legendre_transform()
+    print( "\npd =======================================" )
+    print( pd.normalized() )
+    pd.write_vtk( "pd.vtk" )
+
+    pe = pd.legendre_transform()
     print( "\npe =======================================" )
     print( pe.normalized() )
-
-    pf = pe.legendre_transform()
-    print( "\npf =======================================" )
-    print( pf.normalized() )
 
 # test_1D()
 # test_2D()

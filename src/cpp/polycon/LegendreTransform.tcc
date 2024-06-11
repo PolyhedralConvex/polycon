@@ -13,7 +13,8 @@
 #define DTP template<class Scalar,int nb_dims>
 #define UTP LegendreTransform<Scalar,nb_dims>
 
-DTP UTP::LegendreTransform( PolyCon<Scalar,nb_dims> &pc ) : pc( pc ) {
+DTP UTP::LegendreTransform( const PolyCon<Scalar,nb_dims> &pc ) : pc( pc ) {
+    this->pc.normalize();
 }
 
 DTP PolyCon<Scalar,nb_dims> UTP::transform() {
@@ -30,9 +31,6 @@ DTP PolyCon<Scalar,nb_dims> UTP::transform() {
         // equality constraint => actually working at most on `nb_dims - 1` dimensions
         if ( Opt<std::pair<Point,Point>> p = first_eq_bnd() )
             return transform_without_dir( p->first, p->second, false );
-
-        //     used_fs = std::vector<bool>( m_dirs.size(), false );
-        //     used_bs = std::vector<bool>( b_dirs.size(), false );
 
         //
         const auto add_bnd = [&]( Point dir, const Point &in ) {
@@ -102,8 +100,6 @@ DTP PolyCon<Scalar,nb_dims> UTP::transform() {
 }
 
 DTP Opt<std::pair<typename UTP::Point,typename UTP::Point>> UTP::unused_dir() {
-    //
-
     // starting point
     const PI not_used = -1;
     PI first_used_m = not_used;

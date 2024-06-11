@@ -10,7 +10,7 @@ template<class Scalar,int nb_dims>
 struct LegendreTransform {
     using                    Point                = Vec<Scalar,nb_dims>;
 
-    /**/                     LegendreTransform    ( PolyCon<Scalar,nb_dims> &pc );
+    /**/                     LegendreTransform    ( const PolyCon<Scalar,nb_dims> &pc );
 
     PolyCon<Scalar,nb_dims>  transform_without_dir( Point pos, Point dir, bool add_bnd );
     PolyCon<Scalar,nb_dims>  transform            ();
@@ -29,7 +29,7 @@ struct LegendreTransform {
     // Ct_Scalar             ct_Scalar;
     Vec<bool>                used_fs;
     Vec<bool>                used_bs;
-    PolyCon<Scalar,nb_dims>& pc;
+    PolyCon<Scalar,nb_dims>  pc;
 
 };
 

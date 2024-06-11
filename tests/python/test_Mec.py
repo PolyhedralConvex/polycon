@@ -109,14 +109,14 @@ def lines():
     display( "w", w )
 
 def tetra():
-    afds = np.array( [ [ 1, 0.1, 0.0 ], [ 0.1, -0.7, 0.0 ], [ 0, +0.7, .3 ], [ 0, .0, .8 ] ] )
+    afds = np.array( [ [ 1, 0.1, 0 ], [ 0.1, -0.7, 0 ], [ 0, +0.7, 0 ], [ 0, 0, +0.7 ] ] )
     afos = np.array( [ 0, 0.1, 0.2, 0.3 ] )
     # bnds = np.array( [ [ 1, 2 ] ] )
     # bnos = np.array( [ 1 ] )
     # bnds = np.array( [ [ +1, 0, 0 ], [ -1, 0, 0 ] ] )
     # bnos = np.array( [ 3, 3 ] )
-    bnds = np.array( [ [ +1, 0, 0 ], [ -1, 0, 0 ] ] )
-    bnos = np.array( [ 3, 3 ] )
+    bnds = np.array( [ [ 1, 0, 0 ] ] )
+    bnos = np.array( [ 5 ] )
 
     u = Polyhedral( afds, afos, bnds, bnos )
     # u.plot1d()

@@ -1,6 +1,7 @@
 .rendered.*
 .polycon.*
 *.vtk
+.vscode/
 .directory
 test.nivc.mk
 .qtc_clangd
