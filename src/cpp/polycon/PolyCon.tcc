@@ -48,15 +48,60 @@ DTP void UTP::display_vtk( VtkOutput &vo, bool elevation ) {
 }
 
 DTP void UTP::normalize() {
+    auto apply_corr = []( auto &vec, const Vec<bool> &keep ) {
+        int last_keep = vec.size();
+        for( int i = 0; i < last_keep; ++i ) {
+            if ( ! keep[ i ] ) {
+                while( --last_keep > i && ! keep[ last_keep ] );
+                vec[ i ] = std::move( vec[ last_keep ] );
+            }
+        }
+        vec.resize( last_keep );
+    };
+
+    auto sort_vecs = []( auto &a, auto &b ) {
+        Vec<Tup<Point,Scalar>> c( FromReservationSize(), a.size() );
+        for( PI i = 0; i < a.size(); ++i )
+            c.push_back( a[ i ], b[ i ] );
+
+        std::sort( c.begin(), c.end(), Less() );
+
+        for( PI i = 0; i < a.size(); ++i ) {
+            a[ i ] = std::move( c[ i ].template get<0>() );
+            b[ i ] = std::move( c[ i ].template get<1>() );
+        }
+    };
+
+    // remove unused
+    std::tuple<Vec<bool>,Vec<bool>> used = used_fbs();
+    apply_corr( f_dirs, std::get<0>( used ) );
+    apply_corr( f_offs, std::get<0>( used ) );
+    apply_corr( b_dirs, std::get<1>( used ) );
+    apply_corr( b_offs, std::get<1>( used ) );
+
+    // normalize directions
     for( PI i = 0; i < b_dirs.size(); ++i ) {
         Scalar n = norm_2( b_dirs[ i ] );
         b_dirs[ i ] = b_dirs[ i ] / n;
         b_offs[ i ] = b_offs[ i ] / n;
     }
+
+    // sort rows
+    sort_vecs( f_dirs, f_offs );
+    sort_vecs( b_dirs, b_offs );
 }
 
 DTP PI UTP::nb_bnds() const {
     return b_dirs.size();
+}
+
+DTP std::tuple<Vec<bool>,Vec<bool>> UTP::used_fbs() {
+    Vec<bool> used_fs{ FromSizeAndItemValue(), f_dirs.size(), false };
+    Vec<bool> used_bs{ FromSizeAndItemValue(), b_dirs.size(), false };
+    for_each_cell( [&]( Cell<Scalar,nb_dims> &cell ) {
+        cell.get_used_fbs( used_fs, used_bs, nb_bnds() );
+    } );
+    return { used_fs, used_bs };
 }
 
 DTP UTP operator+( const UTP &a, const UTP &b ) {

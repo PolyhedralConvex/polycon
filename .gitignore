@@ -6,6 +6,7 @@ test.nivc.mk
 .qtc_clangd
 src/cpp/PowerDiagram
 *.sif
+*.lock
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

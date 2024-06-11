@@ -107,19 +107,22 @@ TEST_CASE( "PolyCon 3D", "" ) {
     pa.display_vtk( va );
     va.save( "pa.vtk" );
 
-    PolyCon<Scalar,nb_dims> pb = pa.legendre_transform();
-    P( pb );
+    pa.normalize();
+    P( pa );
 
-    VtkOutput vb;
-    pb.display_vtk( vb );
-    vb.save( "pb.vtk" );
+    // PolyCon<Scalar,nb_dims> pb = pa.legendre_transform();
+    // P( pb );
 
-    PolyCon<Scalar,nb_dims> pc = pb.legendre_transform();
-    P( pc );
+    // VtkOutput vb;
+    // pb.display_vtk( vb );
+    // vb.save( "pb.vtk" );
 
-    VtkOutput vc;
-    pc.display_vtk( vc );
-    vc.save( "pc.vtk" );
+    // PolyCon<Scalar,nb_dims> pc = pb.legendre_transform();
+    // P( pc );
+
+    // VtkOutput vc;
+    // pc.display_vtk( vc );
+    // vc.save( "pc.vtk" );
 }
 
 // TEST_CASE( "PolyCon 1D", "" ) {

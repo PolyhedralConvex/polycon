@@ -23,6 +23,35 @@ using Point = PolyCon<Scalar,POLYCON_DIM>::Point;
 
 #define PolyCon_Py CC_DT( PolyCon_py )
 
+static Array to_Array( const Vec<Scalar> &v ) {
+    Vec<PI,1> shape{ v.size() };
+    Array res( shape );
+    for( PI i = 0; i < v.size(); ++i )
+        res.mutable_at( i ) = v[ i ];
+    return res;
+}
+
+static Array to_Array( const Vec<Point> &v ) {
+    Vec<PI,2> shape{ v.size(), PI( POLYCON_DIM ) };
+    Array res( shape );
+    for( PI i = 0; i < v.size(); ++i )
+        for( PI d = 0; d < PI( POLYCON_DIM ); ++d )
+            res.mutable_at( i, d ) = v[ i ][ d ];
+    return res;
+}
+
+static Array to_Array( const Vec<Point> &v, const Vec<Scalar> &s ) {
+    Vec<PI,2> shape{ v.size(), PI( POLYCON_DIM + 1 ) };
+    Array res( shape );
+    for( PI i = 0; i < v.size(); ++i ) {
+        for( PI d = 0; d < PI( POLYCON_DIM ); ++d )
+            res.mutable_at( i, d ) = v[ i ][ d ];
+        res.mutable_at( i, POLYCON_DIM ) = s[ i ];
+    }
+    return res;
+}
+
+/***/
 struct PolyCon_py {
     PolyCon_py( Array a_dir, Array a_off, Array b_dir, Array b_off ) : pc(
             Span<Point>{ reinterpret_cast<Point *>( a_dir.mutable_data() ), PI( a_dir.shape( 0 ) ) },
@@ -42,6 +71,14 @@ struct PolyCon_py {
 
     PolyCon_py legendre_transform() {
         return pc.legendre_transform();
+    }
+
+    auto as_fbdo_arrays() -> std::tuple<Array,Array,Array,Array> {
+        return { to_Array( pc.f_dirs ), to_Array( pc.f_offs ), to_Array( pc.b_dirs ), to_Array( pc.b_offs ) };
+    }
+
+    auto as_fb_arrays() -> std::tuple<Array,Array> {
+        return { to_Array( pc.f_dirs, pc.f_offs ), to_Array( pc.b_dirs, pc.b_offs ) };
     }
 
     struct VertexData {
@@ -86,7 +123,7 @@ struct PolyCon_py {
 
                     return {
                         VertexData{ h0, c0, v0.pos },
-                        VertexData{ h0, c1, v1.pos },
+                        VertexData{ h1, c1, v1.pos },
                     };
                 } );
             } );
@@ -135,6 +172,12 @@ struct PolyCon_py {
         return PolyCon<Scalar,POLYCON_DIM>( new_f_dirs, new_f_offs, pc.b_dirs, pc.b_offs );
     }
 
+    PolyCon_py normalized() {
+        PolyCon<POLYCON_SCALAR,POLYCON_DIM> cp = pc;
+        cp.normalize();
+        return cp;
+    }
+
     PolyCon<POLYCON_SCALAR,POLYCON_DIM> pc;
 };
 
@@ -142,8 +185,11 @@ void fill_polycon_module( py::module_ &m, Str name ) {
     py::class_<PolyCon_py>( m, name.c_str(), py::module_local() )
         .def( py::init<Array, Array, Array, Array>() )
         .def( "legendre_transform", &PolyCon_py::legendre_transform )
+        .def( "as_fbdo_arrays", &PolyCon_py::as_fbdo_arrays )
+        .def( "as_fb_arrays", &PolyCon_py::as_fb_arrays )
         .def( "edge_points", &PolyCon_py::edge_points )
         .def( "add_polycon", &PolyCon_py::add_polycon )
+        .def( "normalized", &PolyCon_py::normalized )
         .def( "add_scalar", &PolyCon_py::add_scalar )
         .def( "mul_scalar", &PolyCon_py::mul_scalar )
         .def( "write_vtk", &PolyCon_py::write_vtk )

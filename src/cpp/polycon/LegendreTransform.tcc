@@ -71,23 +71,18 @@ DTP PolyCon<Scalar,nb_dims> UTP::transform() {
         used_fs = { FromSizeAndItemValue(), pc.f_dirs.size(), false };
         used_bs = { FromSizeAndItemValue(), pc.b_dirs.size(), false };
         pc.for_each_cell( [&]( Cell<Scalar,nb_dims> &cell ) {
+            // update used_fs and used_ms
+            cell.get_used_fbs( used_fs, used_bs, pc.nb_bnds() );
+
+            // add affine functions
             cell.for_each_vertex( [&]( const Vertex<Scalar,nb_dims> &v ) {
-                // add point
                 CountOfCutTypes cct;
                 cell.add_cut_types( cct, v, pc.nb_bnds() );
                 if ( cct.nb_infs == 0 )
                     add_pnt( v.pos, sp( v.pos, *cell.orig_point ) - pc.f_offs[ cell.orig_index ] );
-
-                // update used_fs and used_ms
-                for( PI num_cut : v.num_cuts ) {
-                    SI ind = cell.cuts[ num_cut ].n_index;
-                    if ( ind >= SI( pc.nb_bnds() ) )
-                        used_fs[ ind - pc.nb_bnds() ] = true;
-                    else if ( ind >= 0 )
-                        used_bs[ ind ] = true;
-                }
             } );
 
+            // add boundaries
             cell.for_each_edge( [&]( Vec<PI,nb_dims-1> num_cuts, const Vertex<Scalar,nb_dims> &v0, const Vertex<Scalar,nb_dims> &v1 ) {
                 CountOfCutTypes cct0; cell.add_cut_types( cct0, v0, pc.nb_bnds() );
                 CountOfCutTypes cct1; cell.add_cut_types( cct1, v1, pc.nb_bnds() );
@@ -279,184 +274,6 @@ DTP Opt<std::pair<typename UTP::Point,typename UTP::Point>> UTP::first_eq_bnd() 
     }
     return {};
 }
-
-// DTP PI UTP::nb_inf_cuts( const auto *cuts ) {
-//     PI res = 0;
-//     for( PI i = 0; i <= nb_dims; ++i )
-//         if ( inf_cut( cuts[ i ] ) )
-//             ++res;
-//     return res;
-// }
-
-// DTP void UTP::make_new_affs( Vec<Point> &new_m_dirs, Vec<Scalar> &new_m_offs, const auto &vertex_coords, const auto &vertex_cuts ) {
-//     // system to solve for the new cell
-//     using EMat = Eigen::Matrix<Scalar,nb_dims+1,nb_dims+1>;
-//     using EVec = Eigen::Matrix<Scalar,nb_dims+1,1>;
-//     EMat M;
-//     EVec V;
-//     for( PI num_vertex = 0; num_vertex < vertex_coords.size() / nb_dims; ++num_vertex ) {
-//         const auto *coords = vertex_coords.data() + num_vertex * ( nb_dims + 0 );
-//         const auto *cuts = vertex_cuts.data() + num_vertex * ( nb_dims + 1 );
-//         if ( nb_inf_cuts( cuts ) )
-//             continue;
-
-//         for( PI r = 0; r <= nb_dims; ++r ) {
-//             PI cut_id = cuts[ r ];
-
-//             // cut coming from an affine function
-//             if ( auto ci = aff_cut( cut_id ) ) {
-//                 Point dir = m_dirs[ *ci ];
-//                 for( PI c = 0; c < nb_dims; ++c )
-//                     M( r, c ) = dir[ c ];
-//                 M( r, nb_dims ) = -1;
-//                 V( r ) = f_offs[ *ci ];
-//                 continue;
-//             }
-
-//             // cut coming from a boundary
-//             if ( auto ci = bnd_cut( cut_id ) ) {
-//                 auto bnd = b_dirs[ *ci ];
-//                 for( PI c = 0; c < nb_dims; ++c )
-//                     M( r, c ) = bnd[ c ];
-//                 M( r, nb_dims ) = 0;
-
-//                 Scalar v = 0;
-//                 for( PI c = 0; c < nb_dims; ++c )
-//                     v += bnd[ c ] * coords[ c ];
-//                 V( r ) = v;
-//                 continue;
-//             }
-
-//             // ?
-//             ERROR( "should not happen" );
-//         }
-
-//         // solve
-//         Eigen::FullPivLU<EMat> lu( M );
-//         EVec X = lu.solve( V );
-
-//         // data for the new cell
-//         new_m_dirs << Point( FromIterator(), X.data() );
-//         new_m_offs << X[ nb_dims ];
-//     }
-// }
-
-// DTP void UTP::make_new_bnds( Vec<Point> &new_b_dirs, Vec<Scalar> &new_b_offs, const auto &vertex_coords, const auto &vertex_cuts ) {
-//     using EMat = Eigen::Matrix<Scalar,nb_dims+1,nb_dims+1>;
-//     using EVec = Eigen::Matrix<Scalar,nb_dims+1,1>;
-//     using std::sqrt;
-
-//     EMat M;
-//     // EVec V;
-//     for( PI num_vertex = 0; num_vertex < vertex_coords.size() / nb_dims; ++num_vertex ) {
-//         const auto *coords = vertex_coords.data() + num_vertex * ( nb_dims + 0 );
-//         const auto *cuts = vertex_cuts.data() + num_vertex * ( nb_dims + 1 );
-//         if ( nb_inf_cuts( cuts ) != 1 )
-//             continue;
-
-//         for( PI r = 0; r <= nb_dims; ++r ) {
-//             // cell cut
-//             if ( auto ci = aff_cut( cuts[ r ] ) ) {
-//                 Point dir = m_dirs[ *ci ];
-//                 for( PI c = 0; c < nb_dims; ++c )
-//                     M( r, c ) = dir[ c ];
-//                 M( r, nb_dims ) = -1;
-//                 // V( r ) = 0;
-//                 continue;
-//             }
-
-//             // boundary cut
-//             if ( auto ci = bnd_cut( cuts[ r ] ) ) {
-//                 Point bnd = b_dirs[ *ci ];
-//                 for( PI c = 0; c < nb_dims; ++c )
-//                     M( r, c ) = bnd[ c ];
-//                 M( r, nb_dims ) = 0;
-//                 // V( r ) = 0;
-//                 continue;
-//             }
-
-//             // infnite cut => we say for now that the sum of the coefficients must be == 1
-//             //  the direction will be corrected in a second phase
-//             if ( auto ci = inf_cut( cuts[ r ] ) ) {
-//                 //     for( PI c = 0; c < nb_dims; ++c )
-//                 //         M( r, c ) = 1;
-//                 //     M( r, nb_dims ) = 0;
-//                 //     V( r ) = 1;
-//                 for( PI c = 0; c <= nb_dims; ++c )
-//                     M( r, c ) = 0;
-//                 continue;
-//             }
-
-//             // ?
-//             ERROR( "should not happen" );
-//         }
-
-
-//         // solve
-//         Eigen::FullPivLU<EMat> lu( M );
-//         ASSERT( lu.dimensionOfKernel() >= 1 );
-//         //std::cout << lu.kernel() << std::endl;
-//         // TODO;
-//         EVec X = lu.kernel().col( 0 );
-
-//         // coeff for normalization
-//         Scalar cnorm = 0;
-//         for( PI r = 0; r < nb_dims; ++r )
-//             cnorm += X[ r ] * X[ r ];
-//         cnorm = 1 / sqrt( cnorm );
-
-//         // check orientation
-//         auto bad_new_bnd_orientation = [&]() {
-//             using namespace std;
-//             Scalar best_sp = 0;
-
-//             // test with boundaries
-//             for( PI i = 0; i < b_dirs.size(); ++i ) {
-//                 if ( ! used_bs[ i ] )
-//                     continue;
-//                 Scalar prop_sp = 0;
-//                 Point b_dir = b_dirs[ i ];
-//                 for( PI d = 0; d < nb_dims; ++d )
-//                     prop_sp += b_dir[ d ] * X[ d ];
-//                 if ( abs( best_sp ) < abs( prop_sp ) )
-//                     best_sp = prop_sp;
-//             }
-
-//             // test with other affine functions
-//             for( PI i = 0; i < m_dirs.size(); ++i ) {
-//                 if ( ! used_fs[ i ] )
-//                     continue;
-//                 Scalar prop_sp = - X[ nb_dims ];
-//                 Point m_dir = m_dirs[ i ];
-//                 for( PI d = 0; d < nb_dims; ++d )
-//                     prop_sp += m_dir[ d ] * X[ d ];
-//                 if ( abs( best_sp ) < abs( prop_sp ) )
-//                     best_sp = prop_sp;
-//             }
-
-//             return best_sp > 0;
-//         };
-//         if ( bad_new_bnd_orientation() )
-//             cnorm = - cnorm;
-//         X *= cnorm;
-
-//         // data for the new cell
-//         new_b_dirs << Point( FromIterator(), X.data() );
-//         new_b_offs << X[ nb_dims ];
-//     }
-// }
-
-// DTP Opt<PI> UTP::aff_cut( PI cut ) const {
-//     return cut < m_dirs.size() ? cut : Opt<PI>{};
-// }
-
-// DTP Opt<PI> UTP::bnd_cut( PI cut ) const {
-//     return cut >= m_dirs.size() && cut - m_dirs.size() < b_dirs.size() ? cut - m_dirs.size() : Opt<PI>{};
-// }
-
-// DTP Opt<PI> UTP::inf_cut( PI cut ) const {
-//     return cut >= m_dirs.size() + b_dirs.size() ? cut - ( m_dirs.size() + b_dirs.size() ) : Opt<PI>{};
-// }
 
 #undef DTP
 #undef UTP

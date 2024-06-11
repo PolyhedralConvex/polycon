@@ -21,6 +21,7 @@ public:
     void                    for_each_cell              ( const std::function<void( Cell<Scalar,nb_dims> &cell )> &f );
     void                    display_vtk                ( VtkOutput &vo, bool elevation = true );
     void                    normalize                  ();
+    auto                    used_fbs                   () -> std::tuple<Vec<bool>,Vec<bool>>;
     PI                      nb_bnds                    () const;
     PI                      ndim                       () const { return nb_dims; }
 

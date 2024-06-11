@@ -60,6 +60,45 @@ class PolyCon:
     def __rmul__( self, that ):
         return self.__mul__( that )
 
+    def __repr__( self, floatfmt="+.5f" ):
+        def as_tab( v ):
+            import tabulate
+            return "  " + tabulate.tabulate( v, tablefmt= "plain", floatfmt = floatfmt ).replace( '\n', '\n  ' )
+
+        f, b = self.as_fb_arrays()
+        res  = "Affine functions:\n"
+        res += as_tab( f )
+        res += "\nBoundaries:\n"
+        res += as_tab( b )
+        return res
+
+    def normalized( self ):
+        """ return the same PolyCon, with 
+            * normalized boundaries,
+            * sorted rows for boundaries and affine functions
+        """
+        return PolyCon( self.pc.normalized() )
+
+    def as_fbdo_arrays( self ):
+        """ return two arrays, one for the affine function, one for the boundary ones
+            For instance with `f, b = pc.as_fb_array()`
+               `f[ :, 0:nb_dims ]` => affine function directions (gradients)
+               `f[ :, nb_dims ]` => affine function offsets
+               `b[ :, 0:nb_dims ]` => boundary directions
+               `b[ :, nb_dims ]` => boundary offsets
+        """
+        return self.pc.as_fbdo_arrays()
+
+    def as_fb_arrays( self ):
+        """ return four arrays for the affine function and the boundary ones, with directions and offset
+            For instance with `f_dir, f_off, b_dir, b_off = pc.as_fb_array()`
+               `f_dir` => affine function directions (gradients)
+               `f_off` => affine function offsets
+               `b_dir` => boundary directions
+               `b_off` => boundary offsets
+        """
+        return self.pc.as_fb_arrays()
+
     def write_vtk( self, filename ):
         """ write a vtk file """
         self.pc.write_vtk( filename )
