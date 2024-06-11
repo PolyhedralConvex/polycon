@@ -4,18 +4,16 @@
 
 `pip install polycon` should work on the most common platforms.
 
-It includes the precompiled dynamic libraries for the most common cases (double precision, dimensionality < 10, ...).
-
-If you're intending to use it for other cases, you will have to install `cppimport` (`pip install cppimport`) and a C++ compiler (g++ or msvc for instance).
+It includes the precompiled dynamic libraries for the most common cases (e.g. double precision, dimensionality < 10, ...). If your cases are not in the precompiled binary distribution, you will only have to install `cppimport` (`pip install cppimport`) and a C++ compiler (g++ or msvc for instance), the rest will be automatic.
 
 ## Construction
 
 `PolyCon` is the name of the main class used to store and handle the polyhedral convex functions.
 
-The main constructor take 4 numpy compatible arrays as input parameters
+The main constructor take 4 numpy compatible arrays as input parameters:
 * `a_dirs`: a 2D array where `a_dirs[ n, : ]` represents the gradient of `n`th affine function
 * `a_offs`: a 1D array where `a_dirs[ n ]` represents the offset of `n`th affine function
-* `b_dirs`: a 2D array where `b_dirs[ m, : ]` represents the direction of `m`th boundary (must point to the exterior)
+* `b_dirs`: a 2D array where `b_dirs[ m, : ]` represents the direction of `m`th boundary (points to the exterior)
 * `b_offs`: a 1D array where `b_dirs[ m ]` represents the offset of `m`th boundary (the scalar product of a point on the boundary with the corresponding direction must be equal to this offset).
 
 For instance

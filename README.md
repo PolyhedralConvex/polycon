@@ -8,6 +8,6 @@ Internally, it is written in C++ and highly optimized (use of SIMD/SIMT instruct
 
 Currently, there are bindings C++ and Python, but more languages are in the pipeline (feel free to ask if your favorite language is not represented :) ).
 
-Here are the documentation for
+Here is the documentation for
 * [the Python bindings](src/python/README.md)
 * [the C++ bindings](src/c++/README.md)
