@@ -8,6 +8,8 @@ test.nivc.mk
 src/cpp/PowerDiagram
 *.sif
 *.lock
+res
+res2
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
