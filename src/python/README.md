@@ -38,9 +38,9 @@ gives something like:
 
 ![2D example number 0](doc/Ex_1D_0.png)
 
-The dots in the matplotlib represent infinite edge, meaning that the function is not bounded in this direction.
+The dots in the matplotlib lines represent infinite edges (i.e. the function is not bounded in this direction).
 
-In the following example, we add a boundary:
+For illustration, here we add a boundary :
 
 ```python
 from polycon import PolyCon
@@ -49,16 +49,16 @@ from polycon import PolyCon
 a_dirs = [ [ -0.8 ], [ +0.1 ], [ +0.6 ] ]
 a_offs = [ 0, 0, 1 ]
 
-# boundaries (we cut x > 2 points)
+# boundaries (we cut x > 3 points)
 b_dirs = [ [ 1 ] ]
-b_offs = [ 2 ]
+b_offs = [ 3 ]
 
 # plot
 pd = PolyCon( a_dirs, a_offs, b_dirs, b_offs )
 pd.plot()
 ```
 
-It gives something like:
+We can see that the right line is not dotted and stops at `x = 3`.
 
 ![1D example number 2](doc/Ex_1D_1.png)
 
@@ -68,7 +68,7 @@ The `plot` function uses matplotlib for simple and immediate representations. He
 * `show` (`True` by default) to launch matplotlib.pyplot.show() at the end of the procedure
 * `color` (`black` by default) to give the color of the curve
 
-Alternatively, for more elaborate renderings, one can use `write_vtk` which generates `.vtk` files that can be used by Paraview of Mayavi for instance. Here is an example:
+Alternatively, for more elaborate renderings, one can use `write_vtk` which generates `.vtk` files, that can be used for instance with Paraview of Mayavi. Here is an example:
 
 ```python
 from polycon import PolyCon
@@ -85,13 +85,28 @@ pc = PolyCon( a_dirs, a_offs, b_dirs, b_offs )
 pc.write_vtk( "pc.vtk" )
 ```
 
-If loaded with paraview, if gives views like
+If loaded with paraview, `pc.vtk` gives views like
+
+![2D example number 1](doc/Ex_2D_0.png)
 
 ![2D example number 1](doc/Ex_2D_1.png)
 
+Vtk files are especially useful when there is a large number of affine functions or boundaries. Here is a simple example with 500 points (generated with `PolyCon.from_function_samples` which makes a `PolyCon` from a function and some sample points).
+
+```python
+from polycon import PolyCon
+import numpy as np
+
+# a 2D bounded polyhedral convex function
+points = np.random.uniform( -1, 1, ( 500, 2 ) )
+func = lambda x: np.linalg.norm( x )**2
+
+pc = PolyCon.from_function_samples( func, points )
+pc.write_vtk( "pc.vtk" )
+```
+
 ![2D example number 1](doc/Ex_2D_2.png)
 
-Vtk files are especially useful for large number of functions. 
 
 ## Normalization
 

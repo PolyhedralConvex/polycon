@@ -36,6 +36,27 @@ class PolyCon:
         classv = getattr( module, "PolyCon_{:02}_{}".format( nbdim, dtype ) )
         self.pc = classv( a_dirs, a_offs, b_dirs, b_offs )
 
+    @staticmethod
+    def from_function_samples( function, points, eps = 1e-6, b_dirs = [], b_offs = [] ):
+        a_dirs = []
+        a_offs = []
+        for p in points:
+            p = numpy.asarray( p )
+            v = function( p )
+            g = []
+            for d in range( p.size ):
+                print( p )
+                o = p.copy()
+                o[ d ] += eps
+                w = function( o )
+                g.append( ( w - v ) / eps )
+            
+            a_offs.append( numpy.dot( g, p ) - v )
+            a_dirs.append( g )
+
+        return PolyCon( a_dirs, a_offs, b_dirs, b_offs )
+
+
     def ndim( self ):
         return self.pc.ndim()
 
@@ -157,4 +178,3 @@ class PolyCon:
 
         if show:
             pyplot.show()
-            

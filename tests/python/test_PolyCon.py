@@ -67,11 +67,8 @@ from polycon import PolyCon
 import numpy as np
 
 # a 2D bounded polyhedral convex function
-a_dirs = [ [ 0, 0 ], [ 1, 0 ], [ 0, -1 ], [ 0, +1 ] ]
-a_offs = [ -0.1, 0, 0, 0 ]
+points = np.random.uniform( -1, 1, ( 500, 2 ) )
+func = lambda x: np.linalg.norm( x )**2
 
-b_dirs = [ [ np.cos( a ), np.sin( a ) ] for a in np.linspace( 0, 2 * np.pi, 5, endpoint=False )]
-b_offs = np.ones( len( b_dirs ) )
-          
-pc = PolyCon( a_dirs, a_offs, b_dirs, b_offs )
+pc = PolyCon.from_function_samples( func, points )
 pc.write_vtk( "pc.vtk" )
