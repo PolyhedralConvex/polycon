@@ -1,5 +1,6 @@
 from matplotlib import pyplot
 from polycon import PolyCon
+import numpy as np
 
 def test_1D():
     afds_0 = [ [ -1.0 ], [ +0.1 ], [ +0.7 ] ]
@@ -59,25 +60,59 @@ def test_3D():
     print( "\npe =======================================" )
     print( pe.normalized() )
 
-# test_1D()
-# test_2D()
-# test_3D()
+def test_rat():
+    from fractions import Fraction
+    from polycon.lib.type_promote import type_name_item_of
+ 
+    a = np.array( [ 1 ] )
+    print( type_name_item_of( a ) )
+    print( type_name_item_of( [ 1, 1.5 ] ) )
+    print( type_name_item_of( [[ 1, Fraction( 1, 2 ) ]] ) )
 
-from matplotlib import pyplot 
-from polycon import PolyCon
+    # afds = [ 
+    #     [ 1                , +Fraction( 1, 10 ), 0                  ], 
+    #     [ Fraction( 1, 10 ), -Fraction( 7, 10 ), 0                  ], 
+    #     [ 0                , +Fraction( 7, 10 ), 0                  ], 
+    #     [ 0                , 0                 , +Fraction( 7, 10 ) ]
+    # ]
+    # afos = [ 0, Fraction( 1, 10 ), Fraction( 2, 10 ), Fraction( 3, 10 ) ]
+    # bnds = [ [ 1, 0, 0 ] ]
+    # bnos = [ 5 ]
 
-afds = [ [ 1, 0.1 ], [ 0.1, -0.7 ], [ 0, +0.7 ] ]
-afos = [ 0, 0.1, 0.2 ]
-bnds = [ [ 1, 0 ] ]
-bnos = [ 3 ]
+    # pc = PolyCon( afds, afos, bnds, bnos )
+    # pc.write_vtk( "p3.vtk" )
 
-pc = PolyCon( afds, afos, bnds, bnos )
-pd = pc.legendre_transform()
-pe = pd.legendre_transform()
+    # print( "\npc =======================================" )
+    # print( pc.normalized() )
 
-print( "\npc =======================================" )
-print( pc.normalized() )
-print( "\npd =======================================" )
-print( pd.normalized() )
-print( "\npe =======================================" )
-print( pe.normalized() )
+    # pd = pc.legendre_transform()
+    # print( "\npd =======================================" )
+    # print( pd.normalized() )
+    # # pd.write_vtk( "pd.vtk" )
+
+    # pe = pd.legendre_transform()
+    # print( "\npe =======================================" )
+    # print( pe.normalized() )
+
+test_rat()
+
+# test_3D2()
+
+# from matplotlib import pyplot 
+# from polycon import PolyCon
+
+# afds = [ [ 1, 0.1 ], [ 0.1, -0.7 ], [ 0, +0.7 ] ]
+# afos = [ 0, 0.1, 0.2 ]
+# bnds = [ [ 1, 0 ] ]
+# bnos = [ 3 ]
+
+# pc = PolyCon( afds, afos, bnds, bnos )
+# pd = pc.legendre_transform()
+# pe = pd.legendre_transform()
+
+# print( "\npc =======================================" )
+# print( pc.normalized() )
+# print( "\npd =======================================" )
+# print( pd.normalized() )
+# print( "\npe =======================================" )
+# print( pe.normalized() )

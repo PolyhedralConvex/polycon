@@ -18,7 +18,13 @@ class PolyCon:
         b_offs = numpy.asarray( b_offs )
 
         # compile time parameters
-        dtype = type_promote( a_dirs.dtype, a_offs.dtype, b_dirs.dtype, b_offs.dtype, ensure_scalar = True )
+        self.dtype = type_promote( 
+            type_of_item_of( a_dirs ),
+            type_of_item_of( a_offs ),
+            type_of_item_of( b_dirs ),
+            type_of_item_of( b_offs ),
+            ensure_scalar = True
+        )
 
         if a_dirs.ndim > 1:
             if b_dirs.ndim > 1:
@@ -32,8 +38,8 @@ class PolyCon:
 
         # module import
         sys.path.append( os.path.dirname( os.path.abspath( __file__ ) ) )
-        module = __import__( "polycon_bindings_{:02}_{}".format( nbdim, dtype ) )
-        classv = getattr( module, "PolyCon_{:02}_{}".format( nbdim, dtype ) )
+        module = __import__( "polycon_bindings_{:02}_{}".format( nbdim, self.dtype ) )
+        classv = getattr( module, "PolyCon_{:02}_{}".format( nbdim, self.dtype ) )
         self.pc = classv( a_dirs, a_offs, b_dirs, b_offs )
 
     @staticmethod
