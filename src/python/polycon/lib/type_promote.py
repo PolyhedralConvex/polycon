@@ -33,7 +33,7 @@ def type_name_for_dtype( dtype ):
 
     return kind + str( size )
 
-def type_name_item_of( array_ ):
+def type_name_for_items_of( array_ ):
     array = np.asarray( array_ )
     if array.dtype.kind == 'O':
         return type_promote( [ type_name_of( v ) for v in array.flatten() ] )

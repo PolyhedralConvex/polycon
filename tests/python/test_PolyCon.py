@@ -60,14 +60,22 @@ def test_3D():
     print( "\npe =======================================" )
     print( pe.normalized() )
 
-def test_rat():
-    from fractions import Fraction
-    from polycon.lib.type_promote import type_name_item_of
+# def test_rat():
+#     from fractions import Fraction
+#     afds_0 = [ [ -Fraction( 1, 1 ) ], [ +Fraction( 1, 10 ) ], [ +Fraction( 7, 10 ) ] ]
+#     afos_0 = [ Fraction( 1, 10 ), Fraction( 2, 10 ), 2 ]
+#     bnds_0 = []
+#     bnos_0 = []
+
+#     pc = PolyCon( afds_0, afos_0, bnds_0, bnos_0 )
+#     pc.plot()
+
+    # from polycon.lib.type_promote import type_name_item_of
  
-    a = np.array( [ 1 ] )
-    print( type_name_item_of( a ) )
-    print( type_name_item_of( [ 1, 1.5 ] ) )
-    print( type_name_item_of( [[ 1, Fraction( 1, 2 ) ]] ) )
+    # a = np.array( [ 1 ] )
+    # print( type_name_item_of( a ) )
+    # print( type_name_item_of( [ 1, 1.5 ] ) )
+    # print( type_name_item_of( [[ 1, Fraction( 1, 2 ) ]] ) )
 
     # afds = [ 
     #     [ 1                , +Fraction( 1, 10 ), 0                  ], 
@@ -94,9 +102,9 @@ def test_rat():
     # print( "\npe =======================================" )
     # print( pe.normalized() )
 
-test_rat()
+# test_rat()
 
-# test_3D2()
+test_3D()
 
 # from matplotlib import pyplot 
 # from polycon import PolyCon

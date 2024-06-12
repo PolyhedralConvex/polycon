@@ -1,5 +1,6 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/numpy.h>
+#include <pybind11/stl.h>
 
 #include <PowerDiagram/support/map_item.h>
 #include <polycon/PolyCon.h>
@@ -69,13 +70,14 @@ struct PolyCon_py {
         vo.save( filename );
     }
 
-    std::tuple<Scalar,Array> value_and_gradient( Array x ) {
+    std::variant<std::tuple<Scalar,Array>, py::none> value_and_gradient( Array x ) {
         Point p( FromItemValue(), 0 );
         for( PI i = 0; i < std::min( PI( POLYCON_DIM ), PI( x.size() ) ); ++i )
             p[ i ] = x.at( i );
         
-        auto vg = pc.value_and_gradient( p );
-        return { std::get<0>( vg ), to_Array( std::get<1>( vg ) ) };
+        if ( auto vg = pc.value_and_gradient( p ) )
+            return std::tuple<Scalar,Array>{ std::get<0>( *vg ), to_Array( std::get<1>( *vg ) ) };
+        return py::none();
     }
 
     PolyCon_py legendre_transform() {

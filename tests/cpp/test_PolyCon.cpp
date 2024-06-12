@@ -83,7 +83,7 @@
 
 TEST_CASE( "PolyCon 3D", "" ) {
     constexpr int nb_dims = 3;
-    using Scalar = double;
+    using Scalar = long double;
 
     using Point = Vec<Scalar,nb_dims>;
 

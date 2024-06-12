@@ -1,4 +1,4 @@
-from .type_promote import type_promote
+from .type_promote import type_promote, type_name_for_items_of
 import numpy
 import sys
 import os
@@ -18,29 +18,96 @@ class PolyCon:
         b_offs = numpy.asarray( b_offs )
 
         # compile time parameters
-        self.dtype = type_promote( 
-            type_of_item_of( a_dirs ),
-            type_of_item_of( a_offs ),
-            type_of_item_of( b_dirs ),
-            type_of_item_of( b_offs ),
-            ensure_scalar = True
-        )
+        self.dtype = type_promote( [
+            type_name_for_items_of( a_dirs ),
+            type_name_for_items_of( a_offs ),
+            type_name_for_items_of( b_dirs ),
+            type_name_for_items_of( b_offs ),
+        ], ensure_scalar = True )
 
         if a_dirs.ndim > 1:
             if b_dirs.ndim > 1:
                 assert( a_dirs.shape[ 1 ] == b_dirs.shape[ 1 ] )
-            nbdim = a_dirs.shape[ 1 ]
+            self.ndim = a_dirs.shape[ 1 ]
         else:
             if b_dirs.ndim > 1:
-                nbdim = b_dirs.shape[ 1 ]
+                self.ndim = b_dirs.shape[ 1 ]
             else:
-                nbdim = 0
+                self.ndim = 0
 
-        # module import
+        # get the wrapper type
         sys.path.append( os.path.dirname( os.path.abspath( __file__ ) ) )
-        module = __import__( "polycon_bindings_{:02}_{}".format( nbdim, self.dtype ) )
-        classv = getattr( module, "PolyCon_{:02}_{}".format( nbdim, self.dtype ) )
-        self.pc = classv( a_dirs, a_offs, b_dirs, b_offs )
+        try:
+            # first try
+            self.classv = PolyCon.__cpp_class_for( self.ndim, self.dtype )
+        except ModuleNotFoundError:
+            # make the source file if not already present
+            PolyCon.__make_cpp_file_for( self.ndim, self.dtype )
+
+            # cpp compile/load hook
+            import cppimport.import_hook
+
+            # try again
+            self.classv = PolyCon.__cpp_class_for( self.ndim, self.dtype )
+
+        # make the new instance
+        self.pc = self.classv( a_dirs, a_offs, b_dirs, b_offs )
+
+
+    @staticmethod
+    def __base_file_name_for( ndim, type_name ):
+        return "polycon_bindings_{:02}_{}".format( ndim, type_name )
+
+    @staticmethod
+    def __class_name_for( ndim, type_name ):
+        return "PolyCon_{:02}_{}".format( ndim, type_name )
+    
+    @staticmethod
+    def __cpp_class_for( ndim, type_name ):
+        module = __import__( PolyCon.__base_file_name_for( ndim, type_name ) )
+        return getattr( module, PolyCon.__class_name_for( ndim, type_name ) )
+
+    @staticmethod
+    def __make_cpp_file_for( ndim, type_name, ):
+        module = PolyCon.__base_file_name_for( ndim, type_name )
+        class_name = PolyCon.__class_name_for( ndim, type_name )
+        filename = os.path.join( os.path.dirname( os.path.abspath( __file__ ) ), module + ".cpp" )
+
+        prelim = ''
+        if type_name == 'Rational':
+            prelim += '#include <PowerDiagram/support/Rational.h>\n'
+
+        src = f"""// cppimport
+
+            #define POLYCON_DIM { ndim }
+            #define POLYCON_SCALAR { type_name }
+            { prelim }
+            #include "polycon_bindings.h"
+            
+            PYBIND11_MODULE({ module }, m) {{
+                fill_polycon_module( m, "{ class_name }" );
+            }}
+                
+            /*
+            <%
+            import sys, os
+            sys.path.append( os.getcwd() + '/polycon/lib' )
+            from cppimport_cfg import cppimport_cfg
+            setup_pybind11( cfg )
+            cppimport_cfg( cfg )
+            %>
+            */
+        """.replace( '            ', '' )
+
+        # return if already written
+        if os.path.exists( filename ):
+            with open( filename, 'r' ) as f:
+                if f.read() == src:
+                    return
+
+        # else, write it
+        with open( filename, 'w' ) as f:
+            f.write( src )
 
     @staticmethod
     def from_function_samples( function, points, eps = 1e-6, b_dirs = [], b_offs = [] ):
@@ -61,12 +128,8 @@ class PolyCon:
 
         return PolyCon( a_dirs, a_offs, b_dirs, b_offs )
 
-
-    def ndim( self ):
-        return self.pc.ndim()
-
     def value_and_gradient( self, x_or_xs ):
-        """ return nan if not in a cell """
+        """ return none if not in a cell """
         # TODO: optimize
         p = numpy.asarray( x_or_xs )
         if p.ndim == 2:
@@ -81,7 +144,11 @@ class PolyCon:
         return self.pc.value_and_gradient( p )
 
     def value( self, x_or_xs ):
-        return self.value_and_gradient( x_or_xs )[ 0 ]
+        """ return none if not in a cell """
+        res = self.value_and_gradient( x_or_xs )
+        if res is None:
+            return res
+        return res[ 0 ]
 
     def legendre_transform( self ):
         return PolyCon( self.pc.legendre_transform() )

@@ -26,16 +26,13 @@ DTP void UTP::get_power_diagram( const std::function<void( PowerDiagram<Scalar,n
     f( pd );
 }
 
-DTP std::tuple<Scalar,typename UTP::Point> UTP::value_and_gradient( Point x ) {
-    Scalar value = NAN;
-    Point grad( FromItemValue(), NAN );
+DTP Opt<std::tuple<Scalar,typename UTP::Point>> UTP::value_and_gradient( Point x ) {
+    Opt<std::tuple<Scalar,typename UTP::Point>> res;
     for_each_cell( [&]( Cell<Scalar,nb_dims> &cell ) {
-        if ( cell.contains( x ) ) {
-            value = cell.height( x );
-            grad = *cell.orig_point;
-        }
+        if ( cell.contains( x ) )
+            res = std::tuple<Scalar,typename UTP::Point>{ cell.height( x ), *cell.orig_point };
     } );
-    return { value, grad };
+    return res;
 }
 
 DTP PolyCon<Scalar,nb_dims> UTP::legendre_transform() {
@@ -51,7 +48,7 @@ DTP void UTP::for_each_cell( const std::function<void( Cell<Scalar,nb_dims> &cel
 
 DTP void UTP::display_vtk( VtkOutput &vo, bool elevation ) {
     for_each_cell( [&]( const Cell<Scalar,nb_dims> &cell ) {
-        const auto coord_change = [&]( VtkOutput::Pt &point ) {
+        const auto coord_change = [&]( Vec<Scalar,3> &point ) {
             if ( nb_dims <= 2 && elevation )
                 point[ nb_dims ] = sp( point, *cell.orig_point ) - ( norm_2_p2( *cell.orig_point ) - *cell.orig_weight ) / 2;
         };
