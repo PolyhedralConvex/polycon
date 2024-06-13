@@ -1,0 +1,3 @@
+[submodule "modules/PowerDiagram"]
+	path = modules/PowerDiagram
+	url = https://github.com/PowerDiagram/PowerDiagram.git
