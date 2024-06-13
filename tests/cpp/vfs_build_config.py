@@ -9,7 +9,7 @@ def config( options ):
     options.add_cpp_flag( '-fPIC' )
     options.add_cpp_flag( '-g3' )
 
-    options.add_inc_path( '../../ext/PowerDiagram/src/cpp' )
+    options.add_inc_path( '../../modules/PowerDiagram/src/cpp' )
     options.add_inc_path( '../../src/cpp' )
     
 

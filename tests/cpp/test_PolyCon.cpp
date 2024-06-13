@@ -1,3 +1,4 @@
+// #include <PowerDiagram/support/boost_mpf.h>
 #include <polycon/PolyCon.h>
 #include "catch_main.h"
 
@@ -81,12 +82,26 @@
 //     P( pc );
 // }
 
+constexpr int nb_dims = 3;
+using Scalar = double;
+
+using Point = Vec<Scalar,nb_dims>;
+
+
+auto vertices_of( auto &pd ) {
+    Vec<Point> points;
+    pd.for_each_cell( [&]( const Cell<Scalar,nb_dims> &cell ) {
+        cell.for_each_vertex( [&]( const Vertex<Scalar,nb_dims> &v ) {
+            for( const Point &point : points )
+                if ( all( point == v.pos ) )
+                    return;
+            points << v.pos;
+        } );
+    } );
+    return points;
+}
+
 TEST_CASE( "PolyCon 3D", "" ) {
-    constexpr int nb_dims = 3;
-    using Scalar = long double;
-
-    using Point = Vec<Scalar,nb_dims>;
-
     Vec<Point> fun_dirs{ { 1., 0.1, 0.0 }, { 0.1, -0.7, 0.0 }, { 0., +0.7, 0. }, { 0., 0.0, +0.7 } };
     Vec<Scalar> fun_offs{ 0.0, 0.1, 0.2, 0.3 };
 
@@ -96,12 +111,16 @@ TEST_CASE( "PolyCon 3D", "" ) {
     //     { 0., 0., +1. }, { 0., 0., -1. }
     // };
     // Vec<Scalar> bnd_offs{ 5., 5., 5., 5., 5., 5. };
-    Vec<Point> bnd_dirs{ { 1, 0, 0 } };
-    Vec<Scalar> bnd_offs{ 5 };
+    // Vec<Point> bnd_dirs{ { 1, 0, 0 }, { 0, 1, 0 }, };
+    // Vec<Scalar> bnd_offs{ 5, 5 };
+    Vec<Point> bnd_dirs{};
+    Vec<Scalar> bnd_offs{};
 
     PolyCon<Scalar,nb_dims> pa( fun_dirs, fun_offs, bnd_dirs, bnd_offs );
     pa.normalize();
     P( pa );
+
+    P( vertices_of( pa ) );
 
     // VtkOutput va;
     // pa.display_vtk( va );
@@ -114,14 +133,16 @@ TEST_CASE( "PolyCon 3D", "" ) {
     // pb.normalize();
     P( pb );
 
-    // VtkOutput vb;
-    // pb.display_vtk( vb );
-    // vb.save( "pb.vtk" );
+    P( vertices_of( pb ) );
+
+    VtkOutput vb;
+    pb.display_vtk( vb );
+    vb.save( "pb.vtk" );
 
     PolyCon<Scalar,nb_dims> pc = pb.legendre_transform();
     P( pc );
-    pc.normalize();
-    P( pc );
+    // pc.normalize();
+    // P( pc );
 
     // VtkOutput vc;
     // pc.display_vtk( vc );
