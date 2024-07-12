@@ -15,6 +15,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    - uses: mamba-org/setup-micromamba@v1
     - name: build the wheels
       run: make -C src/python build_all
     - name: upload the packages
