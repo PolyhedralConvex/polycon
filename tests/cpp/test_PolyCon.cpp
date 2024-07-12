@@ -102,19 +102,56 @@ auto vertices_of( auto &pd ) {
 }
 
 TEST_CASE( "PolyCon 3D", "" ) {
+    /*
     Vec<Point> fun_dirs{ { 1., 0.1, 0.0 }, { 0.1, -0.7, 0.0 }, { 0., +0.7, 0. }, { 0., 0.0, +0.7 } };
     Vec<Scalar> fun_offs{ 0.0, 0.1, 0.2, 0.3 };
+    Vec<Point> bnd_dirs{ { 1, 0, 0 } };
+    Vec<Scalar> bnd_offs{ 5 };
+        => 1 plan en trop, très loin
 
-    // Vec<Point> bnd_dirs{
-    //     { +1., 0., 0. }, { -1., 0., 0. },
-    //     { 0., +1., 0. }, { 0., -1., 0. },
-    //     { 0., 0., +1. }, { 0., 0., -1. }
-    // };
-    // Vec<Scalar> bnd_offs{ 5., 5., 5., 5., 5., 5. };
+    Vec<Point> fun_dirs{ { 1., 0.1, 0.0 }, { 0.1, -0.7, 0.0 }, { 0., +0.7, 0. }, { 0., 0.0, +0.71 } };
+    Vec<Scalar> fun_offs{ 0.0, 0.1, 0.2, 0.3 };
+    Vec<Point> bnd_dirs{ { 1, 0, 0 } };
+    Vec<Scalar> bnd_offs{ 5 };
+        => 3 plans en trop, dont 1 très loin
+
+    Vec<Point> fun_dirs{ { 1., 0.1, 0.0 }, { 0.1, -0.7, 0.0 }, { 0., +0.7, 0. }, { 0., 0.0, +0.8 } };
+    Vec<Scalar> fun_offs{ 0.0, 0.1, 0.2, 0.3 };
+    Vec<Point> bnd_dirs{ { 1, 0, 0 } };
+    Vec<Scalar> bnd_offs{ 5 };
+        => ça marche
+
+    Vec<Point> fun_dirs{ { 1., 0.1, 0.0 }, { 0.1, -0.7, 0.0 }, { 0., +0.7, 0. }, { 0., 0.0, +0.7 } };
+    Vec<Scalar> fun_offs{ 0.0, 0.1, 0.2, 0.3 };
+    Vec<Point> bnd_dirs{ { +1., 0., 0. }, { -1., 0., 0. }, { 0., +1., 0. }, { 0., -1., 0. }, { 0., 0., +1. }, { 0., 0., -1. } };
+    Vec<Scalar> bnd_offs{ 5., 5., 5., 5., 5., 5. };
+        => des fonctions affines en trop
+
+    Vec<Point> fun_dirs{ { 1., 0.1, 0.0 }, { 0.1, -0.7, 0.0 }, { 0., +0.7, 0. } };
+    Vec<Scalar> fun_offs{ 0.0, 0.1, 0.2 };
+    Vec<Point> bnd_dirs{ { +1., 0., 0. }, { -1., 0., 0. }, { 0., +1., 0. }, { 0., -1., 0. }, { 0., 0., +1. }, { 0., 0., -1. } };
+    Vec<Scalar> bnd_offs{ 5., 5., 5., 5., 5., 5. };
+        => une tonne de bêtises dans les fonctions affines
+
+
+
+    */
+    Vec<Point> fun_dirs{ { 1., 0.1, 0.0 }/*, { 0.1, -0.7, 0.0 }*/ };
+    // Vec<Scalar> fun_offs{ 0.0, 0.1, 0.2, 0.35 }; // 0.3 => 1 plan en trop, 0.35 => 2 plans en trop
+    Vec<Scalar> fun_offs{ 0.0/*, 0.1*/ };
+
+    Vec<Point> bnd_dirs{
+        { +1., 0., 0. }, { -1., 0., 0. },
+        { 0., +1., 0. }, { 0., -1., 0. },
+        { 0., 0., +1. }, { 0., 0., -1. }
+    };
+    Vec<Scalar> bnd_offs{ 5., 5., 5., 5., 5., 5. };
     // Vec<Point> bnd_dirs{ { 1, 0, 0 }, { 0, 1, 0 }, };
     // Vec<Scalar> bnd_offs{ 5, 5 };
-    Vec<Point> bnd_dirs{};
-    Vec<Scalar> bnd_offs{};
+    // Vec<Point> bnd_dirs{ { 1, 0, 0 } };
+    // Vec<Scalar> bnd_offs{ 5 };
+    // Vec<Point> bnd_dirs{};
+    // Vec<Scalar> bnd_offs{};
 
     PolyCon<Scalar,nb_dims> pa( fun_dirs, fun_offs, bnd_dirs, bnd_offs );
     pa.normalize();
