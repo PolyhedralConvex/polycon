@@ -20,5 +20,7 @@ jobs:
     - uses: mamba-org/setup-micromamba@v1
     - name: build the wheels
       run: make -C src/python build_all
+    - name: install twine
+      run: pip install twine
     - name: upload the packages
       run: python -m twine upload -u ${{ secrets.PIPY_USERNAME }} -p ${{ secrets.PIPY_PASSWORD }} --repository pypi --verbose src/python/dist/*
