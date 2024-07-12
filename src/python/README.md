@@ -4,7 +4,7 @@
 
 `pip install polycon` should work on the most common platforms.
 
-It includes the precompiled dynamic libraries for the most common cases (e.g. double precision, dimensionality < 10, ...). If your cases are not in the precompiled binary distribution, you will only have to install `cppimport` (`pip install cppimport`) and a C++ compiler (g++ or msvc for instance), the rest will be automatic.
+It includes the precompiled dynamic libraries for the most common cases (e.g. linux, double precision, dimensionality < 10, ...). If your cases are not in the precompiled binary distribution, you will only have to install `cppimport` (`pip install cppimport`) and a C++ compiler (g++ or msvc for instance), the rest will be automatic.
 
 ## Construction
 
