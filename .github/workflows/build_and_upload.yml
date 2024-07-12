@@ -18,5 +18,4 @@ jobs:
     - name: build the wheels
       run: make -C src/python build_all
     - name: upload the packages
-      run: python -m twine upload -u 
-      ${{ secrets.PIPY_USERNAME }} -p ${{ secrets.PIPY_PASSWORD }} --repository pypi --verbose src/python/dist/*
+      run: python -m twine upload -u ${{ secrets.PIPY_USERNAME }} -p ${{ secrets.PIPY_PASSWORD }} --repository pypi --verbose src/python/dist/*
