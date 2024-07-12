@@ -1,0 +1,22 @@
+name: build and upload
+on:
+  workflow_dispatch:
+#  push:
+#    branches: [ "main" ]
+#  pull_request:
+#    branches: [ "main" ]
+
+jobs:
+  build_and_upload:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macOS-latest] # ubuntu-latest, windows-latest, 
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: build the wheels
+      run: make -C src/python build_all
+    - name: upload the packages
+      run: python -m twine upload -u 
+      ${{ secrets.PIPY_USERNAME }} -p ${{ secrets.PIPY_PASSWORD }} --repository pypi --verbose src/python/dist/*
