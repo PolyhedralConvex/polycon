@@ -58,13 +58,11 @@
 
 //     using Point = Vec<Scalar,nb_dims>;
 
-//     Vec<Point> fun_dirs{ { 1., 0.1 }, { 0.1, -0.7 }, { 0., +0.7 } };
-//     Vec<Scalar> fun_offs{ 0, 0.1, 0.2 };
+//     Vec<Point> fun_dirs{ { 1., 0.1 } };
+//     Vec<Scalar> fun_offs{ 0 };
 
-//     Vec<Point> bnd_dirs{ { +1., 0. }, { -1., 0. }/*, { 0., +1. }, { 0., -1. }*/ };
-//     Vec<Scalar> bnd_offs{ 1., 1./*, 1., 1.*/ };
-//     // Vec<Point> bnd_dirs{};
-//     // Vec<Scalar> bnd_offs{};
+//     Vec<Point> bnd_dirs{ { +1., 0. }, { -1., 0. }, { 0., +1. }, { 0., -1. } };
+//     Vec<Scalar> bnd_offs{ 5., 5., 5., 5. };
 
 //     PolyCon<Scalar,nb_dims> pa( fun_dirs, fun_offs, bnd_dirs, bnd_offs );
 //     pa.normalize();
@@ -136,9 +134,11 @@ TEST_CASE( "PolyCon 3D", "" ) {
 
 
     */
+
+
     Vec<Point> fun_dirs{ { 1., 0.1, 0.0 }/*, { 0.1, -0.7, 0.0 }*/ };
     // Vec<Scalar> fun_offs{ 0.0, 0.1, 0.2, 0.35 }; // 0.3 => 1 plan en trop, 0.35 => 2 plans en trop
-    Vec<Scalar> fun_offs{ 0.0/*, 0.1*/ };
+    Vec<Scalar> fun_offs{ 0.1575/*, 0.1*/ };
 
     Vec<Point> bnd_dirs{
         { +1., 0., 0. }, { -1., 0., 0. },
@@ -157,7 +157,7 @@ TEST_CASE( "PolyCon 3D", "" ) {
     pa.normalize();
     P( pa );
 
-    P( vertices_of( pa ) );
+    // P( vertices_of( pa ) );
 
     // VtkOutput va;
     // pa.display_vtk( va );
@@ -167,10 +167,17 @@ TEST_CASE( "PolyCon 3D", "" ) {
     // P( pa );
 
     PolyCon<Scalar,nb_dims> pb = pa.legendre_transform();
-    // pb.normalize();
+    pb.normalize();
+
+    for( auto &p : pb.f_dirs )
+        for( auto &v : p )
+            v = int( v * 10000 ) / 10000;
+    for( auto &v : pb.f_offs )
+        v = int( v * 10000 ) / 10000;
+
     P( pb );
 
-    P( vertices_of( pb ) );
+    // P( vertices_of( pb ) );
 
     VtkOutput vb;
     pb.display_vtk( vb );
@@ -181,9 +188,9 @@ TEST_CASE( "PolyCon 3D", "" ) {
     // pc.normalize();
     // P( pc );
 
-    // VtkOutput vc;
-    // pc.display_vtk( vc );
-    // vc.save( "pc.vtk" );
+    VtkOutput vc;
+    pc.display_vtk( vc );
+    vc.save( "pc.vtk" );
 }
 
 // TEST_CASE( "PolyCon 1D", "" ) {

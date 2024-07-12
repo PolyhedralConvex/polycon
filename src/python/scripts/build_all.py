@@ -17,9 +17,9 @@ class Ctx:
                 return
 
         subprocess.check_call( f'micromamba -y create --name { self.env_name() } python={ self.version } numpy twine eigen pybind11', shell = True )
-        self.run( f'test -e ../../ext/cppimport || git clone https://github.com/tbenthompson/cppimport.git ../../ext/cppimport' )
-        self.run( f'pip install -e ../../ext/cppimport' )
-        self.run( f'pip install poetry' )
+        # self.run( f'test -e ../../ext/cppimport || git clone https://github.com/tbenthompson/cppimport.git ../../ext/cppimport' )
+        # self.run( f'pip install -e ../../ext/cppimport' )
+        self.run( f'pip install poetry cppimport' )
     
     def run( self, cmd, prep = '' ):
         self.check_env()

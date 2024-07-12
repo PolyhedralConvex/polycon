@@ -34,7 +34,7 @@ DTP PolyCon<Scalar,nb_dims> UTP::transform() {
 
         //
         const auto add_bnd = [&]( Point dir, const Point &in ) {
-            P( norm_2( dir ) );
+            // P( norm_2( dir ) );
             if ( norm_2( dir ) == 0 )
                 return;
             dir = dir / norm_2( dir );
