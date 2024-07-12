@@ -3,7 +3,7 @@ import os
 
 def cppimport_cfg( cfg ):
     base = os.path.dirname( os.path.dirname( os.path.dirname( os.path.dirname( os.path.dirname( os.path.abspath( __file__ ) ) ) ) ) )
-    pd = os.path.join( base, 'ext', 'PowerDiagram', 'src', 'cpp' )
+    pd = os.path.join( base, 'modules', 'PowerDiagram', 'src', 'cpp' )
     pc = os.path.join( base, 'src', 'cpp' )
 
     #     glob.glob( pd + '/PowerDiagram/support/display/*.cpp' )
