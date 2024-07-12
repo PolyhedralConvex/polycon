@@ -16,8 +16,11 @@ def cppimport_cfg( cfg ):
            glob.glob( pd + '/PowerDiagram/*.tcc' ) + \
            glob.glob( pd + '/PowerDiagram/*.h' )
         
+    if os.name == 'nt':
+       cfg['extra_compile_args'] = ['/std:c++20','-DAVOID_DISPLAY=1']
+    else:
+       cfg['extra_compile_args'] = ['-std=c++20','-DAVOID_DISPLAY=1']
 
-    cfg['extra_compile_args'] = ['-std=c++20','-DAVOID_DISPLAY=1']
     cfg['include_dirs'] = [ pc, pd ]
     cfg['dependencies'] = deps
     cfg['sources'] = sources
