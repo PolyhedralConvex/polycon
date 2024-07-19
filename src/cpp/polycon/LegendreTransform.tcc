@@ -2,6 +2,7 @@
 
 #include <PowerDiagram/support/operators/argmax.h>
 #include <PowerDiagram/support/operators/norm_2.h>
+#include <PowerDiagram/support/operators/norm_1.h>
 #include <PowerDiagram/support/operators/abs.h>
 #include <PowerDiagram/support/operators/all.h>
 #include <PowerDiagram/support/operators/sp.h>
@@ -35,14 +36,14 @@ DTP PolyCon<Scalar,nb_dims> UTP::transform() {
         //
         const auto add_bnd = [&]( Point dir, const Point &in ) {
             // P( norm_2( dir ) );
-            if ( norm_2( dir ) == 0 )
+            if ( norm_1( dir ) == 0 )
                 return;
-            dir = dir / norm_2( dir );
+            dir = dir / norm_1( dir );
             auto off = sp( dir, in );
 
             for( PI i = 0; i < new_b_dirs.size(); ++i ) {
                 // TODO: a robust criterium
-                if ( norm_2_p2( new_b_dirs[ i ] - dir ) < 1e-12 ) {
+                if ( norm_1( new_b_dirs[ i ] - dir ) == 0 ) {
                     new_b_offs[ i ] = std::max( new_b_offs[ i ], off );
                     return;
                 }
@@ -56,7 +57,7 @@ DTP PolyCon<Scalar,nb_dims> UTP::transform() {
         const auto add_pnt = [&]( Point dir, Scalar off ) {
             for( PI i = 0; i < new_f_dirs.size(); ++i ) {
                 // TODO: a robust criterium
-                if ( norm_2_p2( new_f_dirs[ i ] - dir ) < 1e-12 ) {
+                if ( norm_1( new_f_dirs[ i ] - dir ) == 0 ) {
                     new_f_offs[ i ] = std::min( new_f_offs[ i ], off );
                     return;
                 }
@@ -77,6 +78,9 @@ DTP PolyCon<Scalar,nb_dims> UTP::transform() {
             cell.for_each_vertex( [&]( const Vertex<Scalar,nb_dims> &v ) {
                 CountOfCutTypes cct;
                 cell.add_cut_types( cct, v, pc.nb_bnds() );
+
+                PO( { .compact = true },  v.pos, cct.nb_ints, cct.nb_bnds, cct.nb_infs );
+
                 if ( cct.nb_infs == 0 )
                     add_pnt( v.pos, sp( v.pos, *cell.orig_point ) - pc.f_offs[ cell.orig_index ] );
             } );
@@ -149,7 +153,8 @@ DTP Opt<std::pair<typename UTP::Point,typename UTP::Point>> UTP::unused_dir() {
 
 DTP PolyCon<Scalar,nb_dims> UTP::transform_without_dir( Point pos, Point dir, bool add_bnd ) {
     // normalization of dir
-    dir = dir / norm_2( dir );
+#warning ...
+//    dir = dir / norm_2( dir );
 
     // a simple grahm shmidt to find a base
     Vec<Vec<Scalar,nb_dims>,nb_dims-1> base;
@@ -162,7 +167,8 @@ DTP PolyCon<Scalar,nb_dims> UTP::transform_without_dir( Point pos, Point dir, bo
             b = b - sp( b, dir ) * dir;
             for( PI k = 0; k < j; ++k )
                 b = b - sp( b, base[ k ] ) * base[ k ];
-            b = b / norm_2( b );
+#warning ...
+//            b = b / norm_2( b );
 
             base[ j++ ] = b;
         }

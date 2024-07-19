@@ -1,9 +1,9 @@
-// #include <PowerDiagram/support/boost_mpf.h>
+#include <PowerDiagram/support/Rational.h>
 #include <polycon/PolyCon.h>
 #include "catch_main.h"
 
 constexpr int nb_dims = 3;
-using Scalar = double;
+using Scalar = double; // Rational;
 using Point = Vec<Scalar,nb_dims>;
 
 auto vertices_of( auto &pd ) {
@@ -14,7 +14,7 @@ auto vertices_of( auto &pd ) {
             //     if ( all( point == v.pos ) )
             //         return;
             for( const Point &point : points )
-                if ( norm_2_p2( point - v.pos ) <= 1e-6 )
+                if ( norm_2_p2( point - v.pos ) == 0 )
                     return;
             points << v.pos;
         } );
@@ -25,17 +25,17 @@ auto vertices_of( auto &pd ) {
 
 TEST_CASE( "PolyCon 3D", "" ) {
     Vec<Point> fun_dirs{
-        { -5.000000, -5.000000, -5.000000 },
-        { -5.000000, -5.000000,  5.000000 },
-        { -5.000000,  5.000000, -5.000000 },
-        { -5.000000,  5.000000,  5.000000 },
-        {  5.000000, -5.000000, -5.000000 },
-        {  5.000000, -5.000000,  5.000000 },
-        {  5.000000,  5.000000, -5.000000 },
-        {  5.000000,  5.000000,  5.000000 }
+        { -5, -5, -5 },
+        { -5, -5,  5 },
+        { -5,  5, -5 },
+        { -5,  5,  5 },
+        {  5, -5, -5 },
+        {  5, -5,  5 },
+        {  5,  5, -5 },
+        {  5,  5,  5 }
     };
     Vec<Scalar> fun_offs{
-        -5.000000, -5.000000, -4.000000, -4.000000, 4.000000, 4.000000, 5.000000, 5.000000
+        -5, -5, -4, -4, 4, 4, 5, 5
     };
 
     Vec<Point> bnd_dirs{ };
@@ -45,8 +45,8 @@ TEST_CASE( "PolyCon 3D", "" ) {
     pa.normalize();
     P( pa );
 
-    for( auto o : vertices_of( pa ) )
-        P( o );
+    // for( auto o : vertices_of( pa ) )
+    //     P( o );
 
     VtkOutput va;
     pa.display_vtk( va );
@@ -62,5 +62,8 @@ TEST_CASE( "PolyCon 3D", "" ) {
     pb.display_vtk( vb );
     vb.save( "pb.vtk" );
 
+    pb.for_each_cell( [&]( const Cell<Scalar,nb_dims> &cell ) {
+        P( cell.measure() );
+    } );
 }
 

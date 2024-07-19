@@ -16,100 +16,201 @@ Pb: les InfCells peuvent produire des items qui ne se traduisent pas forcément 
 
 En fait... le problème de la transformée de Legendre en 3D venait de la précision machine. Ça fonctionne même avec `min_box_pos` calculé avec les InfCells.
   
+v.pos: [-10, -10, -10 ], cct.nb_ints: 0, cct.nb_bnds: 0, cct.nb_infs: 3
+v.pos: [ -10, -10, 0 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
+v.pos: [ -10, -10, 0 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
+v.pos: [ -10, -10, 50 ], cct.nb_ints: 0, cct.nb_bnds: 0, cct.nb_infs: 3
+v.pos: [ -10, 1/10, -10 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
+v.pos: [ -10, 1/10, -10 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
+v.pos: [ -10, 1/10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ -10, 1/10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ -10, 1/10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ -10, 1/10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ -10, 1/10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ -10, 1/10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ -10, 1/10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ -10, 1/10, 399/10 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
+v.pos: [ -10, 1/10, 399/10 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
+v.pos: [ -10, 40, 0 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
+v.pos: [ -10, 40, 0 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
+v.pos: [ -10, 50, -10 ], cct.nb_ints: 0, cct.nb_bnds: 0, cct.nb_infs: 3
+v.pos: [ 299/10, 1/10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 299/10, 1/10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 299/10, 1/10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 299/10, 1/10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 299/10, 1/10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 299/10, 1/10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 299/10, 1/10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 399/10, 1/10, -10 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
+v.pos: [ 399/10, 1/10, -10 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
+v.pos: [ 40, -10, 0 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
+v.pos: [ 40, -10, 0 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
+v.pos: [ 50, -10, -10 ], cct.nb_ints: 0, cct.nb_bnds: 0, cct.nb_infs: 3
+v.pos: [ 9/10, -10, -10 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
+v.pos: [ 9/10, -10, -10 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
+v.pos: [ 9/10, -10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 9/10, -10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 9/10, -10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 9/10, -10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 9/10, -10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 9/10, -10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 9/10, -10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 9/10, -10, 391/10 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
+v.pos: [ 9/10, -10, 391/10 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
+v.pos: [ 9/10, 1/10, -10 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 9/10, 1/10, -10 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 9/10, 1/10, -10 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 9/10, 1/10, -10 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 9/10, 1/10, -10 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 9/10, 1/10, -10 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 9/10, 1/10, -10 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+
+v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+
+v.pos: [ 9/10, 1/10, 29 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 9/10, 1/10, 29 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 9/10, 1/10, 29 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 9/10, 1/10, 29 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 9/10, 1/10, 29 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 9/10, 1/10, 29 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 9/10, 1/10, 29 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 9/10, 291/10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 9/10, 291/10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 9/10, 291/10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 9/10, 291/10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 9/10, 291/10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 9/10, 291/10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 9/10, 291/10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 9/10, 391/10, -10 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
+v.pos: [ 9/10, 391/10, -10 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
 
 
-    f_dirs: [
-       [ 5.000000, 5.000000, 5.000000 ], [
-       -5.000000, 5.000000, 5.000000 ], [
-       -5.000000, -5.000000, -5.000000 ], [
-       5.000000, 5.000000, -5.000000 ], [
-       5.000000, -5.000000, 5.000000 ], [
-       -5.000000, -5.000000, 5.000000 ], [
-       5.000000, -5.000000, -5.000000 ], [
-       -5.000000, 5.000000, -5.000000 ] ]
-    f_offs: [
-       5.627500, -4.372500, -5.942500, 5.057500, 4.627500, -5.372500, 4.057500, -4.942500 ]
-
-    f_dirs: [
-       [ 5.000000, 5.000000, 5.000000 ], [
-       -5.000000, 5.000000, 5.000000 ], [
-       -5.000000, -5.000000, -5.000000 ], [
-       5.000000, 5.000000, -5.000000 ], [
-       5.000000, -5.000000, 5.000000 ], [
-       -5.000000, -5.000000, 5.000000 ], [
-       5.000000, -5.000000, -5.000000 ], [
-       -5.000000, 5.000000, -5.000000 ] ]
-    f_offs: [
-       5.627500, -4.372500, -5.942500, 5.057500, 4.627500, -5.372500, 4.057500, -4.942500 ]
 
 
-   [ -4.000000, -4.000000, -4.000000 ], [
-   -4.000000, -4.000000, 0.000000 ], [
-   -4.000000, -4.000000, 20.000000 ], [
-   -4.000000, 0.100000, -4.000000 ], [
-   -4.000000, 0.100000, -0.000000 ], [
-   -4.000000, 0.100000, 15.900000 ], [
-   -4.000000, 0.100000, -0.000000 ], [
-   -4.000000, 0.100000, 0.000000 ], [
-   -4.000000, 0.100000, 0.000000 ], [
-   -4.000000, 0.100000, 0.000000 ], [
-   -4.000000, 0.100000, 15.900000 ], [
-   -4.000000, 0.100000, 0.000000 ], [
-   -4.000000, 16.000000, -0.000000 ], [
-   -4.000000, 16.000000, 0.000000 ], [
-   -4.000000, 20.000000, -4.000000 ], [
-   0.900000, 0.100000, -0.000000 ], [
-   0.900000, 0.100000, -0.000000 ], [
-   0.900000, 0.100000, -0.000000 ], [
-   0.900000, 0.100000, -4.000000 ], [
-   0.900000, 0.100000, 11.000000 ], [
-   0.900000, 0.100000, 0.000000 ], [
-   0.900000, 0.100000, 0.000000 ], [
-   0.900000, -4.000000, 15.100000 ], [
-   0.900000, 0.100000, -0.000000 ], [
-   0.900000, 0.100000, 0.000000 ], [
-   0.900000, 0.100000, 0.000000 ], [
-   0.900000, 0.100000, 0.000000 ], [
-   0.900000, 0.100000, -0.000000 ], [
-   0.900000, 11.100000, 0.000000 ], [
-   0.900000, 11.100000, -0.000000 ], [
-   0.900000, -4.000000, 0.000000 ], [
-   0.900000, 0.100000, 11.000000 ], [
-   0.900000, 0.100000, -2.400000 ], [
-   0.900000, 0.100000, 0.000000 ], [
-   0.900000, 0.100000, 0.000000 ], [
-   0.900000, 0.100000, -0.000000 ], [
-   0.900000, 0.100000, 0.000000 ], [
-   0.900000, -4.000000, 0.000000 ], [
-   0.900000, 0.100000, -4.000000 ], [
-   0.900000, 0.100000, -4.000000 ], [
-   0.900000, 0.100000, 0.000000 ], [
-   0.900000, 0.100000, 0.000000 ], [
-   0.900000, 0.100000, 0.000000 ], [
-   0.900000, 0.100000, 0.000000 ], [
-   0.900000, 0.100000, 11.000000 ], [
-   0.900000, 0.100000, 11.000000 ], [
-   0.900000, 5.600000, 0.000000 ], [
-   0.900000, 11.100000, 0.000000 ], [
-   0.900000, 15.100000, -4.000000 ], [
-   0.900000, 11.100000, 0.000000 ], [
-   0.900000, 0.100000, 11.000000 ], [
-   0.900000, -4.000000, -4.000000 ], [
-   0.900000, -4.000000, 0.000000 ], [
-   0.900000, -4.000000, 15.100000 ], [
-   0.900000, 0.100000, 0.000000 ], [
-   0.900000, 0.100000, -4.000000 ], [
-   0.900000, 15.100000, -4.000000 ], [
-   5.300000, 0.100000, -0.000000 ], [
-   7.500000, 0.100000, 0.000000 ], [
-   11.900000, 0.100000, 0.000000 ], [
-   11.900000, 0.100000, 0.000000 ], [
-   11.900000, 0.100000, 0.000000 ], [
-   11.900000, 0.100000, 0.000000 ], [
-   11.900000, 0.100000, 0.000000 ], [
-   11.900000, 0.100000, -0.000000 ], [
-   11.900000, 0.100000, -0.000000 ], [
-   15.900000, 0.100000, -4.000000 ], [
-   15.900000, 0.100000, -4.000000 ], [
-   16.000000, -4.000000, 0.000000 ], [
-   20.000000, -4.000000, -4.000000 ] ]
+v.pos: [ 0.900000 , 0.100000, 0.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 0.900000, 0.100000, 0.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 0.900000, 0.100000, 0.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 0.900000, 0.100000, 0.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 0.900000, 0.100000,-2.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 0.900000, 0.100000, 0.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 0.900000, 0.100000, 0.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 0.900000, 0.100000,-0.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 0.900000, 0.100000,-0.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 0.900000, 0.100000, 0.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 0.900000, 0.100000, 0.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 0.900000, 0.100000, 0.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 0.900000, 0.100000, 0.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 0.900000, 0.100000,-0.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 0.900000, 0.100000,-6.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 0.900000, 0.100000,-0.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 0.900000, 0.100000,-0.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 0.900000, 0.100000, 0.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 0.900000, 0.100000, 0.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 0.900000, 0.100000, 0.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 0.900000, 0.100000, 0.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 0.900000, 0.100000, 0.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 0.900000, 0.100000, 0.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 0.900000, 0.100000, 0.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 0.900000, 0.100000, 0.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 0.900000, 0.100000, 0.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+
+v.pos: [ 0.900000,-7.306667, 0.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 0.900000, 0.100000, 4.142857 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 0.900000, 0.100000, 23.200000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+v.pos: [ 0.900000, 0.100000, 8.700000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+
+v.pos: [-10.000000, 0.100000, 0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [-10.000000,-10.000000, 0.000000 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
+v.pos: [-10.000000,-10.000000,-10.000000 ], cct.nb_ints: 0, cct.nb_bnds: 0, cct.nb_infs: 3
+v.pos: [ 0.900000, 0.100000,-10.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 0.900000,-10.000000, 0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 0.900000,-10.000000,-10.000000 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
+v.pos: [-10.000000, 0.100000,-10.000000 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
+v.pos: [-10.000000,-10.000000, 0.000000 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
+v.pos: [-10.000000,-10.000000, 50.000000 ], cct.nb_ints: 0, cct.nb_bnds: 0, cct.nb_infs: 3
+v.pos: [ 0.900000,-10.000000, 0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [-10.000000, 0.100000, 0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [-10.000000, 0.100000, 0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [-10.000000, 0.100000, 39.900000 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
+v.pos: [ 0.900000,-10.000000, 0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 0.900000,-10.000000, 39.100000 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
+v.pos: [ 0.900000, 0.100000, 29.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 0.900000, 0.100000, 29.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [-10.000000, 0.100000,-10.000000 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
+v.pos: [-10.000000, 50.000000,-10.000000 ], cct.nb_ints: 0, cct.nb_bnds: 0, cct.nb_infs: 3
+v.pos: [-10.000000, 0.100000, 0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [-10.000000, 40.000000, 0.000000 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
+v.pos: [-10.000000, 0.100000, 0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 0.900000, 0.100000,-10.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 0.900000, 0.100000,-10.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 0.900000, 29.100000, 0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 0.900000, 39.100000,-10.000000 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
+v.pos: [-10.000000, 0.100000, 0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [-10.000000, 0.100000, 39.900000 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
+v.pos: [-10.000000, 40.000000, 0.000000 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
+v.pos: [ 0.900000, 29.100000, 0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 0.900000, 0.100000, 29.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 50.000000,-10.000000,-10.000000 ], cct.nb_ints: 0, cct.nb_bnds: 0, cct.nb_infs: 3
+v.pos: [ 0.900000,-10.000000,-10.000000 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
+v.pos: [ 29.900000, 0.100000,-0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 0.900000,-10.000000, 0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 0.900000, 0.100000,-10.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 39.900000, 0.100000,-10.000000 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
+v.pos: [ 40.000000,-10.000000,-0.000000 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
+v.pos: [ 0.900000,-10.000000, 0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 29.900000, 0.100000,-0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 0.900000, 0.100000, 29.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 0.900000,-10.000000, 0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 0.900000,-10.000000, 39.100000 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
+v.pos: [ 29.900000, 0.100000, 0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 0.900000,-10.000000, 0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 40.000000,-10.000000, 0.000000 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
+v.pos: [ 0.900000, 0.100000, 29.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 29.900000, 0.100000, 0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 29.900000, 0.100000, 0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 0.900000, 0.100000,-10.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 39.900000, 0.100000,-10.000000 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
+v.pos: [ 0.900000, 29.100000, 0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 0.900000, 39.100000,-10.000000 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
+v.pos: [ 29.900000, 0.100000, 0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 0.900000, 29.100000, 0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 29.900000, 0.100000, 0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 29.900000, 0.100000, 0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 0.900000, 0.100000, 29.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 0.900000, 29.100000, 0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+v.pos: [ 0.900000, 29.100000, 0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1

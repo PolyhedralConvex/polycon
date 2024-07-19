@@ -90,7 +90,7 @@ DTP void UTP::normalize() {
 
     // normalize directions
     for( PI i = 0; i < b_dirs.size(); ++i ) {
-        Scalar n = norm_2( b_dirs[ i ] );
+        Scalar n = norm_1( b_dirs[ i ] );
         b_dirs[ i ] = b_dirs[ i ] / n;
         b_offs[ i ] = b_offs[ i ] / n;
     }
