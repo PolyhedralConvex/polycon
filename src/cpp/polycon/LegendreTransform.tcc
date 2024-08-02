@@ -30,8 +30,8 @@ DTP PolyCon<Scalar,nb_dims> UTP::transform() {
         return { new_f_dirs, new_f_offs, new_b_dirs, new_b_offs };
     } else {
         // equality constraint => actually working at most on `nb_dims - 1` dimensions
-        if ( Opt<std::pair<Point,Point>> p = first_eq_bnd() )
-            return transform_without_dir( p->first, p->second, false );
+        // if ( Opt<std::pair<Point,Point>> p = first_eq_bnd() )
+        //     return transform_without_dir( p->first, p->second, false );
 
         //
         const auto add_bnd = [&]( Point dir, const Point &in ) {
@@ -97,8 +97,8 @@ DTP PolyCon<Scalar,nb_dims> UTP::transform() {
         } );
 
         // if already lies in a sub-space...
-        if ( Opt<std::pair<Point,Point>> p = unused_dir() )
-            return transform_without_dir( p->first, p->second, true );
+        // if ( Opt<std::pair<Point,Point>> p = unused_dir() )
+        //     return transform_without_dir( p->first, p->second, true );
 
         return { new_f_dirs, new_f_offs, new_b_dirs, new_b_offs };
     }
@@ -152,27 +152,27 @@ DTP Opt<std::pair<typename UTP::Point,typename UTP::Point>> UTP::unused_dir() {
 }
 
 DTP PolyCon<Scalar,nb_dims> UTP::transform_without_dir( Point pos, Point dir, bool add_bnd ) {
-    TODO;
     // // normalization of dir
     // dir = dir / norm_2( dir );
 
-    // // a simple grahm shmidt to find a base
-    // Vec<Vec<Scalar,nb_dims>,nb_dims-1> base;
-    // PI dir_to_avoid = argmax( abs( dir ) );
-    // for( PI i = 0, j = 0; i < nb_dims; ++i ) {
-    //     if ( i != dir_to_avoid ) {
-    //         Point b{ FromItemValue(), 0 };
-    //         b[ i ] = 1;
+    // a simple grahm shmidt to find a base
+    Vec<Vec<Scalar,nb_dims>,nb_dims-1> base;
+    PI dir_to_avoid = argmax( abs( dir ) );
+    for( PI i = 0, j = 0; i < nb_dims; ++i ) {
+        if ( i != dir_to_avoid ) {
+            Point b{ FromItemValue(), 0 };
+            b[ i ] = 1;
 
-    //         b = b - sp( b, dir ) * dir;
-    //         for( PI k = 0; k < j; ++k )
-    //             b = b - sp( b, base[ k ] ) * base[ k ];
-    //         b = b / norm_2( b );
+            b = b - sp( b, dir ) / norm_2_p2( dir ) * dir;
+            for( PI k = 0; k < j; ++k )
+                b = b - sp( b, base[ k ] ) / norm_2_p2( base[ k ] ) * base[ k ];
+            // b = b / norm_2( b );
 
-    //         base[ j++ ] = b;
-    //     }
-    // }
+            base[ j++ ] = b;
+        }
+    }
 
+    TODO;
     // // make new inputs from projection
     // using PPoint = Vec<Scalar,nb_dims-1>;
     // Vec<PPoint> pm_dirs( FromReservationSize(), pc.f_offs.size() );
