@@ -56,6 +56,11 @@ TEST_CASE( "PolyCon 3D", "" ) {
     pb.normalize();
     P( pb );
 
+    pb.for_each_cell( [&]( auto &cell ) {
+        P( cell.measure() );
+    } );
+
+
     // P( vertices_of( pb ) );
 
     VtkOutput vb;

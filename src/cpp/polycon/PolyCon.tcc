@@ -1,6 +1,7 @@
 #pragma once
 
 #include <PowerDiagram/support/operators/norm_2.h>
+#include <PowerDiagram/support/operators/norm_1.h>
 #include <PowerDiagram/support/operators/sp.h>
 #include "LegendreTransform.h"
 #include "PolyCon.h"
@@ -57,6 +58,17 @@ DTP void UTP::display_vtk( VtkOutput &vo, bool elevation ) {
 }
 
 DTP void UTP::normalize() {
+    if constexpr ( nb_dims >= 1 ) {
+        Vec<bool> rm_cells( FromSizeAndItemValue(), f_dirs.size(), false );
+        for_each_cell( [&]( auto &cell ) {
+            // fuzzy warning
+            rm_cells[ cell.orig_index ] = cell.measure() == 0;
+        } );
+
+        f_dirs.remove_indices( rm_cells );
+        f_offs.remove_indices( rm_cells );
+    }
+
     auto apply_corr = []( auto &vec, const Vec<bool> &keep ) {
         int last_keep = vec.size();
         for( int i = 0; i < last_keep; ++i ) {

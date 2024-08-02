@@ -5,6 +5,7 @@ def config( options ):
     
     options.add_lib_name( 'cln' )
 
+    # options.add_inc_path( '../../modules/PowerDiagram/src/cpp' )
     # vfs.vfs_build_config( options )
 
     options.add_cpp_flag( '-std=c++20' )

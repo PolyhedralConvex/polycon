@@ -1,3 +1,5 @@
+modules/
+
 .rendered.*
 .polycon.*
 *.vtk

@@ -3,6 +3,7 @@
 
 // #include <vfs/support/string/to_string.h> // IWYU pragma: export
 // #include <vfs/support/make_Vec.h> // IWYU pragma: export
+#include <PowerDiagram/support/string/to_string.h> // IWYU pragma: export
 #include <PowerDiagram/support/P.h> // IWYU pragma: export
 
 #define CHECK_REPR( A, B ) \
