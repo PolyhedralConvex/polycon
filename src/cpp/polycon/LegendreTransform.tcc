@@ -30,8 +30,8 @@ DTP PolyCon<Scalar,nb_dims> UTP::transform() {
         return { new_f_dirs, new_f_offs, new_b_dirs, new_b_offs };
     } else {
         // equality constraint => actually working at most on `nb_dims - 1` dimensions
-        // if ( Opt<std::pair<Point,Point>> p = first_eq_bnd() )
-        //     return transform_without_dir( p->first, p->second, false );
+        if ( Opt<std::pair<Point,Point>> p = first_eq_bnd() )
+            return transform_without_dir( p->first, p->second, false );
 
         //
         const auto add_bnd = [&]( Point dir, const Point &in ) {
@@ -77,18 +77,15 @@ DTP PolyCon<Scalar,nb_dims> UTP::transform() {
             // add affine functions
             cell.for_each_vertex( [&]( const Vertex<Scalar,nb_dims> &v ) {
                 CountOfCutTypes cct;
-                cell.add_cut_types( cct, v, pc.nb_bnds() );
-
-                // PO( { .compact = true },  v.pos, cct.nb_ints, cct.nb_bnds, cct.nb_infs );
-
+                cell.add_cut_types( cct, v.num_cuts, pc.nb_bnds() );
                 if ( cct.nb_infs == 0 )
                     add_pnt( v.pos, sp( v.pos, *cell.orig_point ) - pc.f_offs[ cell.orig_index ] );
             } );
 
             // add boundaries
             cell.for_each_edge( [&]( Vec<PI,nb_dims-1> num_cuts, const Vertex<Scalar,nb_dims> &v0, const Vertex<Scalar,nb_dims> &v1 ) {
-                CountOfCutTypes cct0; cell.add_cut_types( cct0, v0, pc.nb_bnds() );
-                CountOfCutTypes cct1; cell.add_cut_types( cct1, v1, pc.nb_bnds() );
+                CountOfCutTypes cct0; cell.add_cut_types( cct0, v0.num_cuts, pc.nb_bnds() );
+                CountOfCutTypes cct1; cell.add_cut_types( cct1, v1.num_cuts, pc.nb_bnds() );
                 if ( cct0.nb_infs == 1 && cct1.nb_infs == 0 )
                     add_bnd( v0.pos - v1.pos, *cell.orig_point );
                 if ( cct1.nb_infs == 1 && cct0.nb_infs == 0 )
@@ -97,8 +94,8 @@ DTP PolyCon<Scalar,nb_dims> UTP::transform() {
         } );
 
         // if already lies in a sub-space...
-        // if ( Opt<std::pair<Point,Point>> p = unused_dir() )
-        //     return transform_without_dir( p->first, p->second, true );
+        if ( Opt<std::pair<Point,Point>> p = unused_dir() )
+            return transform_without_dir( p->first, p->second, true );
 
         return { new_f_dirs, new_f_offs, new_b_dirs, new_b_offs };
     }
@@ -153,7 +150,7 @@ DTP Opt<std::pair<typename UTP::Point,typename UTP::Point>> UTP::unused_dir() {
 
 DTP PolyCon<Scalar,nb_dims> UTP::transform_without_dir( Point pos, Point dir, bool add_bnd ) {
     // // normalization of dir
-    // dir = dir / norm_2( dir );
+    dir = dir / norm_2( dir );
 
     // a simple grahm shmidt to find a base
     Vec<Vec<Scalar,nb_dims>,nb_dims-1> base;
@@ -163,106 +160,105 @@ DTP PolyCon<Scalar,nb_dims> UTP::transform_without_dir( Point pos, Point dir, bo
             Point b{ FromItemValue(), 0 };
             b[ i ] = 1;
 
-            b = b - sp( b, dir ) / norm_2_p2( dir ) * dir;
+            b = b - sp( b, dir ) * dir;
             for( PI k = 0; k < j; ++k )
-                b = b - sp( b, base[ k ] ) / norm_2_p2( base[ k ] ) * base[ k ];
-            // b = b / norm_2( b );
+                b = b - sp( b, base[ k ] ) * base[ k ];
+            b = b / norm_2( b );
 
             base[ j++ ] = b;
         }
     }
 
-    TODO;
-    // // make new inputs from projection
-    // using PPoint = Vec<Scalar,nb_dims-1>;
-    // Vec<PPoint> pm_dirs( FromReservationSize(), pc.f_offs.size() );
-    // Vec<Scalar> pm_offs( FromReservationSize(), pc.f_offs.size() );
-    // for( PI i = 0; i < pc.f_offs.size(); ++i ) {
-    //     Point m_dir = pc.f_dirs[ i ];
+    // make new inputs from projection
+    using PPoint = Vec<Scalar,nb_dims-1>;
+    Vec<PPoint> pm_dirs( FromReservationSize(), pc.f_offs.size() );
+    Vec<Scalar> pm_offs( FromReservationSize(), pc.f_offs.size() );
+    for( PI i = 0; i < pc.f_offs.size(); ++i ) {
+        Point m_dir = pc.f_dirs[ i ];
 
-    //     PPoint pm_dir;
-    //     for( PI d = 0; d < nb_dims - 1; ++d )
-    //         pm_dir[ d ] = sp( m_dir - pos, base[ d ] );
-    //     pm_dirs << pm_dir;
+        PPoint pm_dir;
+        for( PI d = 0; d < nb_dims - 1; ++d )
+            pm_dir[ d ] = sp( m_dir - pos, base[ d ] );
+        pm_dirs << pm_dir;
 
-    //     pm_offs << pc.f_offs[ i ] - sp( m_dir, pos );
-    // }
+        pm_offs << pc.f_offs[ i ] - sp( m_dir, pos );
+    }
 
-    // Vec<PPoint> pb_dirs( FromReservationSize(), pc.b_offs.size() );
-    // Vec<Scalar> pb_offs( FromReservationSize(), pc.b_offs.size() );
-    // for( PI i = 0; i < pc.b_offs.size(); ++i ) {
-    //     Point b_dir = pc.b_dirs[ i ];
-    //     if ( all( b_dir == dir ) || all( b_dir == ( -1 ) * dir ) )
-    //         continue;
+    Vec<PPoint> pb_dirs( FromReservationSize(), pc.b_offs.size() );
+    Vec<Scalar> pb_offs( FromReservationSize(), pc.b_offs.size() );
+    for( PI i = 0; i < pc.b_offs.size(); ++i ) {
+        Point b_dir = pc.b_dirs[ i ];
+        if ( all( b_dir == dir ) || all( b_dir == ( -1 ) * dir ) )
+            continue;
 
-    //     PPoint pb_dir;
-    //     for( PI d = 0; d < nb_dims - 1; ++d )
-    //         pb_dir[ d ] = sp( b_dir, base[ d ] );
-    //     pb_dirs << pb_dir;
+        PPoint pb_dir;
+        for( PI d = 0; d < nb_dims - 1; ++d )
+            pb_dir[ d ] = sp( b_dir, base[ d ] );
+        pb_dirs << pb_dir;
 
-    //     pb_offs << pc.b_offs[ i ] - sp( b_dir, pos );
-    // }
+        pb_offs << pc.b_offs[ i ] - sp( b_dir, pos );
+    }
 
-    // // make a legendre transform with the new base
-    // PolyCon<Scalar,nb_dims-1> pnlt( pm_dirs, pm_offs, pb_dirs, pb_offs );
-    // auto plt = pnlt.legendre_transform();
+    // make a legendre transform with the new base
+    PolyCon<Scalar,nb_dims-1> pnlt( pm_dirs, pm_offs, pb_dirs, pb_offs );
+    auto plt = pnlt.legendre_transform();
 
-    // Vec<PPoint> &nf_dirs = plt.f_dirs;
-    // Vec<Scalar> &nf_offs = plt.f_offs;
-    // Vec<PPoint> &nb_dirs = plt.b_dirs;
-    // Vec<Scalar> &nb_offs = plt.b_offs;
+    Vec<PPoint> &nf_dirs = plt.f_dirs;
+    Vec<Scalar> &nf_offs = plt.f_offs;
+    Vec<PPoint> &nb_dirs = plt.b_dirs;
+    Vec<Scalar> &nb_offs = plt.b_offs;
 
-    // // inverse projection
-    // Vec<Point> im_dirs( FromReservationSize(), nf_offs.size() );
-    // Vec<Scalar> im_offs( FromReservationSize(), nf_offs.size() );
-    // for( PI i = 0; i < nf_offs.size(); ++i ) {
-    //     PPoint nm_dir = nf_dirs[ i ];
-    //     Scalar im_off = nf_offs[ i ];
-    //     Point im_dir;
-    //     for( PI e = 0; e < nb_dims; ++e ) {
-    //         Scalar v = pos[ e ];
-    //         for( PI d = 0; d < nb_dims - 1; ++d ) {
-    //             v += nm_dir[ d ] * base[ d ][ e ];
-    //             im_off += nm_dir[ d ] * base[ d ][ e ] * pos[ e ];
-    //         }
-    //         im_dir[ e ] = v;
-    //     }
+    // inverse projection
+    Vec<Point> im_dirs( FromReservationSize(), nf_offs.size() );
+    Vec<Scalar> im_offs( FromReservationSize(), nf_offs.size() );
+    for( PI i = 0; i < nf_offs.size(); ++i ) {
+        PPoint nm_dir = nf_dirs[ i ];
+        Scalar im_off = nf_offs[ i ];
+        Point im_dir;
+        for( PI e = 0; e < nb_dims; ++e ) {
+            Scalar v = pos[ e ];
+            for( PI d = 0; d < nb_dims - 1; ++d ) {
+                v += nm_dir[ d ] * base[ d ][ e ];
+                im_off += nm_dir[ d ] * base[ d ][ e ] * pos[ e ];
+            }
+            im_dir[ e ] = v;
+        }
 
-    //     im_dirs << im_dir;
-    //     im_offs << im_off;
-    // }
+        im_dirs << im_dir;
+        im_offs << im_off;
+    }
 
-    // Vec<Point> ib_dirs( FromReservationSize(), nb_offs.size() );
-    // Vec<Scalar> ib_offs( FromReservationSize(), nb_offs.size() );
-    // for( PI i = 0; i < nb_offs.size(); ++i ) {
-    //     PPoint nb_dir = nb_dirs[ i ];
-    //     Scalar ib_off = nb_offs[ i ];
-    //     Point ib_dir;
-    //     for( PI e = 0; e < nb_dims; ++e ) {
-    //         Scalar v = 0;
-    //         for( PI d = 0; d < nb_dims - 1; ++d ) {
-    //             v += nb_dir[ d ] * base[ d ][ e ];
-    //             ib_off += nb_dir[ d ] * base[ d ][ e ] * pos[ e ];
-    //         }
-    //         ib_dir[ e ] = v;
-    //     }
+    Vec<Point> ib_dirs( FromReservationSize(), nb_offs.size() );
+    Vec<Scalar> ib_offs( FromReservationSize(), nb_offs.size() );
+    for( PI i = 0; i < nb_offs.size(); ++i ) {
+        PPoint nb_dir = nb_dirs[ i ];
+        Scalar ib_off = nb_offs[ i ];
+        Point ib_dir;
+        for( PI e = 0; e < nb_dims; ++e ) {
+            Scalar v = 0;
+            for( PI d = 0; d < nb_dims - 1; ++d ) {
+                v += nb_dir[ d ] * base[ d ][ e ];
+                ib_off += nb_dir[ d ] * base[ d ][ e ] * pos[ e ];
+            }
+            ib_dir[ e ] = v;
+        }
 
-    //     ib_dirs << ib_dir;
-    //     ib_offs << ib_off;
-    // }
+        ib_dirs << ib_dir;
+        ib_offs << ib_off;
+    }
 
-    // // add equalities for kernel vectors
-    // if ( add_bnd ) {
-    //     const auto s = sp( dir, pos );
+    // add equalities for kernel vectors
+    if ( add_bnd ) {
+        const auto s = sp( dir, pos );
 
-    //     ib_dirs << dir;
-    //     ib_offs << s;
+        ib_dirs << dir;
+        ib_offs << s;
 
-    //     ib_dirs << -dir;
-    //     ib_offs << -s;
-    // }
+        ib_dirs << -dir;
+        ib_offs << -s;
+    }
 
-    // return { im_dirs, im_offs, ib_dirs, ib_offs };
+    return { im_dirs, im_offs, ib_dirs, ib_offs };
 }
 
 DTP Opt<std::pair<typename UTP::Point,typename UTP::Point>> UTP::first_eq_bnd() {

@@ -2,26 +2,26 @@
 #include <polycon/PolyCon.h>
 #include "catch_main.h"
 
-// TEST_CASE( "PolyCon 1D", "" ) {
-//     constexpr int nb_dims = 1;
-//     using Scalar = double;
+TEST_CASE( "PolyCon 1D", "" ) {
+    constexpr int nb_dims = 1;
+    using Scalar = double;
 
-//     using Point = Vec<Scalar,nb_dims>;
+    using Point = Vec<Scalar,nb_dims>;
 
-//     Vec<Point> fun_dirs{ { -0.5 }, { +0.65 } };
-//     Vec<Scalar> fun_offs{ 0, 0 };
+    Vec<Point> fun_dirs{ { -0.5 }, { +0.65 } };
+    Vec<Scalar> fun_offs{ 0, 0 };
 
-//     Vec<Point> bnd_dirs{ { -1 } };
-//     Vec<Scalar> bnd_offs{ 1 };
+    Vec<Point> bnd_dirs{ { -1 } };
+    Vec<Scalar> bnd_offs{ 1 };
 
-//     PolyCon<Scalar,nb_dims> pc( fun_dirs, fun_offs, bnd_dirs, bnd_offs );
-
-//     VtkOutput vo;
-//     pc.display_vtk( vo );
-//     vo.save( "pc.vtk" );
-
-//     PolyCon<Scalar,nb_dims> pb = pa.legendre_transform();
-// }
+    PolyCon<Scalar,nb_dims> pa( fun_dirs, fun_offs, bnd_dirs, bnd_offs );
+    PolyCon<Scalar,nb_dims> pb = pa.legendre_transform();
+    PolyCon<Scalar,nb_dims> pc = pb.legendre_transform();
+    pc.normalize();
+    P( pa );
+    P( pb );
+    P( pc );
+}
 
 // TEST_CASE( "PolyCon 1D", "" ) {
 //     constexpr int nb_dims = 1;
@@ -80,118 +80,104 @@
 //     P( pc );
 // }
 
-constexpr int nb_dims = 3;
-using Scalar = double;
 
-using Point = Vec<Scalar,nb_dims>;
+// TEST_CASE( "PolyCon 3D", "" ) {
+//     constexpr int nb_dims = 3;
+//     using Scalar = double;
 
+//     using Point = Vec<Scalar,nb_dims>;
+//     /*
+//     Vec<Point> fun_dirs{ { 1., 0.1, 0.0 }, { 0.1, -0.7, 0.0 }, { 0., +0.7, 0. }, { 0., 0.0, +0.7 } };
+//     Vec<Scalar> fun_offs{ 0.0, 0.1, 0.2, 0.3 };
+//     Vec<Point> bnd_dirs{ { 1, 0, 0 } };
+//     Vec<Scalar> bnd_offs{ 5 };
+//         => 1 plan en trop, très loin
 
-auto vertices_of( auto &pd ) {
-    Vec<Point> points;
-    pd.for_each_cell( [&]( const Cell<Scalar,nb_dims> &cell ) {
-        cell.for_each_vertex( [&]( const Vertex<Scalar,nb_dims> &v ) {
-            for( const Point &point : points )
-                if ( all( point == v.pos ) )
-                    return;
-            points << v.pos;
-        } );
-    } );
-    return points;
-}
+//     Vec<Point> fun_dirs{ { 1., 0.1, 0.0 }, { 0.1, -0.7, 0.0 }, { 0., +0.7, 0. }, { 0., 0.0, +0.71 } };
+//     Vec<Scalar> fun_offs{ 0.0, 0.1, 0.2, 0.3 };
+//     Vec<Point> bnd_dirs{ { 1, 0, 0 } };
+//     Vec<Scalar> bnd_offs{ 5 };
+//         => 3 plans en trop, dont 1 très loin
 
-TEST_CASE( "PolyCon 3D", "" ) {
-    /*
-    Vec<Point> fun_dirs{ { 1., 0.1, 0.0 }, { 0.1, -0.7, 0.0 }, { 0., +0.7, 0. }, { 0., 0.0, +0.7 } };
-    Vec<Scalar> fun_offs{ 0.0, 0.1, 0.2, 0.3 };
-    Vec<Point> bnd_dirs{ { 1, 0, 0 } };
-    Vec<Scalar> bnd_offs{ 5 };
-        => 1 plan en trop, très loin
+//     Vec<Point> fun_dirs{ { 1., 0.1, 0.0 }, { 0.1, -0.7, 0.0 }, { 0., +0.7, 0. }, { 0., 0.0, +0.8 } };
+//     Vec<Scalar> fun_offs{ 0.0, 0.1, 0.2, 0.3 };
+//     Vec<Point> bnd_dirs{ { 1, 0, 0 } };
+//     Vec<Scalar> bnd_offs{ 5 };
+//         => ça marche
 
-    Vec<Point> fun_dirs{ { 1., 0.1, 0.0 }, { 0.1, -0.7, 0.0 }, { 0., +0.7, 0. }, { 0., 0.0, +0.71 } };
-    Vec<Scalar> fun_offs{ 0.0, 0.1, 0.2, 0.3 };
-    Vec<Point> bnd_dirs{ { 1, 0, 0 } };
-    Vec<Scalar> bnd_offs{ 5 };
-        => 3 plans en trop, dont 1 très loin
+//     Vec<Point> fun_dirs{ { 1., 0.1, 0.0 }, { 0.1, -0.7, 0.0 }, { 0., +0.7, 0. }, { 0., 0.0, +0.7 } };
+//     Vec<Scalar> fun_offs{ 0.0, 0.1, 0.2, 0.3 };
+//     Vec<Point> bnd_dirs{ { +1., 0., 0. }, { -1., 0., 0. }, { 0., +1., 0. }, { 0., -1., 0. }, { 0., 0., +1. }, { 0., 0., -1. } };
+//     Vec<Scalar> bnd_offs{ 5., 5., 5., 5., 5., 5. };
+//         => des fonctions affines en trop
 
-    Vec<Point> fun_dirs{ { 1., 0.1, 0.0 }, { 0.1, -0.7, 0.0 }, { 0., +0.7, 0. }, { 0., 0.0, +0.8 } };
-    Vec<Scalar> fun_offs{ 0.0, 0.1, 0.2, 0.3 };
-    Vec<Point> bnd_dirs{ { 1, 0, 0 } };
-    Vec<Scalar> bnd_offs{ 5 };
-        => ça marche
-
-    Vec<Point> fun_dirs{ { 1., 0.1, 0.0 }, { 0.1, -0.7, 0.0 }, { 0., +0.7, 0. }, { 0., 0.0, +0.7 } };
-    Vec<Scalar> fun_offs{ 0.0, 0.1, 0.2, 0.3 };
-    Vec<Point> bnd_dirs{ { +1., 0., 0. }, { -1., 0., 0. }, { 0., +1., 0. }, { 0., -1., 0. }, { 0., 0., +1. }, { 0., 0., -1. } };
-    Vec<Scalar> bnd_offs{ 5., 5., 5., 5., 5., 5. };
-        => des fonctions affines en trop
-
-    Vec<Point> fun_dirs{ { 1., 0.1, 0.0 }, { 0.1, -0.7, 0.0 }, { 0., +0.7, 0. } };
-    Vec<Scalar> fun_offs{ 0.0, 0.1, 0.2 };
-    Vec<Point> bnd_dirs{ { +1., 0., 0. }, { -1., 0., 0. }, { 0., +1., 0. }, { 0., -1., 0. }, { 0., 0., +1. }, { 0., 0., -1. } };
-    Vec<Scalar> bnd_offs{ 5., 5., 5., 5., 5., 5. };
-        => une tonne de bêtises dans les fonctions affines
+//     Vec<Point> fun_dirs{ { 1., 0.1, 0.0 }, { 0.1, -0.7, 0.0 }, { 0., +0.7, 0. } };
+//     Vec<Scalar> fun_offs{ 0.0, 0.1, 0.2 };
+//     Vec<Point> bnd_dirs{ { +1., 0., 0. }, { -1., 0., 0. }, { 0., +1., 0. }, { 0., -1., 0. }, { 0., 0., +1. }, { 0., 0., -1. } };
+//     Vec<Scalar> bnd_offs{ 5., 5., 5., 5., 5., 5. };
+//         => une tonne de bêtises dans les fonctions affines
 
 
 
-    */
+//     */
 
 
-    Vec<Point> fun_dirs{ { 1., 0.1, 0.0 }/*, { 0.1, -0.7, 0.0 }*/ };
-    // Vec<Scalar> fun_offs{ 0.0, 0.1, 0.2, 0.35 }; // 0.3 => 1 plan en trop, 0.35 => 2 plans en trop
-    Vec<Scalar> fun_offs{ 0.1575/*, 0.1*/ };
+//     Vec<Point> fun_dirs{ { 1., 0.1, 0.0 }/*, { 0.1, -0.7, 0.0 }*/ };
+//     // Vec<Scalar> fun_offs{ 0.0, 0.1, 0.2, 0.35 }; // 0.3 => 1 plan en trop, 0.35 => 2 plans en trop
+//     Vec<Scalar> fun_offs{ 0.1575/*, 0.1*/ };
 
-    Vec<Point> bnd_dirs{
-        { +1., 0., 0. }, { -1., 0., 0. },
-        { 0., +1., 0. }, { 0., -1., 0. },
-        { 0., 0., +1. }, { 0., 0., -1. }
-    };
-    Vec<Scalar> bnd_offs{ 5., 5., 5., 5., 5., 5. };
-    // Vec<Point> bnd_dirs{ { 1, 0, 0 }, { 0, 1, 0 }, };
-    // Vec<Scalar> bnd_offs{ 5, 5 };
-    // Vec<Point> bnd_dirs{ { 1, 0, 0 } };
-    // Vec<Scalar> bnd_offs{ 5 };
-    // Vec<Point> bnd_dirs{};
-    // Vec<Scalar> bnd_offs{};
+//     Vec<Point> bnd_dirs{
+//         { +1., 0., 0. }, { -1., 0., 0. },
+//         { 0., +1., 0. }, { 0., -1., 0. },
+//         { 0., 0., +1. }, { 0., 0., -1. }
+//     };
+//     Vec<Scalar> bnd_offs{ 5., 5., 5., 5., 5., 5. };
+//     // Vec<Point> bnd_dirs{ { 1, 0, 0 }, { 0, 1, 0 }, };
+//     // Vec<Scalar> bnd_offs{ 5, 5 };
+//     // Vec<Point> bnd_dirs{ { 1, 0, 0 } };
+//     // Vec<Scalar> bnd_offs{ 5 };
+//     // Vec<Point> bnd_dirs{};
+//     // Vec<Scalar> bnd_offs{};
 
-    PolyCon<Scalar,nb_dims> pa( fun_dirs, fun_offs, bnd_dirs, bnd_offs );
-    pa.normalize();
-    P( pa );
+//     PolyCon<Scalar,nb_dims> pa( fun_dirs, fun_offs, bnd_dirs, bnd_offs );
+//     pa.normalize();
+//     P( pa );
 
-    // P( vertices_of( pa ) );
+//     // P( vertices_of( pa ) );
 
-    // VtkOutput va;
-    // pa.display_vtk( va );
-    // va.save( "pa.vtk" );
+//     // VtkOutput va;
+//     // pa.display_vtk( va );
+//     // va.save( "pa.vtk" );
 
-    // pa.normalize();
-    // P( pa );
+//     // pa.normalize();
+//     // P( pa );
 
-    PolyCon<Scalar,nb_dims> pb = pa.legendre_transform();
-    pb.normalize();
+//     PolyCon<Scalar,nb_dims> pb = pa.legendre_transform();
+//     pb.normalize();
 
-    for( auto &p : pb.f_dirs )
-        for( auto &v : p )
-            v = int( v * 10000 ) / 10000;
-    for( auto &v : pb.f_offs )
-        v = int( v * 10000 ) / 10000;
+//     for( auto &p : pb.f_dirs )
+//         for( auto &v : p )
+//             v = int( v * 10000 ) / 10000;
+//     for( auto &v : pb.f_offs )
+//         v = int( v * 10000 ) / 10000;
 
-    P( pb );
+//     P( pb );
 
-    // P( vertices_of( pb ) );
+//     // P( vertices_of( pb ) );
 
-    VtkOutput vb;
-    pb.display_vtk( vb );
-    vb.save( "pb.vtk" );
+//     VtkOutput vb;
+//     pb.display_vtk( vb );
+//     vb.save( "pb.vtk" );
 
-    PolyCon<Scalar,nb_dims> pc = pb.legendre_transform();
-    P( pc );
-    // pc.normalize();
-    // P( pc );
+//     PolyCon<Scalar,nb_dims> pc = pb.legendre_transform();
+//     P( pc );
+//     // pc.normalize();
+//     // P( pc );
 
-    VtkOutput vc;
-    pc.display_vtk( vc );
-    vc.save( "pc.vtk" );
-}
+//     VtkOutput vc;
+//     pc.display_vtk( vc );
+//     vc.save( "pc.vtk" );
+// }
 
 // TEST_CASE( "PolyCon 1D", "" ) {
 //     constexpr int nb_dims = 1;

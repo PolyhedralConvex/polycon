@@ -64,11 +64,11 @@ TEST_CASE( "PolyCon rat red dim", "" ) {
     P( pa );
 
     PolyCon<Scalar,nb_dims> pb = pa.legendre_transform();
-    pb.normalize();
+    // pb.normalize();
     P( pb );
 
-    PolyCon<Scalar,nb_dims> pc = pb.legendre_transform();
-    pc.normalize();
-    P( pc );
+    // PolyCon<Scalar,nb_dims> pc = pb.legendre_transform();
+    // pc.normalize();
+    // P( pc );
 }
 

@@ -16,201 +16,46 @@ Pb: les InfCells peuvent produire des items qui ne se traduisent pas forcément 
 
 En fait... le problème de la transformée de Legendre en 3D venait de la précision machine. Ça fonctionne même avec `min_box_pos` calculé avec les InfCells.
   
-v.pos: [-10, -10, -10 ], cct.nb_ints: 0, cct.nb_bnds: 0, cct.nb_infs: 3
-v.pos: [ -10, -10, 0 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
-v.pos: [ -10, -10, 0 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
-v.pos: [ -10, -10, 50 ], cct.nb_ints: 0, cct.nb_bnds: 0, cct.nb_infs: 3
-v.pos: [ -10, 1/10, -10 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
-v.pos: [ -10, 1/10, -10 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
-v.pos: [ -10, 1/10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ -10, 1/10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ -10, 1/10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ -10, 1/10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ -10, 1/10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ -10, 1/10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ -10, 1/10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ -10, 1/10, 399/10 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
-v.pos: [ -10, 1/10, 399/10 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
-v.pos: [ -10, 40, 0 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
-v.pos: [ -10, 40, 0 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
-v.pos: [ -10, 50, -10 ], cct.nb_ints: 0, cct.nb_bnds: 0, cct.nb_infs: 3
-v.pos: [ 299/10, 1/10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 299/10, 1/10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 299/10, 1/10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 299/10, 1/10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 299/10, 1/10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 299/10, 1/10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 299/10, 1/10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 399/10, 1/10, -10 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
-v.pos: [ 399/10, 1/10, -10 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
-v.pos: [ 40, -10, 0 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
-v.pos: [ 40, -10, 0 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
-v.pos: [ 50, -10, -10 ], cct.nb_ints: 0, cct.nb_bnds: 0, cct.nb_infs: 3
-v.pos: [ 9/10, -10, -10 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
-v.pos: [ 9/10, -10, -10 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
-v.pos: [ 9/10, -10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 9/10, -10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 9/10, -10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 9/10, -10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 9/10, -10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 9/10, -10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 9/10, -10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 9/10, -10, 391/10 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
-v.pos: [ 9/10, -10, 391/10 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
-v.pos: [ 9/10, 1/10, -10 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 9/10, 1/10, -10 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 9/10, 1/10, -10 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 9/10, 1/10, -10 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 9/10, 1/10, -10 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 9/10, 1/10, -10 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 9/10, 1/10, -10 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+Rq: on pourrait supprimer les tests de dimensionalité par des tests sur les items infinis
+  => les items infinis sont crées par la coupe de cellules et ne contiennent que des points infinis
+  => il y aura un critère "faible" à surveiller pour déterminer s'il y a une coupe à l'infini ou avant... 
+  => on pourra avoir des items de différentes dimensions. Un edge en 3D veut dire qu'on enlève une dimension
 
-v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 9/10, 1/10, 0 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
+Prop: on commence par raisonner avec des cellules infinies. On gérera ensuite les cas des cellules coupées.
+  En 2D, on peut avoir
+  * une cellule infinie de tous les côtés => les bords contraignent à 1 point. On peut ensuite trouver l'offset avec ce point
+  * une cellule qui délimite un demi-espace => on va avoir des 2 bords pour créer une égalité puis 1 bord pour un inégalité.
+    La nouvelle cellule va définir une ligne au sein de l'espace délimité par une égalité
+  * une cellule avec
 
-v.pos: [ 9/10, 1/10, 29 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 9/10, 1/10, 29 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 9/10, 1/10, 29 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 9/10, 1/10, 29 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 9/10, 1/10, 29 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 9/10, 1/10, 29 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 9/10, 1/10, 29 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 9/10, 291/10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 9/10, 291/10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 9/10, 291/10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 9/10, 291/10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 9/10, 291/10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 9/10, 291/10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 9/10, 291/10, 0 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 9/10, 391/10, -10 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
-v.pos: [ 9/10, 391/10, -10 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
+  De base, on pourrait dire qu'une cellule infinie représente un point de bord
+    => s'il y a des voisines infinies, 
 
+Basiquement, les edges infinis donnent des boundaries.
+  On ne considères que les edges qui ont au moins une coupe qui vient d'une cellule ext : on garde les points qui ont une référence de coupe + 
+  Lorsqu'il n'y a pas 
 
+Dans l'exemple 2D qui revient à du 1D, on n'a pas de point d'intersection qui va créer de nouvelle cellule
+  Cependant, on a une cellule 
 
-
-v.pos: [ 0.900000 , 0.100000, 0.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 0.900000, 0.100000, 0.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 0.900000, 0.100000, 0.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 0.900000, 0.100000, 0.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 0.900000, 0.100000,-2.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 0.900000, 0.100000, 0.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 0.900000, 0.100000, 0.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 0.900000, 0.100000,-0.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 0.900000, 0.100000,-0.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 0.900000, 0.100000, 0.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 0.900000, 0.100000, 0.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 0.900000, 0.100000, 0.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 0.900000, 0.100000, 0.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 0.900000, 0.100000,-0.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 0.900000, 0.100000,-6.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 0.900000, 0.100000,-0.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 0.900000, 0.100000,-0.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 0.900000, 0.100000, 0.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 0.900000, 0.100000, 0.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 0.900000, 0.100000, 0.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 0.900000, 0.100000, 0.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 0.900000, 0.100000, 0.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 0.900000, 0.100000, 0.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 0.900000, 0.100000, 0.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 0.900000, 0.100000, 0.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 0.900000, 0.100000, 0.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-
-v.pos: [ 0.900000,-7.306667, 0.000000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 0.900000, 0.100000, 4.142857 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 0.900000, 0.100000, 23.200000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-v.pos: [ 0.900000, 0.100000, 8.700000 ], cct.nb_ints: 3, cct.nb_bnds: 0, cct.nb_infs: 0
-
-v.pos: [-10.000000, 0.100000, 0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [-10.000000,-10.000000, 0.000000 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
-v.pos: [-10.000000,-10.000000,-10.000000 ], cct.nb_ints: 0, cct.nb_bnds: 0, cct.nb_infs: 3
-v.pos: [ 0.900000, 0.100000,-10.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 0.900000,-10.000000, 0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 0.900000,-10.000000,-10.000000 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
-v.pos: [-10.000000, 0.100000,-10.000000 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
-v.pos: [-10.000000,-10.000000, 0.000000 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
-v.pos: [-10.000000,-10.000000, 50.000000 ], cct.nb_ints: 0, cct.nb_bnds: 0, cct.nb_infs: 3
-v.pos: [ 0.900000,-10.000000, 0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [-10.000000, 0.100000, 0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [-10.000000, 0.100000, 0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [-10.000000, 0.100000, 39.900000 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
-v.pos: [ 0.900000,-10.000000, 0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 0.900000,-10.000000, 39.100000 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
-v.pos: [ 0.900000, 0.100000, 29.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 0.900000, 0.100000, 29.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [-10.000000, 0.100000,-10.000000 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
-v.pos: [-10.000000, 50.000000,-10.000000 ], cct.nb_ints: 0, cct.nb_bnds: 0, cct.nb_infs: 3
-v.pos: [-10.000000, 0.100000, 0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [-10.000000, 40.000000, 0.000000 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
-v.pos: [-10.000000, 0.100000, 0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 0.900000, 0.100000,-10.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 0.900000, 0.100000,-10.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 0.900000, 29.100000, 0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 0.900000, 39.100000,-10.000000 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
-v.pos: [-10.000000, 0.100000, 0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [-10.000000, 0.100000, 39.900000 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
-v.pos: [-10.000000, 40.000000, 0.000000 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
-v.pos: [ 0.900000, 29.100000, 0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 0.900000, 0.100000, 29.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 50.000000,-10.000000,-10.000000 ], cct.nb_ints: 0, cct.nb_bnds: 0, cct.nb_infs: 3
-v.pos: [ 0.900000,-10.000000,-10.000000 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
-v.pos: [ 29.900000, 0.100000,-0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 0.900000,-10.000000, 0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 0.900000, 0.100000,-10.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 39.900000, 0.100000,-10.000000 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
-v.pos: [ 40.000000,-10.000000,-0.000000 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
-v.pos: [ 0.900000,-10.000000, 0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 29.900000, 0.100000,-0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 0.900000, 0.100000, 29.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 0.900000,-10.000000, 0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 0.900000,-10.000000, 39.100000 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
-v.pos: [ 29.900000, 0.100000, 0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 0.900000,-10.000000, 0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 40.000000,-10.000000, 0.000000 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
-v.pos: [ 0.900000, 0.100000, 29.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 29.900000, 0.100000, 0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 29.900000, 0.100000, 0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 0.900000, 0.100000,-10.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 39.900000, 0.100000,-10.000000 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
-v.pos: [ 0.900000, 29.100000, 0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 0.900000, 39.100000,-10.000000 ], cct.nb_ints: 1, cct.nb_bnds: 0, cct.nb_infs: 2
-v.pos: [ 29.900000, 0.100000, 0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 0.900000, 29.100000, 0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 29.900000, 0.100000, 0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 29.900000, 0.100000, 0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 0.900000, 0.100000, 29.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 0.900000, 29.100000, 0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
-v.pos: [ 0.900000, 29.100000, 0.000000 ], cct.nb_ints: 2, cct.nb_bnds: 0, cct.nb_infs: 1
+Prop: on fait un cas particulier pour les contraintes d'égalité.
+  
+  (PI)rb_base.leaf: 110965444466448 n0: 0
+    (PI)rb.leaf: 110965444466448 n1: 1
+    (PI)rb.leaf: 110965444466608 n1: 0
+    (PI)rb.leaf: 110965444466608 n1: 1
+    (PI)rb.leaf: 110965444466608 n1: 2
+  (PI)rb_base.leaf: 110965444466448 n0: 1
+    (PI)rb.leaf: 110965444466448 n1: 0
+    (PI)rb.leaf: 110965444466608 n1: 0
+    (PI)rb.leaf: 110965444466608 n1: 1
+    (PI)rb.leaf: 110965444466608 n1: 2
+  (PI)rb_base.leaf: 110965444466608 n0: 0
+    (PI)rb.leaf: 110965444466608 n1: 1
+    (PI)rb.leaf: 110965444466608 n1: 2
+  (PI)rb_base.leaf: 110965444466608 n0: 1
+    (PI)rb.leaf: 110965444466608 n1: 0
+    (PI)rb.leaf: 110965444466608 n1: 2
+  (PI)rb_base.leaf: 110965444466608 n0: 2
+    (PI)rb.leaf: 110965444466608 n1: 0
+    (PI)rb.leaf: 110965444466608 n1: 1
