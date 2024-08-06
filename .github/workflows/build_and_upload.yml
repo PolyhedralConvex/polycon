@@ -20,6 +20,8 @@ jobs:
       run: git clone https://github.com/PowerDiagram/PowerDiagram.git modules/PowerDiagram
     - name: install pybind11
       run: git clone https://github.com/pybind/pybind11.git modules/pybind11
+    - name: install eigen3
+      run: git clone https://gitlab.com/libeigen/eigen.git modules/eigen3
     - name: build the wheels
       run: make -C src/python build_all
     - name: install pip packages

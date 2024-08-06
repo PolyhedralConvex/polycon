@@ -6,6 +6,7 @@ def cppimport_cfg( cfg ):
     pd = os.path.join( base, 'modules', 'PowerDiagram', 'src', 'cpp' )
     pc = os.path.join( base, 'src', 'cpp' )
     pe = os.path.join( base, 'modules', 'pybind11', 'include' )
+    pf = os.path.join( base, 'modules' )
 
     #     glob.glob( pd + '/PowerDiagram/support/display/*.cpp' )
     #     glob.glob( pd + '/PowerDiagram/support/string/read_arg_name.cpp' )
@@ -22,6 +23,6 @@ def cppimport_cfg( cfg ):
     else:
         cfg['extra_compile_args'] = ['-std=c++20','-DAVOID_DISPLAY=1']
 
-    cfg['include_dirs'] = [ pc, pd, pe ]
+    cfg['include_dirs'] = [ pc, pd, pe, pf ]
     cfg['dependencies'] = deps
     cfg['sources'] = sources
