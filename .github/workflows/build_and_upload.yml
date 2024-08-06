@@ -18,6 +18,8 @@ jobs:
     - uses: actions/checkout@v4
     - name: install PowerDiagram
       run: git clone https://github.com/PowerDiagram/PowerDiagram.git modules/PowerDiagram
+    - name: install pybind11
+      run: git clone https://github.com/pybind/pybind11.git modules/pybind11
     - name: build the wheels
       run: make -C src/python build_all
     - name: install pip packages

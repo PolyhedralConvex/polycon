@@ -5,6 +5,7 @@ def cppimport_cfg( cfg ):
     base = os.path.dirname( os.path.dirname( os.path.dirname( os.path.dirname( os.path.dirname( os.path.abspath( __file__ ) ) ) ) ) )
     pd = os.path.join( base, 'modules', 'PowerDiagram', 'src', 'cpp' )
     pc = os.path.join( base, 'src', 'cpp' )
+    pe = os.path.join( base, 'modules', 'pybind11', 'include' )
 
     #     glob.glob( pd + '/PowerDiagram/support/display/*.cpp' )
     #     glob.glob( pd + '/PowerDiagram/support/string/read_arg_name.cpp' )
@@ -18,14 +19,9 @@ def cppimport_cfg( cfg ):
         
     if os.name == 'nt':
         cfg['extra_compile_args'] = ['/std:c++20','-DAVOID_DISPLAY=1']
-        if "CONDA_PREFIX" in os.environ:
-            cfg['extra_compile_args'].append( '-I' + os.environ[ "CONDA_PREFIX" ] + "\\include" )
     else:
         cfg['extra_compile_args'] = ['-std=c++20','-DAVOID_DISPLAY=1']
-        if "CONDA_PREFIX" in os.environ:
-            cfg['extra_compile_args'].append( '-I' + os.environ[ "CONDA_PREFIX" ] + "/include" )
 
-
-    cfg['include_dirs'] = [ pc, pd ]
+    cfg['include_dirs'] = [ pc, pd, pe ]
     cfg['dependencies'] = deps
     cfg['sources'] = sources
