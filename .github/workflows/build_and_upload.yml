@@ -15,9 +15,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-      with:
-        submodules: 'recursive'
     - uses: mamba-org/setup-micromamba@v1
+    - name: install PowerDiagram
+      run: git clone https://github.com/PowerDiagram/PowerDiagram.git modules/PowerDiagram
     - name: build the wheels
       run: make -C src/python build_all
     - name: install twine
