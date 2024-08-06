@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "polycon"
-version = "2024.06.11.0"
+version = "2024.08.06.0"
 description = "..."
 authors = [ 'Hugo LECLERC' ]
 include = ["polycon/lib/*.so","polycon/lib/*.dll","polycon/lib/*.dylib","polycon/lib/.rendered.*.cpp"]

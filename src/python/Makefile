@@ -15,7 +15,8 @@ pip_upload:
 	${PYTHON} -m twine upload --repository pypi --verbose dist/*
 
 link_install:
-	${PYTHON} -m pip install -e .
+	poetry install
+	# ${PYTHON} -m pip install -e .
 	
 
 .PHONY: all \

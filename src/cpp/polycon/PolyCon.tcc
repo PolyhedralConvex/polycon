@@ -57,12 +57,12 @@ DTP void UTP::display_vtk( VtkOutput &vo, bool elevation ) {
     } );
 }
 
-DTP void UTP::normalize() {
+DTP void UTP::normalize( Scalar min_volume ) {
     if constexpr ( nb_dims >= 1 ) {
         Vec<bool> rm_cells( FromSizeAndItemValue(), f_dirs.size(), false );
         for_each_cell( [&]( auto &cell ) {
             // fuzzy warning
-            rm_cells[ cell.orig_index ] = cell.measure() == 0;
+            rm_cells[ cell.orig_index ] = cell.measure() <= 10 * epsilon<Scalar>();
         } );
 
         f_dirs.remove_indices( rm_cells );

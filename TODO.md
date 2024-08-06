@@ -39,7 +39,10 @@ Dans l'exemple 2D qui revient à du 1D, on n'a pas de point d'intersection qui v
   Cependant, on a une cellule 
 
 Prop: on fait un cas particulier pour les contraintes d'égalité.
-  
+
+25
+
+
   (PI)rb_base.leaf: 110965444466448 n0: 0
     (PI)rb.leaf: 110965444466448 n1: 1
     (PI)rb.leaf: 110965444466608 n1: 0

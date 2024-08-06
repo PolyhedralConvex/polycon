@@ -8,6 +8,7 @@ class PolyCon:
         """ a => affine functions, b => boundarys """
 
         if 'polycon_bindings_' in repr( type( a_dirs ) ):
+            self.ndim = a_dirs.ndim()
             self.pc = a_dirs
             return
 
@@ -183,12 +184,12 @@ class PolyCon:
         res += as_tab( b )
         return res
 
-    def normalized( self ):
+    def normalized( self, min_measure = 0 ):
         """ return the same PolyCon, with 
             * normalized boundaries,
             * sorted rows for boundaries and affine functions
         """
-        return PolyCon( self.pc.normalized() )
+        return PolyCon( self.pc.normalized( min_measure ) )
 
     def as_fbdo_arrays( self ):
         """ return two arrays, one for the affine function, one for the boundary ones
@@ -228,7 +229,7 @@ class PolyCon:
         """ use matplotlib """
         from matplotlib import pyplot 
 
-        if self.ndim() != 1:
+        if self.ndim != 1:
             raise NotImplemented
 
         edges = self.pc.edge_points().tolist()

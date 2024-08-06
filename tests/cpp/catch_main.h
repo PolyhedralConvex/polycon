@@ -14,3 +14,6 @@
 //#define CHECK_REPR_F( A, B, F ) \
 //    CHECK( to_string( A, { .filter = F, .rec = 1 } ) == to_string( B, { .filter = F, .rec = 1 } ) )
 
+// double bench( auto func ) {
+
+// }

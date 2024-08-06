@@ -6,6 +6,7 @@
 #include <PowerDiagram/support/operators/abs.h>
 #include <PowerDiagram/support/operators/all.h>
 #include <PowerDiagram/support/operators/sp.h>
+#include <PowerDiagram/support/epsilon.h>
 #include <PowerDiagram/support/ASSERT.h>
 #include "LegendreTransform.h"
 #include <eigen3/Eigen/LU>
@@ -36,14 +37,14 @@ DTP PolyCon<Scalar,nb_dims> UTP::transform() {
         //
         const auto add_bnd = [&]( Point dir, const Point &in ) {
             // fuzzy warning
-            if ( norm_1( dir ) == 0 )
+            if ( norm_1( dir ) <= 10 * epsilon<Scalar>() )
                 return;
             dir = dir / norm_1( dir );
             auto off = sp( dir, in );
 
             for( PI i = 0; i < new_b_dirs.size(); ++i ) {
                 // fuzzy warning
-                if ( norm_2_p2( new_b_dirs[ i ] - dir ) == 0 ) {
+                if ( norm_2_p2( new_b_dirs[ i ] - dir ) <= 10 * epsilon<Scalar>() ) {
                     new_b_offs[ i ] = std::max( new_b_offs[ i ], off );
                     return;
                 }
@@ -57,7 +58,7 @@ DTP PolyCon<Scalar,nb_dims> UTP::transform() {
         const auto add_pnt = [&]( Point dir, Scalar off ) {
             for( PI i = 0; i < new_f_dirs.size(); ++i ) {
                 // fuzzy warning
-                if ( norm_2_p2( new_f_dirs[ i ] - dir ) == 0 ) {
+                if ( norm_2_p2( new_f_dirs[ i ] - dir ) <= 10 * epsilon<Scalar>() ) {
                     new_f_offs[ i ] = std::min( new_f_offs[ i ], off );
                     return;
                 }

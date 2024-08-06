@@ -21,7 +21,7 @@ public:
     void                    get_power_diagram          ( const std::function<void( PowerDiagram<Scalar,nb_dims> &pd )> &f );
     void                    for_each_cell              ( const std::function<void( Cell<Scalar,nb_dims> &cell )> &f );
     void                    display_vtk                ( VtkOutput &vo, bool elevation = true );
-    void                    normalize                  ();
+    void                    normalize                  ( Scalar min_volume = 0 );
     auto                    used_fbs                   () -> std::tuple<Vec<bool>,Vec<bool>>;
     PI                      nb_bnds                    () const;
     PI                      ndim                       () const { return nb_dims; }

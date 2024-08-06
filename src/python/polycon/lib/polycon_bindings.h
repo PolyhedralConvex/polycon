@@ -106,8 +106,8 @@ struct PolyCon_py {
                 const Scalar h1 = cell.height( v1.pos );
 
                 CountOfCutTypes c0, c1;
-                cell.add_cut_types( c0, v0, pc.nb_bnds() );
-                cell.add_cut_types( c1, v1, pc.nb_bnds() );
+                cell.add_cut_types( c0, v0.num_cuts, pc.nb_bnds() );
+                cell.add_cut_types( c1, v1.num_cuts, pc.nb_bnds() );
 
                 res << Vec<VertexData,2> {
                     VertexData{ h0, c0, v0.pos },
@@ -129,8 +129,8 @@ struct PolyCon_py {
                     const Scalar h1 = cell.height( v1.pos );
 
                     CountOfCutTypes c0, c1;
-                    cell.add_cut_types( c0, v0, pc.nb_bnds() );
-                    cell.add_cut_types( c1, v1, pc.nb_bnds() );
+                    cell.add_cut_types( c0, v0.num_cuts, pc.nb_bnds() );
+                    cell.add_cut_types( c1, v1.num_cuts, pc.nb_bnds() );
 
                     return {
                         VertexData{ h0, c0, v0.pos },
@@ -183,9 +183,9 @@ struct PolyCon_py {
         return PolyCon<Scalar,POLYCON_DIM>( new_f_dirs, new_f_offs, pc.b_dirs, pc.b_offs );
     }
 
-    PolyCon_py normalized() {
+    PolyCon_py normalized( POLYCON_SCALAR min_volume = 0 ) {
         PolyCon<POLYCON_SCALAR,POLYCON_DIM> cp = pc;
-        cp.normalize();
+        cp.normalize( min_volume );
         return cp;
     }
 

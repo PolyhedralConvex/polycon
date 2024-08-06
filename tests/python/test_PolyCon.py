@@ -36,8 +36,8 @@ def test_2D():
     bnos = []
 
     pc = PolyCon( afds, afos, bnds, bnos )
-    # pc.write_vtk( "p2.vtk" )
-    pc.plot()
+    pc.write_vtk( "p2.vtk" )
+    # pc.plot()
 
 def test_3D():
     afds = [ [ 1, 0.1, 0 ], [ 0.1, -0.7, 0 ], [ 0, +0.7, 0 ], [ 0, 0, +0.7 ] ]
@@ -49,16 +49,16 @@ def test_3D():
     pc.write_vtk( "p3.vtk" )
 
     print( "\npc =======================================" )
-    print( pc.normalized() )
+    print( pc.normalized( 1e-6 ) )
 
     pd = pc.legendre_transform()
     print( "\npd =======================================" )
-    print( pd.normalized() )
+    print( pd.normalized( 1e-6 ) )
     pd.write_vtk( "pd.vtk" )
 
     pe = pd.legendre_transform()
     print( "\npe =======================================" )
-    print( pe.normalized() )
+    print( pe.normalized( 1e-6 ) )
 
 # def test_rat():
 #     from fractions import Fraction
@@ -104,23 +104,6 @@ def test_3D():
 
 # test_rat()
 
+# test_1D()
+# test_2D()
 test_3D()
-
-# from matplotlib import pyplot 
-# from polycon import PolyCon
-
-# afds = [ [ 1, 0.1 ], [ 0.1, -0.7 ], [ 0, +0.7 ] ]
-# afos = [ 0, 0.1, 0.2 ]
-# bnds = [ [ 1, 0 ] ]
-# bnos = [ 3 ]
-
-# pc = PolyCon( afds, afos, bnds, bnos )
-# pd = pc.legendre_transform()
-# pe = pd.legendre_transform()
-
-# print( "\npc =======================================" )
-# print( pc.normalized() )
-# print( "\npd =======================================" )
-# print( pd.normalized() )
-# print( "\npe =======================================" )
-# print( pe.normalized() )
