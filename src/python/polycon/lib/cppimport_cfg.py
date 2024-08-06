@@ -18,11 +18,13 @@ def cppimport_cfg( cfg ):
         
     if os.name == 'nt':
         cfg['extra_compile_args'] = ['/std:c++20','-DAVOID_DISPLAY=1']
+        if "CONDA_PREFIX" in os.environ:
+            cfg['extra_compile_args'].append( '-I' + os.environ[ "CONDA_PREFIX" ] + "\\include" )
     else:
         cfg['extra_compile_args'] = ['-std=c++20','-DAVOID_DISPLAY=1']
+        if "CONDA_PREFIX" in os.environ:
+            cfg['extra_compile_args'].append( '-I' + os.environ[ "CONDA_PREFIX" ] + "/include" )
 
-    if "CONDA_PREFIX" in os.environ:
-        cfg['extra_compile_args'].append( '-I' + os.environ[ "CONDA_PREFIX" ] + "/include" )
 
     cfg['include_dirs'] = [ pc, pd ]
     cfg['dependencies'] = deps
