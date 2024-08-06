@@ -14,13 +14,13 @@ jobs:
         os: [windows-latest, macOS-latest, ubuntu-latest] # 
 
     steps:
-    - uses: actions/checkout@v4
     - uses: mamba-org/setup-micromamba@v1
+    - uses: actions/checkout@v4
     - name: install PowerDiagram
       run: git clone https://github.com/PowerDiagram/PowerDiagram.git modules/PowerDiagram
     - name: build the wheels
       run: make -C src/python build_all
-    - name: install twine
+    - name: install pip packages
       run: pip install twine
     - name: upload the packages
       run: python -m twine upload --skip-existing -u ${{ secrets.PIPY_USERNAME }} -p ${{ secrets.PIPY_PASSWORD }} --repository pypi --verbose src/python/dist/*

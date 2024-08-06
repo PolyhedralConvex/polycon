@@ -11,15 +11,18 @@ def cppimport_cfg( cfg ):
     sources = [ pd + '/PowerDiagram/VtkOutput.cpp' ]
               
     deps = [ 'polycon_bindings.h' ] + \
-           glob.glob( pc + '/polycon/*.tcc' ) + \
-           glob.glob( pc + '/polycon/*.h' ) + \
-           glob.glob( pd + '/PowerDiagram/*.tcc' ) + \
-           glob.glob( pd + '/PowerDiagram/*.h' )
+            glob.glob( pc + '/polycon/*.tcc' ) + \
+            glob.glob( pc + '/polycon/*.h' ) + \
+            glob.glob( pd + '/PowerDiagram/*.tcc' ) + \
+            glob.glob( pd + '/PowerDiagram/*.h' )
         
     if os.name == 'nt':
-       cfg['extra_compile_args'] = ['/std:c++20','-DAVOID_DISPLAY=1']
+        cfg['extra_compile_args'] = ['/std:c++20','-DAVOID_DISPLAY=1']
     else:
-       cfg['extra_compile_args'] = ['-std=c++20','-DAVOID_DISPLAY=1']
+        cfg['extra_compile_args'] = ['-std=c++20','-DAVOID_DISPLAY=1']
+
+    if "CONDA_PREFIX" in os.environ:
+        cfg['extra_compile_args'].push( '-I' + os.environ[ "CONDA_PREFIX" ] + "/include" )
 
     cfg['include_dirs'] = [ pc, pd ]
     cfg['dependencies'] = deps
