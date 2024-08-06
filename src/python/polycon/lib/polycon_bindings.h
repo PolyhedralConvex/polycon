@@ -118,7 +118,8 @@ struct PolyCon_py {
         return res;
     }
 
-    auto edge_data( auto ) {
+    template<int nd>
+    auto edge_data( CtInt<nd> ) {
         using NC = Vec<SI,POLYCON_DIM-1>;
         std::map<NC,Vec<VertexData,2>,Less> map;
         pc.for_each_cell( [&]( Cell<Scalar,POLYCON_DIM> &cell ) {
