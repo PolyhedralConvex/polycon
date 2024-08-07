@@ -131,6 +131,7 @@ It helps to reduce the number of function, and permits comparisons between sever
 
 `PolyCon.value` and `PolyCon.value_and_gradient` permits for a given point or set of point to get respectively the value and a tuple with the value and the gradient.
 
+To retrieve the coefficients of the affine functions and the boundaries, one can use `PolyCon.as_fb_arrays` and `PolyCon.as_fbdo_arrays` (see the inline documentations).
 
 ## Common mathematical operations
 
