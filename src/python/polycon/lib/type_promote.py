@@ -47,8 +47,8 @@ def type_promote( list : list[ str ], ensure_scalar = False ):
         kind = best_kind( kind, type_kind )
         size = max( size, type_size )
 
-    # if ensure_scalar and kind in [ "SI", "PI" ]:
-    #     return "Rational"
+    if ensure_scalar and kind in [ "SI", "PI" ]:
+        return "FP64" # "Rational"
         
     return make_type( kind, size )
 
