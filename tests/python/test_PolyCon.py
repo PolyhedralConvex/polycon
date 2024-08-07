@@ -5,39 +5,48 @@ import numpy as np
 def test_1D():
     afds_0 = [ [ -1.0 ], [ +0.1 ], [ +0.7 ] ]
     afos_0 = [ 0.1, 0.2, 2.0 ]
-    bnds_0 = []
-    bnos_0 = []
+    bnds_0 = [ [ 1 ] ]
+    bnos_0 = [ 2 ]
 
     pc = PolyCon( afds_0, afos_0, bnds_0, bnos_0 )
+    print( pc )
 
-    afds_1 = [ [ -0.8 ], [ +0.6 ] ]
-    afos_1 = [ 0, 0.0 ]
-    bnds_1 = []
-    bnos_1 = []
+    # s = pc.__repr__()
 
-    pd = PolyCon( afds_1, afos_1, bnds_1, bnos_1 )
+    pd = PolyCon.from_sym_repr( 'max(3*a+2*b-1, 4*a-b+3,7*a-3*b+9)', [ 'a+1 <= 0 ', 'b >= 1' ] )
+    print( pd )
 
-    pe = pc + pd
+    # afds_1 = [ [ -0.8 ], [ +0.6 ] ]
+    # afos_1 = [ 0, 0.0 ]
+    # bnds_1 = []
+    # bnos_1 = []
 
-    pc.plot( "black" )
-    pd.plot( "blue" )
-    pe.plot( "red" )
+    # pd = PolyCon( afds_1, afos_1, bnds_1, bnos_1 )
 
-    # pd = pc.legendre_transform()
+    # pe = pc + pd
+
+    # pc.plot( "black" )
     # pd.plot( "blue" )
+    # pe.plot( "red" )
 
-    pyplot.show()
+    # # pd = pc.legendre_transform()
+    # # pd.plot( "blue" )
+
+    # pyplot.show()
 
 
 def test_2D():
     afds = [ [ 1, 0.1 ], [ 0.1, -0.7 ], [ 0, +0.7 ] ]
     afos = [ 0, 0.1, 0.2 ]
-    bnds = []
-    bnos = []
+    bnds = [ [ 1, 0 ] ]
+    bnos = [ 5 ]
 
     pc = PolyCon( afds, afos, bnds, bnos )
     pc.write_vtk( "p2.vtk" )
+
     # pc.plot()
+    print( pc )
+    print( pc.__repr__( table = True ) )
 
 def test_3D():
     afds = [ [ 1, 0.1, 0 ], [ 0.1, -0.7, 0 ], [ 0, +0.7, 0 ], [ 0, 0, +0.7 ] ]
@@ -104,6 +113,6 @@ def test_3D():
 
 # test_rat()
 
-# test_1D()
+test_1D()
 # test_2D()
-test_3D()
+# test_3D()

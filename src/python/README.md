@@ -62,6 +62,13 @@ We can see that the right line is not dotted and stops at `x = 3`.
 
 ![1D example number 2](doc/Ex_1D_1.png)
 
+It is also possible to specify the data using symbolic expression using `PolyCon.from_sym_repr`. For instance:
+
+```python
+pd = PolyCon.from_sym_repr( 'max(3*a+2*b-1, 4*a-b+3,7*a-3*b+9)', [ 'a+1 <= 0 ', 'b >= 1' ] )
+print( pd )
+```
+
 ## Displaying
 
 The `plot` function uses matplotlib for simple and immediate representations. Here are the most common parameters
@@ -107,6 +114,7 @@ pc.write_vtk( "pc.vtk" )
 
 ![2D example number 1](doc/Ex_2D_2.png)
 
+Additionally, it is possible to print a `Polycon`. By default, it uses a human-readable format (useful notably for educational purposes), but the `__repr__` as additional parameters, like `table` to go for more test oriented display formats.
 
 ## Normalization
 
