@@ -3,18 +3,18 @@ from polycon import PolyCon
 import numpy as np
 
 def test_1D():
-    afds_0 = [ [ -1.0 ], [ +0.1 ], [ +0.7 ] ]
-    afos_0 = [ 0.1, 0.2, 2.0 ]
-    bnds_0 = [ [ 1 ] ]
-    bnos_0 = [ 2 ]
+    # afds_0 = [ [ -1.0 ], [ +0.1 ], [ +0.7 ] ]
+    # afos_0 = [ 0.1, 0.2, 2.0 ]
+    # bnds_0 = [ [ 1 ] ]
+    # bnos_0 = [ 2 ]
 
-    pc = PolyCon( afds_0, afos_0, bnds_0, bnos_0 )
-    print( pc )
+    # pc = PolyCon( afds_0, afos_0, bnds_0, bnos_0 )
+    # print( pc )
 
-    # s = pc.__repr__()
+    # # s = pc.__repr__()
 
-    pd = PolyCon.from_sym_repr( 'max(3*a+2*b-1, 4*a-b+3,7*a-3*b+9)', [ 'a+1 <= 0 ', 'b >= 1' ] )
-    print( pd )
+    # pd = PolyCon.from_sym_repr( 'max(3*a+2*b-1, 4*a-b+3,7*a-3*b+9)', [ 'a+1 <= 0 ', 'b >= 1' ] )
+    # print( pd )
 
     # afds_1 = [ [ -0.8 ], [ +0.6 ] ]
     # afos_1 = [ 0, 0.0 ]
@@ -33,6 +33,12 @@ def test_1D():
     # # pd.plot( "blue" )
 
     # pyplot.show()
+
+    q = PolyCon([ [ -1. ], [ +2 ], [ 3 ] ], [ 0 , -1 , +1 ] ,[ [ -1. ], [ +1. ] ],[ 3, 3 ] )
+    #s = p+q
+    #s.value([[-1/3],[0],[1],[2]])
+    #p.plot(color='b',show=False)
+    q.plot()
 
 
 def test_2D():

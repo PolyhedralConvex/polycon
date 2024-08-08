@@ -93,9 +93,9 @@ struct PolyCon_py {
     }
 
     struct VertexData {
-        Scalar height;
+        Scalar          height;
         CountOfCutTypes cct;
-        Point pos;
+        Point           pos;
     };
 
     auto edge_data( CtInt<1> ) {
