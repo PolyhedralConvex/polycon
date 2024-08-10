@@ -29,9 +29,13 @@ DTP void UTP::get_power_diagram( const std::function<void( PowerDiagram<Scalar,n
 
 DTP Opt<std::tuple<Scalar,typename UTP::Point>> UTP::value_and_gradient( Point x ) {
     Opt<std::tuple<Scalar,typename UTP::Point>> res;
-    for_each_cell( [&]( Cell<Scalar,nb_dims> &cell ) {
-        if ( cell.contains( x ) )
-            res = std::tuple<Scalar,typename UTP::Point>{ cell.height( x ), *cell.orig_point };
+
+    get_power_diagram( [&]( PowerDiagram<Scalar,nb_dims> &pd ) {
+        if ( Opt<std::tuple<const Scalar *, const Point *, SI>> pr = pd.cell_data_at( x ) ) {
+            const auto &orig_weight = *std::get<0>( *pr );
+            const auto &orig_point = *std::get<1>( *pr );
+            res = std::tuple<Scalar,typename UTP::Point>{ sp( x, orig_point ) - ( norm_2_p2( orig_point ) - orig_weight ) / 2, orig_point };
+        }
     } );
     return res;
 }

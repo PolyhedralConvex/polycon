@@ -119,6 +119,28 @@ def test_3D():
 
 # test_rat()
 
-test_1D()
+# test_1D()
 # test_2D()
 # test_3D()
+
+import polycon as pc
+import numpy as np
+
+np.random.seed(777)
+nCells = 2
+y_t_k = np.random.uniform(0,1,2*nCells).reshape((-1,2))
+v_t = (y_t_k * y_t_k).sum( axis = 1 ) / 2
+
+u = pc.PolyCon( y_t_k, v_t, [ [0,1], [0,-1], [1,0], [-1,0] ], [ 1, 0, 1, 0 ] )
+
+print( y_t_k[ 1, : ] )
+# retourne
+# array([0.06203641, 0.45986034]
+# et 
+print( u.star().value( np.array( [ 0.06203641, 0.45986034 ] ) ) )
+# retourne 
+# 0.10766002475387007
+# Pourtant 
+print( u.star().value( y_t_k[ 1, : ] ) )
+# retourne 
+# None

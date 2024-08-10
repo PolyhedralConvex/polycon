@@ -74,7 +74,7 @@ struct PolyCon_py {
         Point p( FromItemValue(), 0 );
         for( PI i = 0; i < std::min( PI( POLYCON_DIM ), PI( x.size() ) ); ++i )
             p[ i ] = x.at( i );
-        
+         
         if ( auto vg = pc.value_and_gradient( p ) )
             return std::tuple<Scalar,Array>{ std::get<0>( *vg ), to_Array( std::get<1>( *vg ) ) };
         return py::none();
