@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "polycon"
-version = "2024.08.08.0"
+version = "2024.08.10.0"
 description = "set of libraries to handle polyhedral convex functions, represented as the maximum of a set of affine functions, with optional boundaries"
 authors = [ 'Hugo LECLERC' ]
 include = ["polycon/lib/*.so","polycon/lib/*.dll","polycon/lib/*.dylib","polycon/lib/.rendered.*.cpp"]
