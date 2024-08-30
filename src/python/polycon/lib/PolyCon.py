@@ -198,6 +198,11 @@ class PolyCon:
         
         return self.pc.value_and_gradient( p )
 
+    def value_and_gradients( self, x, probe_size = 1e-6 ):
+        """ get value at `x` and all possible gradients at `y` such as `norm_2( x - y ) <= probe_size`. return ( none, [] ) if not in a cell """
+        p = numpy.asarray( x )
+        return self.pc.value_and_gradients( p, probe_size )
+
     def value( self, x_or_xs ):
         """ return none if not in a cell """
         res = self.value_and_gradient( x_or_xs )

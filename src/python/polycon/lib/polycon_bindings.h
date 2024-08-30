@@ -80,6 +80,20 @@ struct PolyCon_py {
         return py::none();
     }
 
+    std::variant<std::tuple<Scalar,std::vector<Array>>, py::none> value_and_gradients( Array x, Scalar probe_size ) {
+        Point p( FromItemValue(), 0 );
+        for( PI i = 0; i < std::min( PI( POLYCON_DIM ), PI( x.size() ) ); ++i )
+            p[ i ] = x.at( i );
+         
+        if ( auto vg = pc.value_and_gradients( p, probe_size ) ) {
+            std::vector<Array> gradients;
+            for( const auto &g : std::get<1>( *vg ) )
+                gradients.push_back( to_Array( g ) );
+            return std::tuple<Scalar,std::vector<Array>>{ std::get<0>( *vg ), gradients };
+        }
+        return py::none();
+    }
+
     PolyCon_py legendre_transform() {
         return pc.legendre_transform();
     }
@@ -196,6 +210,7 @@ struct PolyCon_py {
 void fill_polycon_module( py::module_ &m, Str name ) {
     py::class_<PolyCon_py>( m, name.c_str(), py::module_local() )
         .def( py::init<Array, Array, Array, Array>() )
+        .def( "value_and_gradients", &PolyCon_py::value_and_gradients )
         .def( "value_and_gradient", &PolyCon_py::value_and_gradient )
         .def( "legendre_transform", &PolyCon_py::legendre_transform )
         .def( "as_fbdo_arrays", &PolyCon_py::as_fbdo_arrays )

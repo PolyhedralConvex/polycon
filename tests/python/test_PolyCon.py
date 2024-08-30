@@ -126,5 +126,8 @@ def test_3D():
 import polycon as pc
 import numpy as np
 
-u = pc.PolyCon.from_sym_repr( 'max( 2-2*x, 0, x-2 )' , [ 'x >= 0' ], verbose = 1 )
-print( u.ndim )
+u = pc.PolyCon.from_sym_repr( 'max( 2-2*x, 0, x-2 )' , [ 'x >= 0' ], verbose = 0 )
+print( u.value_and_gradients( [ 1.0 ], 1e-6 ) )
+print( u.value_and_gradients( [ 1.5 ], 1e-6 ) )
+print( u.value_and_gradients( [ 2.0 ], 1e-6 ) )
+u.plot()

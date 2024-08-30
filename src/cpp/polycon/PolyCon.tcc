@@ -27,9 +27,26 @@ DTP void UTP::get_power_diagram( const std::function<void( PowerDiagram<Scalar,n
     f( pd );
 }
 
+DTP Opt<std::tuple<Scalar,Vec<typename UTP::Point>>> UTP::value_and_gradients( Point x, Scalar probe_size ) {
+    Opt<std::tuple<Scalar,Vec<UTP::Point>>> res;
+    get_power_diagram( [&]( PowerDiagram<Scalar,nb_dims> &pd ) {
+        auto vpr = pd.cell_data_at( x, probe_size );
+        if ( vpr.size() ) {
+            std::tuple<Scalar,Vec<UTP::Point>> t;
+            for( const auto &pr : vpr ) {
+                const auto &orig_weight = *std::get<0>( pr );
+                const auto &orig_point = *std::get<1>( pr );
+                std::get<0>( t ) = sp( x, orig_point ) - ( norm_2_p2( orig_point ) - orig_weight ) / 2;
+                std::get<1>( t ) << orig_point;
+            }
+            res = std::move( t );
+        }
+    } );
+    return res;
+}
+
 DTP Opt<std::tuple<Scalar,typename UTP::Point>> UTP::value_and_gradient( Point x ) {
     Opt<std::tuple<Scalar,typename UTP::Point>> res;
-
     get_power_diagram( [&]( PowerDiagram<Scalar,nb_dims> &pd ) {
         if ( Opt<std::tuple<const Scalar *, const Point *, SI>> pr = pd.cell_data_at( x ) ) {
             const auto &orig_weight = *std::get<0>( *pr );
